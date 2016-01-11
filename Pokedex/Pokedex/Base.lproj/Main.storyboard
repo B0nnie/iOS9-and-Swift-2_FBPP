@@ -161,11 +161,59 @@
                     <connections>
                         <outlet property="collection" destination="baT-ks-mWF" id="bah-Dk-YMQ"/>
                         <outlet property="searchBar" destination="W3c-4y-l1w" id="8bP-4h-Yp9"/>
+                        <segue destination="2aY-nQ-Kva" kind="show" identifier="PokemonDetailVC" id="Loj-dn-YYo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="203" y="255"/>
+        </scene>
+        <!--Pokemon DetailVC-->
+        <scene sceneID="L1C-CN-Ggg">
+            <objects>
+                <viewController id="2aY-nQ-Kva" customClass="PokemonDetailVC" customModule="Pokedex" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mDj-un-j1v"/>
+                        <viewControllerLayoutGuide type="bottom" id="4jl-Ur-Ha5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oir-DP-aoh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CLr-RV-AWF">
+                                <rect key="frame" x="180" y="270" width="240" height="80"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.3921568627" green="0.70980392160000005" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="CLr-RV-AWF" secondAttribute="trailing" constant="259" id="2hH-D8-cE3"/>
+                            <constraint firstItem="4jl-Ur-Ha5" firstAttribute="top" secondItem="CLr-RV-AWF" secondAttribute="bottom" constant="290" id="5f5-Qz-nQI"/>
+                            <constraint firstItem="CLr-RV-AWF" firstAttribute="leading" secondItem="oir-DP-aoh" secondAttribute="leadingMargin" constant="259" id="DEg-Jk-7rR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CLr-RV-AWF" secondAttribute="trailing" constant="160" id="K4d-Ma-EVr"/>
+                            <constraint firstItem="4jl-Ur-Ha5" firstAttribute="top" secondItem="CLr-RV-AWF" secondAttribute="bottom" constant="250" id="QBs-yj-MGa"/>
+                            <constraint firstItem="CLr-RV-AWF" firstAttribute="top" secondItem="mDj-un-j1v" secondAttribute="bottom" constant="269" id="WIi-1t-sAq"/>
+                            <constraint firstItem="CLr-RV-AWF" firstAttribute="top" secondItem="mDj-un-j1v" secondAttribute="bottom" constant="250" id="Ybp-uE-S6l"/>
+                            <constraint firstItem="CLr-RV-AWF" firstAttribute="leading" secondItem="oir-DP-aoh" secondAttribute="leadingMargin" constant="160" id="ZZZ-ak-Fcx"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2hH-D8-cE3"/>
+                                <exclude reference="DEg-Jk-7rR"/>
+                                <exclude reference="WIi-1t-sAq"/>
+                                <exclude reference="5f5-Qz-nQI"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="nameLbl" destination="CLr-RV-AWF" id="S0M-T2-wTC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="67d-3T-0gE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="901" y="255"/>
         </scene>
     </scenes>
     <resources>

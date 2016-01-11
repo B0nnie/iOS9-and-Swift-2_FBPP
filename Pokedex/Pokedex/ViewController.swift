@@ -15,7 +15,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
+    var poke: Pokemon!
     var pokemonArray = [Pokemon]()
     var filteredArray = [Pokemon]()
     var musicPlayer: AVAudioPlayer!
@@ -80,8 +80,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokeCell", forIndexPath: indexPath) as? PokeCell {
             
-            let poke: Pokemon!
-            
             if inSearchMode{
                 poke = filteredArray[indexPath.row]
                 
@@ -102,6 +100,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        if inSearchMode{
+            poke = filteredArray[indexPath.row]
+        } else {
+            poke = pokemonArray[indexPath.row]
+        }
+        
+        performSegueWithIdentifier("PokemonDetailVC", sender: poke)
         
     }
     
@@ -162,7 +168,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PokemonDetailVC" {
+            if let detailVC = segue.destinationViewController as? PokemonDetailVC, let poke = sender as? Pokemon {
+                    detailVC.poke = poke
+                }
+            }
+            
+    }
     
    
 
