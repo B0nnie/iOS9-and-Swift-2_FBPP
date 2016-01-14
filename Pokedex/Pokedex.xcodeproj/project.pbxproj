@@ -20,7 +20,7 @@
 		298F43A21C42EC45005C46D6 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 298F43A11C42EC45005C46D6 /* music.mp3 */; };
 		298F43A41C430553005C46D6 /* PokemonDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298F43A31C430553005C46D6 /* PokemonDetailVC.swift */; };
 		29EF5DD91C46F6F100CE6C8B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EF5DD81C46F6F100CE6C8B /* Constants.swift */; };
-		4D3DEFBACD950308949D5BC7 /* Pods_Pokedex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED09FBE8160E66A2C8BF143 /* Pods_Pokedex.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4D3DEFBACD950308949D5BC7 /* Pods_Pokedex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED09FBE8160E66A2C8BF143 /* Pods_Pokedex.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */

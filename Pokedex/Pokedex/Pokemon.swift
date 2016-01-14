@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class Pokemon {
     
@@ -32,54 +33,55 @@ class Pokemon {
     
     //downloading json from pokemon API and parsing json
     func downloadPokemonDetails(completed: DownloadComplete) {
-       
-     let url = NSURL(string: pokemonURL)!
+        
+        //getting json
+        let url = NSURL(string: pokemonURL)!
         Alamofire.request(.GET, url).responseJSON { response in
-            let result = response.result
             
-            print("JSON get request result: \(result.value.debugDescription)")
+            let json = JSON(response.result.value!)
             
-            //WANT TO PARSE JSON HERE
-            if let jsonDictionary = result.value as? [String:AnyObject] {
+            //parsing json
+            
+            if let weight = json["weight"].string {
                 
-                if let weight = jsonDictionary["weight"] as? String {
+                self.weight = weight
+            }
+            
+            if let height = json["height"].string {
+                
+                self.height = height
+            }
+            
+            if let attack = json["attack"].int {
+                
+                self.attack = String(attack)
+            }
+            
+            if let defense = json["defense"].int {
+                
+                self.defense = String(defense)
+            }
+            
+            print("Weight: \(self.weight)")
+            print("Height: \(self.height)")
+            print("Attack: \(self.attack)")
+            print("Defense: \(self.defense)")
+            
+            if let types = json["types"].array where types.count > 0 {
+                
+                
+                
+                if let name = types[0]["name"].string {
                     
-                    self.weight = weight
+                    self.type = name
                 }
                 
-                if let height = jsonDictionary["height"] as? String {
-                    
-                    self.height = height
-                }
                 
-                if let attack = jsonDictionary["attack"] as? Int {
+                if types.count > 1 {
                     
-                    self.attack = String(attack)
-                }
-                
-                if let defense = jsonDictionary["defense"] as? Int {
-                    
-                    self.defense = String(defense)
-                }
-                
-                print("Weight: \(self.weight)")
-                print("Height: \(self.height)")
-                print("Attack: \(self.attack)")
-                print("Defense: \(self.defense)")
-                
-                if let types = jsonDictionary["types"] as? [[String:String]] where types.count > 0 {
-                    
-                    if let name = types[0]["name"] {
-                        
-                        self.type = name
-                    }
-                    
-                    if types.count > 1 {
-                        
-                        for var i = 1; i < types.count; i++ {
-                            if let name = types[i]["name"] {
-                                self.type! += "/\(name)"
-                            }
+                    for var i = 1; i < types.count; i++ {
+                        if let name = types[i]["name"].string {
+                            self.type! += "/\(name)"
                         }
                     }
                     
@@ -89,7 +91,6 @@ class Pokemon {
                 }
                 print("Type(s): \(self.type)")
             }
-            
         }
     }
     
