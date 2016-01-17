@@ -14,20 +14,24 @@ class Pokemon {
     
     private (set) var name: String!
     private (set) var pokedexId: Int!
-    private (set) var description: String!
-    private (set) var type: String!
-    private (set) var defense: String!
-    private (set) var height: String!
-    private (set) var weight: String!
-    private (set) var attack: String!
-    private (set) var nextEvolutionTxt: String!
-    private (set) var pokemonURL: String!
+    private var pokemonURL: String!
+    
+    private (set) var description: String = ""
+    private (set) var type: String = ""
+    private (set) var defense: String = ""
+    private (set) var height: String = ""
+    private (set) var weight: String = ""
+    private (set) var attack: String = ""
+    private (set) var nextEvolutionTxt: String = ""
+    private (set) var nextEvolutionId: String = ""
+    private (set) var nextEvolutionLvl: String = ""
+    
     
     
     init(name: String, pokedexId: Int) {
         self.name = name
         self.pokedexId = pokedexId
-        pokemonURL = "\(BASE_URL)\(POKEMON_URL)\(pokedexId)/"
+        pokemonURL = "\(BASE_URL)\(POKEMON_URL)\(self.pokedexId)/"
         
     }
     
@@ -69,8 +73,6 @@ class Pokemon {
             
             if let types = json["types"].array where types.count > 0 {
                 
-                
-                
                 if let name = types[0]["name"].string {
                     
                     self.type = name
@@ -81,17 +83,72 @@ class Pokemon {
                     
                     for var i = 1; i < types.count; i++ {
                         if let name = types[i]["name"].string {
-                            self.type! += "/\(name)"
+                            self.type += "/\(name)"
                         }
                     }
                     
-                } else {
-                    
-                    self.type = ""
                 }
-                print("Type(s): \(self.type)")
+            } else {
+                self.type = ""
             }
+            print("Type(s): \(self.type)")
+            
+            if let descArr = json["descriptions"].array where descArr.count > 0, let url = descArr[0]["resource_uri"].string, let nsurl = NSURL(string: "\(BASE_URL)\(url)")    {
+                Alamofire.request(.GET, nsurl).responseJSON { response in
+                    
+                    let descDict = JSON(response.result.value!)
+                    
+                    if let description = descDict["description"].string {
+                        
+                        self.description = description
+                        
+                        print("Description: \(self.description)")
+                    }
+                    
+                    completed()
+                }
+                
+                
+                
+                
+            } else {
+                self.description = ""
+            }
+            
+            if let evolutions = json["evolutions"].array where evolutions.count > 0 {
+                
+                if let to = evolutions[0]["to"].string {
+                    
+                    //omitting mega evolutions right now
+                    if to.rangeOfString("mega") == nil {
+                        
+                        if let uri = evolutions[0]["resource_uri"].string {
+                            let newString = uri.stringByReplacingOccurrencesOfString("/api/v1/pokemon/", withString: "")
+                            let numberString = newString.stringByReplacingOccurrencesOfString("/", withString: "")
+                            
+                            self.nextEvolutionId = numberString
+                            self.nextEvolutionTxt = to
+                        
+                        }
+                        
+                        if let level = evolutions[0]["level"].int {
+                            self.nextEvolutionLvl = String(level)
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+                
+                
+                print("EvoID: \(self.nextEvolutionId), EvoName: \(self.nextEvolutionTxt), EvoLevel: \(self.nextEvolutionLvl)")
+                
+            }
+            
+            
         }
     }
+    
     
 }

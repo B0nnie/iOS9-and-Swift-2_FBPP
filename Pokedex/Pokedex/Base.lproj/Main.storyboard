@@ -22,6 +22,7 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue-Bold</string>
             <string>HelveticaNeue</string>
+            <string>HelveticaNeue-Italic</string>
         </mutableArray>
         <mutableArray key="Pokemon Solid.ttf">
             <string>PokemonSolidNormal</string>
@@ -255,7 +256,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bulbasaur is a Grass/Poison type Pokémon introduced in Generation 1. It is known as the Seed Pokémon." lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="JGQ-Bv-X7U">
                                                 <rect key="frame" x="120" y="0.0" width="440" height="120"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -423,6 +424,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="attackLbl" destination="haN-is-PHB" id="aH7-Yh-m2E"/>
                         <outlet property="currentEvoImg" destination="bV8-eD-Fw1" id="vck-0F-KgU"/>
                         <outlet property="defenseLbl" destination="DFT-WD-Wwm" id="R2q-Ug-xyY"/>
                         <outlet property="descriptionLbl" destination="JGQ-Bv-X7U" id="YEO-BK-sG8"/>
@@ -433,6 +435,7 @@
                         <outlet property="nextEvoImg" destination="agX-H6-ZgV" id="3bN-ZP-noQ"/>
                         <outlet property="pokedexLbl" destination="E6v-az-NUc" id="0TA-v4-2Ze"/>
                         <outlet property="typeLbl" destination="yVq-Z6-Qjo" id="297-cy-t0U"/>
+                        <outlet property="weightLbl" destination="RbN-ol-Z9k" id="7Fq-aX-1SM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67d-3T-0gE" userLabel="First Responder" sceneMemberID="firstResponder"/>
