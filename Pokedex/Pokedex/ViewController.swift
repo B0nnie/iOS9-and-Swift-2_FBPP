@@ -15,12 +15,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var poke: Pokemon!
-    var pokemonArray = [Pokemon]()
-    var filteredArray = [Pokemon]()
-    var musicPlayer: AVAudioPlayer!
-    var inSearchMode = false
-
+    private (set) var poke: Pokemon!
+    private var pokemonArray = [Pokemon]()
+    private var filteredArray = [Pokemon]()
+    private var musicPlayer: AVAudioPlayer!
+    private var inSearchMode = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,15 +33,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         initAudio()
         parsePokemonCSV()
-       
+        
     }
     
-    func initAudio(){
+    private func initAudio(){
         
         let path = NSBundle.mainBundle().pathForResource("music", ofType: "mp3")!
         
         do {
-           musicPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string: path)!)
+            musicPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string: path)!)
             musicPlayer.prepareToPlay()
             musicPlayer.numberOfLoops = -1
             musicPlayer.play()
@@ -53,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    func parsePokemonCSV(){
+    private func parsePokemonCSV(){
         let path = NSBundle.mainBundle().pathForResource("pokemon", ofType: "csv")!
         
         do{
@@ -63,11 +63,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             for row in rows {
                 let pokeId = Int(row["id"]!)!
                 let name = row["identifier"]!
-                let poke = Pokemon(name: name, pokedexId: pokeId)
+                poke = Pokemon(name: name, pokedexId: pokeId)
                 pokemonArray.append(poke)
             }
             
-           
+            
             
         } catch let err as NSError {
             print(err.debugDescription)
@@ -129,7 +129,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         return CGSizeMake(105, 105)
     }
-
+    
     @IBAction func musicBtnPressed(sender: UIButton) {
         
         if musicPlayer.playing {
@@ -159,7 +159,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             
         } else {
             inSearchMode = true
-           // let lower = searchText!.lowercaseString
+            // let lower = searchText!.lowercaseString
             //filteredArray = pokemonArray.filter({$0.name.rangeOfString(lower) != nil})
             
             filteredArray = pokemonArray.filter {$0.name.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil }
@@ -171,13 +171,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "PokemonDetailVC" {
             if let detailVC = segue.destinationViewController as? PokemonDetailVC, let poke = sender as? Pokemon {
-                    detailVC.poke = poke
-                }
+                detailVC.poke = poke
             }
-            
+        }
+        
     }
     
-   
-
+    
+    
 }
 

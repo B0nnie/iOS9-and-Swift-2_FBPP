@@ -13,7 +13,7 @@ class PokeCell: UICollectionViewCell {
     @IBOutlet weak var thumbImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     
-    var pokemon: Pokemon!
+    private var pokemon: Pokemon!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +28,7 @@ class PokeCell: UICollectionViewCell {
 //        
 //    }
     
-    func configureCell(pokemon: Pokemon) {
+     func configureCell(pokemon: Pokemon) {
         self.pokemon = pokemon
         thumbImg.image = UIImage(named: "\(self.pokemon.pokedexId)")
         nameLbl.text = self.pokemon.name.capitalizedString

@@ -41,7 +41,7 @@ class PokemonDetailVC: UIViewController {
         
     }
     
-    func updateUI(){
+    private func updateUI(){
         descriptionLbl.text = poke.description
         typeLbl.text = poke.type
         defenseLbl.text = poke.defense
@@ -59,7 +59,7 @@ class PokemonDetailVC: UIViewController {
             if poke.nextEvolutionLvl != "" {
                 evoLbl.text? += " - LVL \(poke.nextEvolutionLvl)"
             }
-        
+            
             nextEvoImg.hidden = false
             nextEvoImg.image = UIImage(named: poke.nextEvolutionId)
         }
