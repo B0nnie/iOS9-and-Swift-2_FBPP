@@ -75,12 +75,13 @@ class LoginViewController: UIViewController {
   
                     } else {
                         //there's some other kind of error
-                        self.showAlert("Could not log in", msg: "Please check your username or password")
+                        self.showErrorAlert("Could not log in", msg: "Please check your username or password")
                     }
                     
                 } else {
                     // user is logged in, check authData for data
                     print("Logged in with email and password")
+                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: KEY_UID)
                     self.segueAfterLoggingIn()
                 }
                 
@@ -88,7 +89,7 @@ class LoginViewController: UIViewController {
             
         } else {
             //textfields were empty
-            showAlert("Email and password required", msg: "You must enter an email and a password")
+            showErrorAlert("Email and password required", msg: "You must enter an email and a password")
         }
     }
     
@@ -101,7 +102,7 @@ class LoginViewController: UIViewController {
                 
                 //error
                 if error != nil {
-                    self.showAlert("Could not create account", msg: "Please try again")
+                    self.showErrorAlert("Could not create account", msg: "Please try again")
                     
                 } else {
                     //successful
@@ -137,7 +138,7 @@ class LoginViewController: UIViewController {
     }
     
     
-    func showAlert(title: String, msg: String){
+    func showErrorAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
