@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if NSUserDefaults.standardUserDefaults().valueForKey(KEY_UID) != nil {
+        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
             self.segueAfterLoggingIn()
         }
     }
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
                             print("Login failed. \(error)")
                         } else {
                             print("Logged in! \(authData)")
-                            NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: KEY_UID)
+                            NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
                             self.segueAfterLoggingIn()
                         }
                 })
@@ -70,7 +70,7 @@ class LoginViewController: UIViewController {
                     // an error occured while attempting login
                     print("an error occured while attempting login: \(error)")
                     
-                    if error.code == STATUS_ACCOUNT_NONEXIST {
+                    if error.code == Constants.STATUS_ACCOUNT_NONEXIST {
                         self.showAccountCreationAlert()
   
                     } else {
@@ -81,7 +81,7 @@ class LoginViewController: UIViewController {
                 } else {
                     // user is logged in, check authData for data
                     print("Logged in with email and password")
-                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: KEY_UID)
+                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
                     self.segueAfterLoggingIn()
                 }
                 
@@ -107,7 +107,7 @@ class LoginViewController: UIViewController {
                 } else {
                     //successful
                     
-                    NSUserDefaults.standardUserDefaults().setValue(result[KEY_UID], forKey: KEY_UID)
+                    NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
                     
                     DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { _ in
                         
@@ -149,7 +149,7 @@ class LoginViewController: UIViewController {
     
     func segueAfterLoggingIn(){
         
-        self.performSegueWithIdentifier(SEGUE_LOGGED_IN, sender: nil)
+        self.performSegueWithIdentifier("loggedIn", sender: nil)
     }
     
 }
