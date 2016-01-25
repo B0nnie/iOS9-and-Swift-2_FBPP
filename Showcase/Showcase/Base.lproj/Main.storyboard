@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="NotoSans-Bold.ttf">
@@ -250,26 +251,30 @@
                                                                                 <constraint firstAttribute="height" constant="50" id="yMp-ir-Sbe"/>
                                                                             </constraints>
                                                                         </imageView>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="randomUser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="u83-DY-hrH">
-                                                                            <rect key="frame" x="60" y="0.0" width="136" height="50"/>
-                                                                            <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="randomUser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="u83-DY-hrH">
+                                                                            <rect key="frame" x="60" y="0.0" width="286" height="50"/>
+                                                                            <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="13"/>
                                                                             <color key="textColor" red="0.95686274510000002" green="0.33333333329999998" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="heart-empty" translatesAutoresizingMaskIntoConstraints="NO" id="rvA-GW-gaE">
-                                                                            <rect key="frame" x="206" y="0.0" width="191" height="50"/>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-empty" translatesAutoresizingMaskIntoConstraints="NO" id="rvA-GW-gaE">
+                                                                            <rect key="frame" x="356" y="0.0" width="50" height="50"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="50" id="4To-0A-eon"/>
+                                                                                <constraint firstAttribute="width" constant="50" id="hXv-tX-CoB"/>
+                                                                            </constraints>
                                                                         </imageView>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ghy-6z-aFB">
-                                                                            <rect key="frame" x="407" y="0.0" width="137" height="50"/>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ghy-6z-aFB">
+                                                                            <rect key="frame" x="416" y="0.0" width="128" height="50"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="137" height="24"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="24"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
-                                                                                    <rect key="frame" x="0.0" y="24" width="137" height="26"/>
+                                                                                    <rect key="frame" x="0.0" y="24" width="128" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
@@ -277,6 +282,10 @@
                                                                             </subviews>
                                                                         </stackView>
                                                                     </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="rvA-GW-gaE" firstAttribute="centerY" secondItem="wgV-DZ-Ptp" secondAttribute="centerY" id="Ddi-Aj-TeP"/>
+                                                                        <constraint firstItem="rvA-GW-gaE" firstAttribute="centerX" secondItem="wgV-DZ-Ptp" secondAttribute="centerX" multiplier="1.4" id="XXB-sJ-Iyw"/>
+                                                                    </constraints>
                                                                 </stackView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uxy-EW-KRP">
                                                                     <rect key="frame" x="0.0" y="55" width="544" height="72"/>
@@ -312,7 +321,7 @@
                                                 <constraint firstItem="wGb-Mn-QBX" firstAttribute="leading" secondItem="MZT-0U-SVa" secondAttribute="leading" id="hiK-l1-ghk"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="1" green="0.95674139229999999" blue="0.20183466059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.3921568627" green="0.70980392160000005" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="profileImg" destination="tiA-1E-veh" id="urq-tR-29S"/>
                                             <outlet property="showcaseImg" destination="YVL-eL-Nbx" id="iBu-E3-lcj"/>
