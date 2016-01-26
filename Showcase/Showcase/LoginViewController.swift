@@ -49,6 +49,11 @@ class LoginViewController: UIViewController {
                             print("Login failed. \(error)")
                         } else {
                             print("Logged in! \(authData)")
+                            
+                            //sync up with Firebase
+                            let user = ["provider" : authData.provider!, "blah": "test"]
+                            DataService.ds.createFirebaseUser(authData.uid, user: user)
+                            
                             NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
                             self.segueAfterLoggingIn()
                         }
@@ -109,7 +114,11 @@ class LoginViewController: UIViewController {
                     
                     NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
                     
-                    DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { _ in
+                    DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { err, authData in
+                        
+                        //sync up with Firebase
+                        let user = ["provider" : authData.provider!, "blah": "emailTest"]
+                        DataService.ds.createFirebaseUser(authData.uid, user: user)
                         
                         self.showWelcomeAlertAndPerformSegue()
                     })
