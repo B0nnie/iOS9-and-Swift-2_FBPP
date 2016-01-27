@@ -16,6 +16,7 @@ class Post {
     private(set) var username: String!
     private(set) var postKey: String!
     
+    //make a new post when user is new
     init(description: String, imageUrl: String?, username: String) {
         
         self.postDescription = description
@@ -23,12 +24,15 @@ class Post {
         self.username = username
     }
     
+    //make a new post when user already exists
     init(postKey: String, dictionary: [String:AnyObject]){
         
         self.postKey = postKey
         
         if let likes = dictionary["likes"] as? Int {
             self.likes = likes
+        } else {
+            self.likes = 0
         }
         
         if let imageUrl = dictionary["imageUrl"] as? String {

@@ -47,7 +47,7 @@ class PostCell: UITableViewCell {
                //if there is no image already in the cache, then make a request
                 request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
-                    //successful
+                    //request successful
                     if err == nil {
                         
                         let img = UIImage(data: data!)!
