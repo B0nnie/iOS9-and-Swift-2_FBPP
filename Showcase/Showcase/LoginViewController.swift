@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
     }
     
     func showAccountCreationAlert(){
-        let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Press OK to create an account", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Press OK to join our community", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
            
@@ -120,7 +120,11 @@ class LoginViewController: UIViewController {
                         let user = ["provider" : authData.provider!, "blah": "emailTest"]
                         DataService.ds.createFirebaseUser(authData.uid, user: user)
                         
-                        self.showWelcomeAlertAndPerformSegue()
+                        //self.showWelcomeAlertAndPerformSegue()
+                        
+                        
+                        
+                        
                     })
                 }
                 

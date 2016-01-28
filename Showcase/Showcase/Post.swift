@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class Post {
     
@@ -15,6 +16,7 @@ class Post {
     private(set) var likes: Int!
     private(set) var username: String!
     private(set) var postKey: String!
+    private(set) var postRef: Firebase!
     
     //make a new post when user is new
     init(description: String, imageUrl: String, username: String) {
@@ -46,6 +48,17 @@ class Post {
             self.postDescription = desc
         }
         
+        self.postRef = DataService.ds.REF_POSTS.childByAppendingPath(self.postKey)
+        
+    }
+    
+    func adjustLikes(addLike: Bool){
+        if addLike {
+            self.likes = likes + 1
+        }else {
+            self.likes = likes - 1
+        }
+        self.postRef.childByAppendingPath("likes").setValue(self.likes)
     }
     
 }

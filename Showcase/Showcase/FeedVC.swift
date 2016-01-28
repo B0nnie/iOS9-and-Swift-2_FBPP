@@ -47,6 +47,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                         let key = snap.key
                         //Post init
                         let post = Post(postKey: key, dictionary: postDict)
+                        print("POST KEY IS: \(post.postKey)")
+                        
                         self.posts.append(post)
                     }
                 }
@@ -62,7 +64,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let post = posts[indexPath.row]
-        print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
+        //print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
 
         
         if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
@@ -88,12 +90,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//       
-//
-//    }
     
     //configure row height depending on if user uploaded image or not
 //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -152,7 +148,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                             
                             if let links = info["links"] as? [String:AnyObject]{
                                 if let imgLink = links["image_link"] as? String {
-                                    print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
                                     //uploading image link we got back from ImageShack to Firebase
                                     self.postToFirebase(imgLink)
                                 }
