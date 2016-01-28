@@ -36,15 +36,15 @@ class PostCell: UITableViewCell {
         self.post = post
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
-        
+    
         if post.imageUrl != nil {
-            
+        
             //if there's an image in the cache, then load it from there
             if img != nil {
                 self.showcaseImg.image = img
                 
             } else{
-               //if there is no image already in the cache, then make a request
+               //if there is no image already in the cache, then make a request to get it from Firebase
                 request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
                     //request successful
@@ -53,7 +53,7 @@ class PostCell: UITableViewCell {
                         let img = UIImage(data: data!)!
                         self.showcaseImg.image = img
                         
-                        //add image to the cache
+                        //add image to the cache for later use
                         FeedVC.imageCache.setObject(img, forKey: self.post.imageUrl!)
                     }
                 
@@ -61,10 +61,11 @@ class PostCell: UITableViewCell {
                 })
             }
             
-        }else {
-            
-            self.showcaseImg.hidden = true
         }
+//            else {
+////            
+////            self.showcaseImg.hidden = true
+////        }
         
     }
     

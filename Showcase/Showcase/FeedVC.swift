@@ -17,10 +17,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var selectedAppImg: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
-    
     
     static var imageCache = NSCache()
     
@@ -32,7 +30,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
-        tableView.estimatedRowHeight = 372
+        //tableView.estimatedRowHeight = 372
         
         //get the posts from Firebase, create a Post object, and add the Post to the posts array
         DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
@@ -53,14 +51,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     }
                 }
             }
-            
-            
             self.tableView.reloadData()
-            
-            
         })
     }
-    
+   
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -68,7 +62,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let post = posts[indexPath.row]
-        print(post.postDescription)
+        print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
+
         
         if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
             cell.request?.cancel()
@@ -76,12 +71,12 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             var img: UIImage?
             
             if let url = post.imageUrl {
-                //get image fro cache
+            
+                //get image from cache
                 img = FeedVC.imageCache.objectForKey(url) as? UIImage
                 
             }
-            
-            
+
             cell.configureCell(post, img: img)
             
             return cell
@@ -94,16 +89,23 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let post = posts[indexPath.row]
-        
-        if post.imageUrl == nil {
-            return 150
-        } else {
-            return tableView.estimatedRowHeight
-        }
-    }
+//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//       
+//
+//    }
+    
+    //configure row height depending on if user uploaded image or not
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        
+//        let post = posts[indexPath.row]
+//        
+//        if post.imageUrl == nil {
+//            return 150
+//        } else {
+//            return tableView.estimatedRowHeight
+//        }
+//    }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
@@ -119,9 +121,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     @IBAction func makePost(sender: MaterialButton) {
         
-        let cameraImg = UIImage(named:"camera")
-        
-        if let txt = postFld.text where txt != "", let img = selectedAppImg.image where img != cameraImg  {
+        if let txt = postFld.text where txt != "", let img = selectedAppImg.image where img != UIImage(named:"camera")  {
+            //MARK - Uploading image data to ImageShack
             let url = (NSURL: "https://post.imageshack.us/upload_api.php")
             
             //turn image into NSData and compress it
@@ -144,27 +145,31 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     self.activityIndicator.startAnimating()
                     
                     switch encodingResult {
+                        //successfully uploaded image to ImageShack
                     case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
                         //json
                         if let info = response.result.value as? [String:AnyObject]{
                             
                             if let links = info["links"] as? [String:AnyObject]{
                                 if let imgLink = links["image_link"] as? String {
-                                    print("LINK: \(imgLink)")
+                                    print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                                    //uploading image link we got back from ImageShack to Firebase
+                                    self.postToFirebase(imgLink)
                                 }
                             }
                         }
                         //reset textfield and camera image
                         self.postFld.text = ""
-                        self.selectedAppImg.image = cameraImg
-                        
+                        self.selectedAppImg.image = UIImage(named:"camera")
                         
                         self.activityIndicator.stopAnimating()
+                        
                         //alerting user post was created successfully
                         self.showAlert("", msg: "Your post was created! Thanks for sharing.")
                         
                         
                     })
+                        //unsuccessful in uploading image to ImageShack
                     case .Failure(let error):
                         print(error)
                         
@@ -191,6 +196,18 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
     }
     
-    
-    
+    func postToFirebase(imgUrl: String){
+        
+        //matches format of test data in Firebase
+        let post: [String:AnyObject] = [
+            "description": postFld.text!,
+            "likes": 0,
+            "imgUrl": imgUrl]
+        
+        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+        firebasePost.setValue(post)
+        
+        tableView.reloadData()
+    }
+
 }
