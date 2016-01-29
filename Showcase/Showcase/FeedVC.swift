@@ -32,7 +32,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         //tableView.estimatedRowHeight = 372
         
-        //get the posts from Firebase, create a Post object, and add the Post to the posts array
+        //get all the posts from Firebase, create a Post object, and add the Post to the posts array
         DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
             //print(snapshot.value)
             

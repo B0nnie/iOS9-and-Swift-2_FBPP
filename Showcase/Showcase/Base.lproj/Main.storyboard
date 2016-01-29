@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j4p-zv-jza">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -17,6 +17,9 @@
             <string>NotoSans-Bold</string>
         </mutableArray>
         <mutableArray key="NotoSans-Regular.ttf">
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
@@ -208,11 +211,75 @@
                         <outlet property="emailTxtFld" destination="UJ9-YF-Vne" id="Gzu-Mc-1Yd"/>
                         <outlet property="passwordTxtFld" destination="i18-rI-G1X" id="RSj-UD-CHP"/>
                         <segue destination="gmG-PY-NYK" kind="show" identifier="loggedIn" id="vh7-9F-jGn"/>
+                        <segue destination="OkU-sP-aPG" kind="show" identifier="toCreateProfileVC" id="mnJ-BS-Ais"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="321" y="323"/>
+        </scene>
+        <!--Create ProfileVC-->
+        <scene sceneID="4uM-Y8-qLg">
+            <objects>
+                <viewController id="j4p-zv-jza" customClass="CreateProfileVC" customModule="Showcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9FJ-UC-1F9"/>
+                        <viewControllerLayoutGuide type="bottom" id="LIl-IO-H50"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qLF-Ud-Xji">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f3y-YQ-1Hk" customClass="MaterialTextField" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="20" y="115" width="157" height="30"/>
+                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
+                                <rect key="frame" x="20" y="183" width="222" height="128"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87D-L0-VgS" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="20" y="353" width="164" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.70588235290000001" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
+                                <state key="normal" title="Use My Pic">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseProfilePic:" destination="j4p-zv-jza" eventType="touchUpInside" id="vfq-fV-JDI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DV7-y9-S60" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="20" y="476" width="240" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.70588235290000001" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneBtnPressed:" destination="j4p-zv-jza" eventType="touchUpInside" id="wr6-29-z7G"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0o9-yE-Jpr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="aDG-Ek-n8S">
+                            <connections>
+                                <action selector="cancelBtnPressed:" destination="j4p-zv-jza" id="Yo9-u7-UgM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="profilePicImg" destination="nNN-B9-d9S" id="sKy-C0-4C3"/>
+                        <outlet property="usernameFld" destination="f3y-YQ-1Hk" id="YKZ-aH-Jgs"/>
+                        <segue destination="gmG-PY-NYK" kind="show" identifier="toFeedVC" id="S4c-LT-1aV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="es1-e0-fdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1133" y="1031"/>
         </scene>
         <!--FeedVC-->
         <scene sceneID="sZo-IK-2a1">
@@ -274,12 +341,18 @@
                                                                                     <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
+                                                                                    <variation key="widthClass=compact" ambiguous="YES">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="68" height="24"/>
+                                                                                    </variation>
                                                                                 </label>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
                                                                                     <rect key="frame" x="0.0" y="24" width="128" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                                     <nil key="highlightedColor"/>
+                                                                                    <variation key="widthClass=compact" ambiguous="YES">
+                                                                                        <rect key="frame" x="0.0" y="24" width="68" height="26"/>
+                                                                                    </variation>
                                                                                 </label>
                                                                             </subviews>
                                                                         </stackView>
@@ -466,6 +539,24 @@
             </objects>
             <point key="canvasLocation" x="981" y="323"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qfD-K7-bpM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OkU-sP-aPG" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="b6v-xy-08F">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="j4p-zv-jza" kind="relationship" relationship="rootViewController" id="MYL-ED-r0s"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ycJ-jw-Ijp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="321" y="1031"/>
+        </scene>
     </scenes>
     <resources>
         <image name="camera" width="50" height="50"/>
@@ -474,4 +565,7 @@
         <image name="profile" width="100" height="104"/>
         <image name="screen" width="300" height="534"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="S4c-LT-1aV"/>
+    </inferredMetricsTieBreakers>
 </document>
