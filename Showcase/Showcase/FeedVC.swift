@@ -47,7 +47,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                         let key = snap.key
                         //Post init
                         let post = Post(postKey: key, dictionary: postDict)
-                        print("POST KEY IS: \(post.postKey)")
+                        //print("POST KEY IS: \(post.postKey)")
                         
                         self.posts.append(post)
                     }
@@ -118,7 +118,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBAction func makePost(sender: MaterialButton) {
         
         if let txt = postFld.text where txt != "", let img = selectedAppImg.image where img != UIImage(named:"camera")  {
-            //MARK - Uploading image data to ImageShack
+            //MARK: Uploading image data to ImageShack
             let url = (NSURL: "https://post.imageshack.us/upload_api.php")
             
             //turn image into NSData and compress it
@@ -200,6 +200,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             "likes": 0,
             "imgUrl": imgUrl]
         
+        //connect with Firebase
         let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
         firebasePost.setValue(post)
         

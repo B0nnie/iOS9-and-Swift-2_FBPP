@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="j4p-zv-jza">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -211,7 +211,7 @@
                         <outlet property="emailTxtFld" destination="UJ9-YF-Vne" id="Gzu-Mc-1Yd"/>
                         <outlet property="passwordTxtFld" destination="i18-rI-G1X" id="RSj-UD-CHP"/>
                         <segue destination="gmG-PY-NYK" kind="show" identifier="loggedIn" id="vh7-9F-jGn"/>
-                        <segue destination="OkU-sP-aPG" kind="show" identifier="toCreateProfileVC" id="mnJ-BS-Ais"/>
+                        <segue destination="OkU-sP-aPG" kind="show" identifier="toCreateVCNav" id="mnJ-BS-Ais"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

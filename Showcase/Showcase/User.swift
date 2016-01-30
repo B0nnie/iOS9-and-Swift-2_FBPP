@@ -19,48 +19,38 @@ class User {
     private(set) var userRef: Firebase!
     
     
-    //make a new user
-    init(username: String, provider: FAuthData!){
+    //make a new user object
+    init(username: String, provider: FAuthData){
+        self.username = username
         self.provider = provider
+    }
+   
+    func createNewUser(email: String, password: String, username: String){
+        
+         DataService.ds.REF_BASE.createUser(email, password: password, withValueCompletionBlock: { error, result in
+        
+                        //error
+                        if error != nil {
+                            //self.showErrorAlert("Could not create account", msg: "Please try again")
+        
+                        } else {
+                            //successful
+        
+                            NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
+        
+                            DataService.ds.REF_BASE.authUser(email, password: password, withCompletionBlock: { err, authData in
+        
+                                //connect with Firebase
+                                let user : [String: AnyObject] = ["provider" : authData.provider!, "username": username]
+                                DataService.ds.createFirebaseUser(authData.uid, user: user)
+        
+                                //self.showWelcomeAlertAndPerformSegue()
+        
+                            })
+                        }
+        
+                    })
         
     }
-    
 
-
-    
-   // DataService.ds.REF_BASE.createUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withValueCompletionBlock: { error, result in
-    //
-    //                //error
-    //                if error != nil {
-    //                    self.showErrorAlert("Could not create account", msg: "Please try again")
-    //
-    //                } else {
-    //                    //successful
-    //
-    //                    NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
-    //
-    //                    DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { err, authData in
-    //
-    //                        //sync up with Firebase
-    //
-    //should init user here from User class
-    //                        let user = ["provider" : authData.provider!, "blah": "emailTest"]
-    //                        DataService.ds.createFirebaseUser(authData.uid, user: user)
-    //
-    //                        //self.showWelcomeAlertAndPerformSegue()
-    //
-    //                    })
-    //                }
-    //
-    //            })
-    
-
-    
-    func createFirebaseUser(uid: String, user: [String:String]) {
-        
-        DataService.ds.REF_USERS.childByAppendingPath(uid).updateChildValues(user)
-    
-    }
-    
-    
 }
