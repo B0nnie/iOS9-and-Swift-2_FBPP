@@ -66,7 +66,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                 }
                 
                 //create user in Firebase
-                //FIXME: "unexpectedly found nil while unwrapping optional"
+                self.user = User(username: username)
                 self.user.createNewUser(self.email, password: self.password, username: username)
                 
             })

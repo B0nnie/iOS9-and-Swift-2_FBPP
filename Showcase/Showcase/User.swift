@@ -20,9 +20,9 @@ class User {
     
     
     //make a new user object
-    init(username: String, provider: FAuthData){
+    init(username: String) {
         self.username = username
-        self.provider = provider
+        
     }
    
     func createNewUser(email: String, password: String, username: String){
