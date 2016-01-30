@@ -35,11 +35,11 @@ class User {
         
                         } else {
                             //successful
-        
+                            
                             NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
         
                             DataService.ds.REF_BASE.authUser(email, password: password, withCompletionBlock: { err, authData in
-        
+                                
                                 //connect with Firebase
                                 let user : [String: AnyObject] = ["provider" : authData.provider!, "username": username]
                                 DataService.ds.createFirebaseUser(authData.uid, user: user)
@@ -52,5 +52,5 @@ class User {
                     })
         
     }
-
+  
 }

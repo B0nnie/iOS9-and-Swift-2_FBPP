@@ -20,8 +20,6 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     var password: String!
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker = UIImagePickerController()
@@ -42,35 +40,24 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         if let username = usernameFld.text where username != "" {
             
-            DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            //check to see if user wants to use default profile image
+            if profilePicImg.image == UIImage(named:"default") {
                 
-                //confirm username isn't taken and show alert if it is taken
-                if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
+                let alert = UIAlertController(title: "", message: "Press 'OK' to use the default image or 'Cancel' to go back and choose your own image", preferredStyle: .Alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+                let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
                     
-                    for snap in snapshots {
-                        
-                        if let value = snap.value as? [String: AnyObject]{
-                            if let firebaseUsers = value["username"] as? String {
-                                //print("USERNAME VALUES: \(firebaseUsers)")
-                                
-                                
-                                if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
-                                    self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
-                                    
-                                    self.usernameFld.text = ""
-                                }
-                            }
-                        }
-                    }
-                    
-                }
+                    self.signNewUserUp(username)
+                })
                 
-                //create user in Firebase
-                self.user = User(username: username)
-                self.user.createNewUser(self.email, password: self.password, username: username)
-                
-            })
-            
+                alert.addAction(cancelAction)
+                alert.addAction(signUpAction)
+                self.presentViewController(alert, animated: true, completion: nil)
+               
+            } else{
+                self.signNewUserUp(username)
+            }
+          
         } else {
             
             showAlert("", msg: "Please enter a username")
@@ -109,6 +96,34 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    
+    func signNewUserUp(username: String){
+        DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            //confirm username isn't taken and show alert if it is taken
+            if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
+                
+                for snap in snapshots {
+                    
+                    if let value = snap.value as? [String: AnyObject]{
+                        if let firebaseUsers = value["username"] as? String {
+                            //print("USERNAME VALUES: \(firebaseUsers)")
+                            
+                            if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
+                                self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
+                                
+                                self.usernameFld.text = ""
+                            }
+                        }
+                    }
+                }
+                
+            }
+            //create user in Firebase
+            self.user = User(username: username)
+            self.user.createNewUser(self.email, password: self.password, username: username)
+            
+        })
+        
+    }
     
 }
