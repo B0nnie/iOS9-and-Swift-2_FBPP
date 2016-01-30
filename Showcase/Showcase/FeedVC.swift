@@ -20,8 +20,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
     
-    static var imageCache = NSCache()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate  = self
@@ -66,20 +64,24 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let post = posts[indexPath.row]
         //print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
 
-        
         if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
             cell.request?.cancel()
             
-            var img: UIImage?
+            //var img: UIImage?
             
-            if let url = post.imageUrl {
-            
-                //get image from cache
-                img = FeedVC.imageCache.objectForKey(url) as? UIImage
-                
-            }
+//            if let postImgUrl = post.imageUrl {
+//            
+//                //get image from cache
+//                img = FeedVC.imageCache.objectForKey(url) as? UIImage
+//                
+//            }
+//            
+//            if let userImgUrl = post.userImageUrl{
+//                //get image from cache
+//                
+//            }
 
-            cell.configureCell(post, img: img)
+            cell.configureCell(post)
             
             return cell
             
@@ -193,12 +195,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func postToFirebase(imgUrl: String){
-        
+        let userImg = NSUserDefaults.standardUserDefaults().valueForKey("userImage") as! String
+        let name = NSUserDefaults.standardUserDefaults().valueForKey("username") as! String
+    
+        //making a new post
         //matches format of test data in Firebase
         let post: [String:AnyObject] = [
             "description": postFld.text!,
             "likes": 0,
-            "imgUrl": imgUrl]
+            "imgUrl": imgUrl,
+            "userImgUrl": userImg,
+            "username": name]
         
         //connect with Firebase
         let firebasePost = DataService.ds.REF_POSTS.childByAutoId()

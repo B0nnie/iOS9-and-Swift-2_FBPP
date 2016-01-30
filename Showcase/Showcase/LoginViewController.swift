@@ -64,7 +64,6 @@ class LoginViewController: UIViewController {
     }
     
     //email and password login
-    
     @IBAction func attemptLogin(sender: UIButton!) {
         
         if let email = emailTxtFld.text where email != "", let pwd = passwordTxtFld.text where pwd != "" {
@@ -78,38 +77,6 @@ class LoginViewController: UIViewController {
                     if error.code == Constants.STATUS_ACCOUNT_NONEXIST {
                         self.showAccountCreationAlert()
                         
-                        //            DataService.ds.REF_BASE.createUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withValueCompletionBlock: { error, result in
-                        //
-                        //                //error
-                        //                if error != nil {
-                        //                    self.showErrorAlert("Could not create account", msg: "Please try again")
-                        //
-                        //                } else {
-                        //                    //successful
-                        //
-                        //                    NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
-                        //
-                        //                    DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { err, authData in
-                        //
-                        //                        //sync up with Firebase
-                        //
-                        //should init user here from User class, maybe do something like:
-                        //  let user = User(dictionary: [String : String])
-                        // user.createFirebaseUser(uid: String, user)
-                        
-                        
-                        
-                        
-                        //                        let user = ["provider" : authData.provider!, "blah": "emailTest"]
-                        //                        DataService.ds.createFirebaseUser(authData.uid, user: user)
-                        //
-                        //                        //self.showWelcomeAlertAndPerformSegue()
-                        //
-                        //                    })
-                        //                }
-                        //                
-                        //            })
-  
                     } else {
                         //there's some other kind of error
                         self.showErrorAlert("Could not log in", msg: "Please check your username or password")
@@ -117,8 +84,9 @@ class LoginViewController: UIViewController {
                     
                 } else {
                     // user is logged in, check authData for data
-                    print("Logged in with email and password")
+                    //print("Logged in with email and password")
                     NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
+                
                     self.segueAfterLoggingIn()
                 }
                 
@@ -135,31 +103,6 @@ class LoginViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             
-            //remove all this later
-//                        DataService.ds.REF_BASE.createUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withValueCompletionBlock: { error, result in
-//            
-//                            //error
-//                            if error != nil {
-//                                self.showErrorAlert("Could not create account", msg: "Please try again")
-//            
-//                            } else {
-//                                //successful
-//            
-//                                NSUserDefaults.standardUserDefaults().setValue(result[Constants.KEY_UID], forKey: Constants.KEY_UID)
-//            
-//                                DataService.ds.REF_BASE.authUser(self.emailTxtFld.text, password: self.passwordTxtFld.text, withCompletionBlock: { err, authData in
-//            
-//                                    //sync up with Firebase
-//        
-//                                    let user = ["provider" : authData.provider!, "blah": "emailTest"]
-//                                    DataService.ds.createFirebaseUser(authData.uid, user: user)
-//            
-//                                    //self.showWelcomeAlertAndPerformSegue()
-//            
-//                                })
-//                            }
-//            
-//                        })
             
             self.performSegueWithIdentifier("toCreateVCNav", sender: nil)
         })
@@ -170,20 +113,7 @@ class LoginViewController: UIViewController {
         
         
     }
-    
-//    func showWelcomeAlertAndPerformSegue() {
-//
-//        let alert = UIAlertController(title: "Account Created", message: "Welcome!", preferredStyle: .Alert)
-//        let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
-//            
-//            self.segueAfterLoggingIn()
-//        })
-//        
-//        alert.addAction(signUpAction)
-//        self.presentViewController(alert, animated: true, completion: nil)
-//    }
-    
-    
+  
     func showErrorAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)

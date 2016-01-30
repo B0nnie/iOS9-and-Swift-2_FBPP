@@ -25,6 +25,8 @@ class DataService {
         return user
     }
     
+    static var imageCache = NSCache()
+    
     func createFirebaseUser(uid: String, user: [String:AnyObject]) {
         REF_USERS.childByAppendingPath(uid).updateChildValues(user)
         

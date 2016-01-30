@@ -20,12 +20,13 @@ class User {
     
     
     //make a new user object
-    init(username: String) {
+    init(username: String, userImageUrl: String) {
         self.username = username
+        self.userImageUrl = userImageUrl
         
     }
    
-    func createNewUser(email: String, password: String, username: String){
+    func createNewUser(email: String, password: String, username: String, img: String){
         
          DataService.ds.REF_BASE.createUser(email, password: password, withValueCompletionBlock: { error, result in
         
@@ -41,7 +42,7 @@ class User {
                             DataService.ds.REF_BASE.authUser(email, password: password, withCompletionBlock: { err, authData in
                                 
                                 //connect with Firebase
-                                let user : [String: AnyObject] = ["provider" : authData.provider!, "username": username]
+                                let user : [String: AnyObject] = ["provider" : authData.provider!, "username": username, "userImgUrl": img]
                                 DataService.ds.createFirebaseUser(authData.uid, user: user)
         
                                 //self.showWelcomeAlertAndPerformSegue()

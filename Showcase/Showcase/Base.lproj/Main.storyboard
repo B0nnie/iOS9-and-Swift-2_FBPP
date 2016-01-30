@@ -237,6 +237,7 @@
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
                                 <rect key="frame" x="20" y="183" width="222" height="128"/>
+                                <color key="backgroundColor" red="0.80784313730000001" green="0.57647058819999997" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87D-L0-VgS" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
                                 <rect key="frame" x="20" y="353" width="164" height="30"/>
@@ -414,6 +415,7 @@
                                             <outlet property="likesLbl" destination="jat-fy-5if" id="U1L-XZ-NRn"/>
                                             <outlet property="profileImg" destination="tiA-1E-veh" id="urq-tR-29S"/>
                                             <outlet property="showcaseImg" destination="YVL-eL-Nbx" id="iBu-E3-lcj"/>
+                                            <outlet property="usernameLbl" destination="u83-DY-hrH" id="HUa-co-atQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -17,13 +17,14 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var descriptionTxt: UITextView!
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var heartImg: UIImageView!
+    @IBOutlet weak var usernameLbl: UILabel!
     
     private var post: Post!
     private(set) var request: Request?
     
     //creating reference for the likes of the current user for a specific post
     private var likeRef: Firebase! {
-       return DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey)
+        return DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey)
     }
     
     override func awakeFromNib() {
@@ -44,19 +45,70 @@ class PostCell: UITableViewCell {
     }
     
     
-    func configureCell(post: Post, img: UIImage?){
+    func configureCell(post: Post){
         self.post = post
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
+        if let username = post.username {
+            self.usernameLbl.text = username
+        }
         
+        
+        var postImg: UIImage?
+        var userImg: UIImage?
+        
+        if let postImgUrl = post.imageUrl {
+            //get image from cache
+            postImg = DataService.imageCache.objectForKey(postImgUrl) as? UIImage
+            
+        }
+        
+        if let userImgUrl = post.userImageUrl{
+            //get image from cache
+            userImg = DataService.imageCache.objectForKey(userImgUrl) as? UIImage
+        }
+
+        
+        
+        //self.profileImg.image = post.userImageUrl
+        
+        if post.userImageUrl != nil {
+            
+            //if there's an image in the cache, then load it from there
+            if userImg != nil {
+                self.profileImg.image = userImg
+                
+            } else
+            {
+                
+                //TODO: Refactor
+                //if there is no image already in the cache, then make a request to get it from ImageShack
+                request = Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
+                    
+                    //request successful
+                    if err == nil {
+                        
+                        let img = UIImage(data: data!)!
+                        self.profileImg.image = img
+                        
+                        //add image to the cache for later use
+                        DataService.imageCache.setObject(img, forKey: self.post.userImageUrl!)
+                    }
+                    
+                    
+                })
+            }
+        }
         if post.imageUrl != nil {
             
             //if there's an image in the cache, then load it from there
-            if img != nil {
-                self.showcaseImg.image = img
+            if postImg != nil {
+                self.showcaseImg.image = postImg
                 
             } else{
-                //if there is no image already in the cache, then make a request to get it from Firebase
+                
+                //TODO: Refactor
+                //if there is no image already in the cache, then make a request to get it from ImageShack
                 request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
                     //request successful
@@ -66,7 +118,7 @@ class PostCell: UITableViewCell {
                         self.showcaseImg.image = img
                         
                         //add image to the cache for later use
-                        FeedVC.imageCache.setObject(img, forKey: self.post.imageUrl!)
+                        DataService.imageCache.setObject(img, forKey: self.post.imageUrl!)
                     }
                     
                     
@@ -78,7 +130,7 @@ class PostCell: UITableViewCell {
         ////
         ////            self.showcaseImg.hidden = true
         ////        }
-    
+        
         //connecting to Firebase to see if the current user has liked this post
         likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
             

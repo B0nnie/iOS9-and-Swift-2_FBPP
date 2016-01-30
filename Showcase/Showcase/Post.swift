@@ -14,9 +14,10 @@ class Post {
     private(set) var postDescription : String!
     private(set) var imageUrl: String!
     private(set) var likes: Int!
-    private(set) var username: String!
+    private(set) var username: String?
     private(set) var postKey: String!
     private(set) var postRef: Firebase!
+    private(set) var userImageUrl: String!
     
     //make a new post when user is new
     init(description: String, imageUrl: String, username: String) {
@@ -47,6 +48,20 @@ class Post {
             
             self.postDescription = desc
         }
+        
+        if let name = dictionary["username"] as? String {
+            
+            self.username = name
+        } else{
+            self.username = ""
+            
+        }
+        
+        if let userImg = dictionary["userImgUrl"] as? String {
+            
+            self.userImageUrl = userImg
+        }
+        
         
         self.postRef = DataService.ds.REF_POSTS.childByAppendingPath(self.postKey)
         
