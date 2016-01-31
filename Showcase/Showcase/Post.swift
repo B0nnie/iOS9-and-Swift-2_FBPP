@@ -14,7 +14,7 @@ class Post {
     private(set) var postDescription : String!
     private(set) var imageUrl: String!
     private(set) var likes: Int!
-    private(set) var username: String?
+    private(set) var username: String!
     private(set) var postKey: String!
     private(set) var postRef: Firebase!
     private(set) var userImageUrl: String!
@@ -52,9 +52,6 @@ class Post {
         if let name = dictionary["username"] as? String {
             
             self.username = name
-        } else{
-            self.username = ""
-            
         }
         
         if let userImg = dictionary["userImgUrl"] as? String {

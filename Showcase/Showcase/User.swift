@@ -17,6 +17,7 @@ class User {
     private(set) var userUid: String!
     private(set) var provider: FAuthData!
     private(set) var userRef: Firebase!
+    private(set) var userPost: Post!
     
     
     //make a new user object
@@ -53,5 +54,6 @@ class User {
                     })
         
     }
-  
+    
+
 }

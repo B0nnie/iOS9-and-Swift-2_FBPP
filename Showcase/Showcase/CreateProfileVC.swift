@@ -151,13 +151,14 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                     //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
                                     //uploading image link we got back from ImageShack to Firebase
                                     
-                                    //create user in Firebase
                                     self.user = User(username: username, userImageUrl: imgLink)
                                     
                                     //save username & userImageUrl in nsuserdefaults
                                     
                                     NSUserDefaults.standardUserDefaults().setValue(self.user.username, forKey: "username")
                                     NSUserDefaults.standardUserDefaults().setValue(self.user.userImageUrl, forKey: "userImage")
+                                    
+                                    //create user in Firebase
                                     self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
                                     self.showWelcomeAlertAndPerformSegue()
                                 }

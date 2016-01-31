@@ -49,10 +49,7 @@ class PostCell: UITableViewCell {
         self.post = post
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
-        if let username = post.username {
-            self.usernameLbl.text = username
-        }
-        
+        self.usernameLbl.text  = post.username
         
         var postImg: UIImage?
         var userImg: UIImage?
@@ -69,17 +66,13 @@ class PostCell: UITableViewCell {
         }
 
         
-        
-        //self.profileImg.image = post.userImageUrl
-        
         if post.userImageUrl != nil {
             
             //if there's an image in the cache, then load it from there
             if userImg != nil {
                 self.profileImg.image = userImg
                 
-            } else
-            {
+            } else {
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
