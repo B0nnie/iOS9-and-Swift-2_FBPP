@@ -24,8 +24,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         super.viewDidLoad()
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        
-        print("Email: \(email) \n Password: \(password)")
+
         
     }
     
@@ -151,6 +150,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                     //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
                                     //uploading image link we got back from ImageShack to Firebase
                                     
+                                    //User init
                                     self.user = User(username: username, userImageUrl: imgLink)
                                     
                                     //save username & userImageUrl in nsuserdefaults

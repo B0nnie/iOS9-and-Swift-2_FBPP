@@ -28,9 +28,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
-        //tableView.estimatedRowHeight = 372
+        tableView.estimatedRowHeight = 372
         
-        //get all the posts from Firebase, create a Post object, and add the Post to the posts array
+        //get all the posts from Firebase, convert each into a Post object, and add the Posts to the posts array
         DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
             //print(snapshot.value)
             
@@ -82,7 +82,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     //to keep profile images from messing up after scrolling
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let post = posts[indexPath.row]
-        //print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
         
         if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
             cell.request?.cancel()
@@ -195,6 +194,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func postToFirebase(imgUrl: String){
+        
         let userImg = NSUserDefaults.standardUserDefaults().valueForKey("userImage") as! String
         let name = NSUserDefaults.standardUserDefaults().valueForKey("username") as! String
         

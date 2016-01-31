@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		290A3D521C5EBCE90040F199 /* ImageFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290A3D511C5EBCE90040F199 /* ImageFromUrl.swift */; };
 		29178AE71C4EAC11007FF83F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29178AE41C4EAC11007FF83F /* FBSDKCoreKit.framework */; };
 		29178AE81C4EAC11007FF83F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29178AE51C4EAC11007FF83F /* FBSDKLoginKit.framework */; };
 		29178AE91C4EAC11007FF83F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29178AE61C4EAC11007FF83F /* FBSDKShareKit.framework */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		290A3D511C5EBCE90040F199 /* ImageFromUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFromUrl.swift; sourceTree = "<group>"; };
 		29178AE41C4EAC11007FF83F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		29178AE51C4EAC11007FF83F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		29178AE61C4EAC11007FF83F /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 		29178AE11C4EABCA007FF83F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				290A3D511C5EBCE90040F199 /* ImageFromUrl.swift */,
 				29178AF41C4EB0D1007FF83F /* MaterialView.swift */,
 				29178AF91C4EB81E007FF83F /* MaterialButton.swift */,
 				29178AFB1C4EC100007FF83F /* MaterialTextField.swift */,
@@ -320,6 +323,7 @@
 				293ED0161C513A5F00E05769 /* DataService.swift in Sources */,
 				29178AF51C4EB0D1007FF83F /* MaterialView.swift in Sources */,
 				296B393A1C4D661200254893 /* LoginViewController.swift in Sources */,
+				290A3D521C5EBCE90040F199 /* ImageFromUrl.swift in Sources */,
 				293ED01B1C51AC7900E05769 /* FeedVC.swift in Sources */,
 				293ED01D1C51AD8D00E05769 /* PostCell.swift in Sources */,
 				296B39381C4D661200254893 /* AppDelegate.swift in Sources */,

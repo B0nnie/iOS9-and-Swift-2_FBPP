@@ -76,8 +76,11 @@ class PostCell: UITableViewCell {
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
+                self.profileImg.ensureActivityIndicatorIsAnimating()
+                
                 request = Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
+                    self.profileImg.activityIndicator.stopAnimating()
                     //request successful
                     if err == nil {
                         
@@ -102,7 +105,11 @@ class PostCell: UITableViewCell {
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
+                self.showcaseImg.ensureActivityIndicatorIsAnimating()
+                
                 request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
+                    
+                    self.showcaseImg.activityIndicator.stopAnimating()
                     
                     //request successful
                     if err == nil {

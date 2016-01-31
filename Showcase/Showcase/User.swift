@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import FBSDKCoreKit
+import FBSDKLoginKit
 import Firebase
 
 class User {
@@ -14,13 +16,7 @@ class User {
     private(set) var username : String!
     private(set) var userImageUrl: String!
     private(set) var likes: Int!
-    private(set) var userUid: String!
-    private(set) var provider: FAuthData!
-    private(set) var userRef: Firebase!
-    private(set) var userPost: Post!
     
-    
-    //make a new user object
     init(username: String, userImageUrl: String) {
         self.username = username
         self.userImageUrl = userImageUrl
@@ -33,8 +29,7 @@ class User {
         
                         //error
                         if error != nil {
-                            //self.showErrorAlert("Could not create account", msg: "Please try again")
-        
+                           
                         } else {
                             //successful
                             
@@ -46,14 +41,11 @@ class User {
                                 let user : [String: AnyObject] = ["provider" : authData.provider!, "username": username, "userImgUrl": img]
                                 DataService.ds.createFirebaseUser(authData.uid, user: user)
         
-                                //self.showWelcomeAlertAndPerformSegue()
-        
                             })
                         }
         
                     })
         
     }
-    
-
+   
 }

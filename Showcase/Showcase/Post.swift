@@ -19,15 +19,15 @@ class Post {
     private(set) var postRef: Firebase!
     private(set) var userImageUrl: String!
     
-    //make a new post when user is new
-    init(description: String, imageUrl: String, username: String) {
-        
-        self.postDescription = description
-        self.imageUrl = imageUrl
-        self.username = username
-    }
+   
+//    init(description: String, imageUrl: String, username: String) {
+//        
+//        self.postDescription = description
+//        self.imageUrl = imageUrl
+//        self.username = username
+//    }
     
-    //make a new post when user already exists
+    
     init(postKey: String, dictionary: [String:AnyObject]){
        
         self.postKey = postKey

@@ -33,7 +33,6 @@ class LoginViewController: UIViewController {
     @IBAction func fbBtnPressed(sender: UIButton!){
         
         let facebookLogin = FBSDKLoginManager()
-        
         facebookLogin.logInWithReadPermissions(["email"], fromViewController: self) { (facebookResult, facebookError) -> Void in
             
             if facebookError != nil {
@@ -41,20 +40,40 @@ class LoginViewController: UIViewController {
             } else if facebookResult.isCancelled {
                 print("Facebook login was cancelled.")
             } else {
+                //successful
                 let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                 
+                //connect with Firebase
                 DataService.ds.REF_BASE.authWithOAuthProvider("facebook", token: accessToken,
                     withCompletionBlock: { error, authData in
                         if error != nil {
                             print("Login failed. \(error)")
                         } else {
+                            //successful
                             print("Logged in! \(authData)")
                             
-                            //sync up with Firebase
-                            let user = ["provider" : authData.provider!, "blah": "test"]
-                            DataService.ds.createFirebaseUser(authData.uid, user: user)
-                            
-                            NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
+                            let fbloginresult : FBSDKLoginManagerLoginResult = facebookResult
+                            if(fbloginresult.grantedPermissions.contains("email"))
+                            {
+                                self.getFBUserData { userDict in
+                                    
+                                    //create facebook user in Firebase
+                                    if let username = userDict["name"] as? String, let pictureDict = userDict["picture"] as? [String:AnyObject], let dataDict = pictureDict["data"] as? [String:AnyObject], let fbImgUrl = dataDict["url"] as? String  {
+                                        let user = User(username: username, userImageUrl: fbImgUrl)
+                                        
+                                        let facebookUser = ["provider" : authData.provider!,
+                                            "username": user.username, "userImgUrl": user.userImageUrl]
+                                        
+                                        DataService.ds.createFirebaseUser(authData.uid, user: facebookUser)
+                                        
+                                        NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
+                                        NSUserDefaults.standardUserDefaults().setValue(user.username, forKey: "username")
+                                        NSUserDefaults.standardUserDefaults().setValue(user.userImageUrl, forKey: "userImage")
+                                    }
+                                    
+                                }
+                                facebookLogin.logOut()
+                            }
                             self.segueAfterLoggingIn()
                         }
                 })
@@ -62,6 +81,23 @@ class LoginViewController: UIViewController {
         }
         
     }
+    
+    //get username and profile pic from facebook
+    func getFBUserData(completionHandler: [String:AnyObject] -> ()) {
+        
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, picture.type(large)"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                if error == nil {
+                    //successful
+                    if let userDict = result as? [String:AnyObject] {
+                        completionHandler(userDict)
+                    }
+                   
+                }
+            })
+        }
+    }
+    
     
     //email and password login
     @IBAction func attemptLogin(sender: UIButton!) {
@@ -86,7 +122,7 @@ class LoginViewController: UIViewController {
                     // user is logged in, check authData for data
                     //print("Logged in with email and password")
                     NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
-                
+                    
                     self.segueAfterLoggingIn()
                 }
                 
@@ -113,14 +149,14 @@ class LoginViewController: UIViewController {
         
         
     }
-  
+    
     func showErrorAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
         
         presentViewController(alert, animated: true, completion: nil)
-    
+        
     }
     
     func segueAfterLoggingIn(){
@@ -130,7 +166,7 @@ class LoginViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "toCreateVCNav" {
-        
+            
             if let createProfileVCNav = segue.destinationViewController as? UINavigationController {
                 let createProfileVC = createProfileVCNav.viewControllers[0] as! CreateProfileVC
                 createProfileVC.email = self.emailTxtFld.text
