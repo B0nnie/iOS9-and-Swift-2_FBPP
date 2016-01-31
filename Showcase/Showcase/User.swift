@@ -15,8 +15,7 @@ class User {
     
     private(set) var username : String!
     private(set) var userImageUrl: String!
-    private(set) var likes: Int!
-    
+   
     init(username: String, userImageUrl: String) {
         self.username = username
         self.userImageUrl = userImageUrl

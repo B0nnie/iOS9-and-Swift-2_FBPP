@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
     }
     
     //get username and profile pic from facebook
-    func getFBUserData(completionHandler: [String:AnyObject] -> ()) {
+    private func getFBUserData(completionHandler: [String:AnyObject] -> ()) {
         
         if FBSDKAccessToken.currentAccessToken() != nil {
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, picture.type(large)"]).startWithCompletionHandler({ (connection, result, error) -> Void in
@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func showAccountCreationAlert(){
+    private func showAccountCreationAlert(){
         let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Press OK to join our community", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
@@ -150,7 +150,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    func showErrorAlert(title: String, msg: String){
+    private func showErrorAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
@@ -159,7 +159,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    func segueAfterLoggingIn(){
+    private func segueAfterLoggingIn(){
         
         self.performSegueWithIdentifier("loggedIn", sender: nil)
     }

@@ -68,13 +68,13 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    private func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
     }
     
-    func showAlert(title: String, msg: String){
+    private func showAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
@@ -83,7 +83,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
     }
     
-    func showWelcomeAlertAndPerformSegue() {
+    private func showWelcomeAlertAndPerformSegue() {
         
         let alert = UIAlertController(title: "Account Created", message: "Welcome!", preferredStyle: .Alert)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
@@ -95,7 +95,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func signNewUserUp(username: String){
+    private func signNewUserUp(username: String){
         DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             //confirm username isn't taken and show alert if it is taken

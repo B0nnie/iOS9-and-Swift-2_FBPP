@@ -35,6 +35,8 @@ class PostCell: UITableViewCell {
         heartImg.addGestureRecognizer(tap)
         heartImg.userInteractionEnabled = true
         
+        profileImg.frame.size.width = profileImg.frame.size.height
+        
     }
     
     override func drawRect(rect: CGRect) {
@@ -126,10 +128,10 @@ class PostCell: UITableViewCell {
             }
             
         }
-        //            else {
-        ////
-        ////            self.showcaseImg.hidden = true
-        ////        }
+//                    else {
+//        //
+//        //            self.showcaseImg.hidden = true
+//        //        }
         
         //connecting to Firebase to see if the current user has liked this post
         likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
@@ -146,7 +148,7 @@ class PostCell: UITableViewCell {
         
     }
     
-    func likeTapped(sender: UITapGestureRecognizer){
+    private func likeTapped(sender: UITapGestureRecognizer){
         //connecting to Firebase
         likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
             
