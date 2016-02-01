@@ -22,7 +22,7 @@ extension UIImageView {
     }
     
      func ensureActivityIndicatorIsAnimating() {
-        if (self.activityIndicator == nil) {
+//        if (self.activityIndicator == nil) {
             self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
             self.activityIndicator.hidesWhenStopped = true
             let size = self.frame.size;
@@ -31,7 +31,7 @@ extension UIImageView {
                 self.addSubview(self.activityIndicator)
                 self.activityIndicator.startAnimating()
             })
-        }
+//        }
     }
     
     convenience init(URL: NSURL, errorImage: UIImage? = nil) {

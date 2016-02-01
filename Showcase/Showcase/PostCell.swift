@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+import AlamofireImage
 
 class PostCell: UITableViewCell {
     
@@ -34,7 +35,7 @@ class PostCell: UITableViewCell {
         tap.numberOfTapsRequired = 1
         heartImg.addGestureRecognizer(tap)
         heartImg.userInteractionEnabled = true
-        
+       
         profileImg.frame.size.width = profileImg.frame.size.height
         
     }
@@ -78,11 +79,13 @@ class PostCell: UITableViewCell {
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
-                self.profileImg.ensureActivityIndicatorIsAnimating()
+               // self.profileImg.ensureActivityIndicatorIsAnimating()
+                
+                //use Alamofireimage here
                 
                 request = Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
-                    self.profileImg.activityIndicator.stopAnimating()
+                  //  self.profileImg.activityIndicator.stopAnimating()
                     //request successful
                     if err == nil {
                         
@@ -107,11 +110,11 @@ class PostCell: UITableViewCell {
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
-                self.showcaseImg.ensureActivityIndicatorIsAnimating()
+               // self.showcaseImg.ensureActivityIndicatorIsAnimating()
                 
                 request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
-                    self.showcaseImg.activityIndicator.stopAnimating()
+                //    self.showcaseImg.activityIndicator.stopAnimating()
                     
                     //request successful
                     if err == nil {

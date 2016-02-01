@@ -63,8 +63,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         let post = posts[indexPath.row]
         //print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
-        
+
         if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
+            
             cell.request?.cancel()
             
             cell.configureCell(post)
@@ -80,17 +81,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     //to keep profile images from messing up after scrolling
-     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let post = posts[indexPath.row]
-        
-        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
-            cell.request?.cancel()
-            
-            cell.configureCell(post)
-         
-        }
-        
-    }
+//     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
+//            cell.request?.cancel()
+//            
+//            cell.profileImg.image = nil
+//            cell.showcaseImg.image = nil
+//         
+//        }
+//        
+//    }
     
     //configure row height depending on if user uploaded image or not
     //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -104,7 +105,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     //        }
     //    }
     
-    private func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         selectedAppImg.image = image
