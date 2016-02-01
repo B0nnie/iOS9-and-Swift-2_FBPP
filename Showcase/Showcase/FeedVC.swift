@@ -19,6 +19,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
+    private var imageCache = NSCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,10 +69,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         cell.showcaseImg.clipsToBounds = true
         
-        // size of the screen - 40 (the tableView is 40 smaller than the screen view (check out storyboard (view is 600 and table view is 560))
-        cell.showcaseImg.frame.size.width = UIScreen.mainScreen().bounds.width - (UIScreen.mainScreen().bounds.width - self.tableView.bounds.size.width)
-        
-        
         cell.profileImg.image = nil
         cell.showcaseImg.image = nil
         
@@ -86,14 +83,14 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if let postImgUrl = post.imageUrl {
             
             //get image from cache
-            postImg = DataService.imageCache.objectForKey(postImgUrl) as? UIImage
+            postImg = imageCache.objectForKey(postImgUrl) as? UIImage
             
         }
         
         if let userImgUrl = post.userImageUrl{
             
             //get image from cache
-            userImg = DataService.imageCache.objectForKey(userImgUrl) as? UIImage
+            userImg = imageCache.objectForKey(userImgUrl) as? UIImage
         }
         
         
@@ -108,11 +105,13 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 
                 //TODO: Refactor
                 //if there is no image already in the cache, then make a request to get it from ImageShack
-                //
+                
+                //activity indicator while image loads
                 cell.profileImg.ensureActivityIndicatorIsAnimating()
                 
                 Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
                     
+                    //activity indicator when image finishes loading
                     cell.profileImg.activityIndicator.stopAnimating()
                     //                        request successful
                     if err == nil {
@@ -121,7 +120,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                         if cell.tag == indexPath.row {
                             let img = UIImage(data: data!)!
                             cell.profileImg.image = img
-                            DataService.imageCache.setObject(img, forKey: post.userImageUrl!)
+                            self.imageCache.setObject(img, forKey: post.userImageUrl!)
                         }
                         
                         
@@ -169,7 +168,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                             
                             
                             //add image to the cache for later use
-                            DataService.imageCache.setObject(img, forKey: post.imageUrl!)
+                            self.imageCache.setObject(img, forKey: post.imageUrl!)
                             
                         }
                     }

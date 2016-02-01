@@ -35,21 +35,22 @@ class PostCell: UITableViewCell {
         heartImg.addGestureRecognizer(tap)
         heartImg.userInteractionEnabled = true
         
-        profileImg.frame.size.width = profileImg.frame.size.height
+       // profileImg.frame.size.width = profileImg.frame.size.height
         
     }
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         profileImg.layer.cornerRadius = profileImg.frame.size.width / 2
-        profileImg.frame.size.width = profileImg.frame.size.height
         profileImg.clipsToBounds = true
         showcaseImg.clipsToBounds = true
+        
+        // profileImg.frame.size.width = profileImg.frame.size.height
     }
     
     
     func configureCell(post: Post){
-        profileImg.frame.size.width = profileImg.frame.size.height
+      //profileImg.frame.size.width = profileImg.frame.size.height
         
         self.post = post
         self.descriptionTxt.text = post.postDescription

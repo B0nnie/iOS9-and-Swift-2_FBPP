@@ -23,15 +23,37 @@ extension UIImageView {
     
      func ensureActivityIndicatorIsAnimating() {
 //        if (self.activityIndicator == nil) {
-            self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            self.activityIndicator.hidesWhenStopped = true
-            let size = self.frame.size
-            self.activityIndicator.center = CGPoint(x: size.width/2, y: size.height/2)
+//            self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+//            self.activityIndicator.hidesWhenStopped = true
+//            let size = self.frame.size
+//            self.activityIndicator.center = CGPoint(x: size.width/2, y: size.height/2)
 //            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                self.addSubview(self.activityIndicator)
-                self.activityIndicator.startAnimating()
+//                self.addSubview(self.activityIndicator)
+//                self.activityIndicator.startAnimating()
 //            })
 //        }
+        
+        
+        self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(self.activityIndicator)
+        
+        
+        NSLayoutConstraint(item: self.activityIndicator, attribute: .CenterX,
+            relatedBy: .Equal, toItem: self,
+            attribute: .CenterX, multiplier: 1.0,
+            constant: 0.0).active = true
+        //
+        NSLayoutConstraint(item: self.activityIndicator, attribute: .CenterY,
+            relatedBy: .Equal, toItem: self,
+            attribute: .CenterY, multiplier: 1.0,
+            constant: 0.0).active = true
+        
+        self.activityIndicator.hidesWhenStopped = true
+        
+        self.activityIndicator.startAnimating()
+        //
+
     }
     
     convenience init(URL: NSURL, errorImage: UIImage? = nil) {
