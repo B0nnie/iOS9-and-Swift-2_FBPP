@@ -64,17 +64,123 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let post = posts[indexPath.row]
         //print("MY POST IN CELLFORROW: \(post.postDescription) and my imageUrl \(post.imageUrl)")
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
-            cell.request?.cancel()
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
+        
+        cell.showcaseImg.clipsToBounds = true
+        
+        // size of the screen - 40 (the tableView is 40 smaller than the screen view (check out storyboard (view is 600 and table view is 560))
+        cell.showcaseImg.frame.size.width = UIScreen.mainScreen().bounds.width - (UIScreen.mainScreen().bounds.width - self.tableView.bounds.size.width)
+        
+        
+        cell.profileImg.image = nil
+        cell.showcaseImg.image = nil
+        
+        cell.tag = indexPath.row
+        
+        
+        cell.configureCell(post)
+        
+        var postImg: UIImage?
+        var userImg: UIImage?
+        
+        if let postImgUrl = post.imageUrl {
             
-            cell.configureCell(post)
+            //get image from cache
+            postImg = DataService.imageCache.objectForKey(postImgUrl) as? UIImage
             
-            return cell
-            
-        } else {
-            
-            return PostCell()
         }
+        
+        if let userImgUrl = post.userImageUrl{
+            
+            //get image from cache
+            userImg = DataService.imageCache.objectForKey(userImgUrl) as? UIImage
+        }
+        
+        
+        if post.userImageUrl != nil {
+            
+            //if there's an image in the cache, then load it from there
+            if userImg != nil {
+                
+                cell.profileImg.image = userImg
+                
+            } else {
+                
+                //TODO: Refactor
+                //if there is no image already in the cache, then make a request to get it from ImageShack
+                //
+                cell.profileImg.ensureActivityIndicatorIsAnimating()
+                
+                Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
+                    
+                    cell.profileImg.activityIndicator.stopAnimating()
+                    //                        request successful
+                    if err == nil {
+                        
+                        
+                        if cell.tag == indexPath.row {
+                            let img = UIImage(data: data!)!
+                            cell.profileImg.image = img
+                            DataService.imageCache.setObject(img, forKey: post.userImageUrl!)
+                        }
+                        
+                        
+                        
+                        
+                        //add image to the cache for later use
+                        
+                    }
+                    
+                    
+                })
+            }
+        }
+        
+        if post.imageUrl != nil {
+            
+            //if there's an image in the cache, then load it from there
+            if postImg != nil {
+                
+                
+                cell.showcaseImg.image = postImg
+                
+            } else {
+                
+                
+                //TODO: Refactor
+                //if there is no image already in the cache, then make a request to get it from ImageShack
+                
+                
+                cell.showcaseImg.ensureActivityIndicatorIsAnimating()
+                Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
+                    
+                    
+                    
+                    cell.showcaseImg.activityIndicator.stopAnimating()
+                    
+                    
+                    //request successful
+                    if err == nil {
+                        
+                        
+                        if cell.tag == indexPath.row {
+                            let img = UIImage(data: data!)!
+                            cell.showcaseImg.image = img
+                            
+                            
+                            //add image to the cache for later use
+                            DataService.imageCache.setObject(img, forKey: post.imageUrl!)
+                            
+                        }
+                    }
+                    
+                    
+                })
+            }
+            
+        }
+        
+        return cell
         
         
     }

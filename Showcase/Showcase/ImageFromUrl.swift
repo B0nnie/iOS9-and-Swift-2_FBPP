@@ -22,16 +22,16 @@ extension UIImageView {
     }
     
      func ensureActivityIndicatorIsAnimating() {
-        if (self.activityIndicator == nil) {
+//        if (self.activityIndicator == nil) {
             self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
             self.activityIndicator.hidesWhenStopped = true
-            let size = self.frame.size;
-            self.activityIndicator.center = CGPoint(x: size.width/2, y: size.height/2);
-            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+            let size = self.frame.size
+            self.activityIndicator.center = CGPoint(x: size.width/2, y: size.height/2)
+//            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 self.addSubview(self.activityIndicator)
                 self.activityIndicator.startAnimating()
-            })
-        }
+//            })
+//        }
     }
     
     convenience init(URL: NSURL, errorImage: UIImage? = nil) {

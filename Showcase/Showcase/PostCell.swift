@@ -42,96 +42,19 @@ class PostCell: UITableViewCell {
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         profileImg.layer.cornerRadius = profileImg.frame.size.width / 2
+        profileImg.frame.size.width = profileImg.frame.size.height
         profileImg.clipsToBounds = true
         showcaseImg.clipsToBounds = true
     }
     
     
     func configureCell(post: Post){
+        profileImg.frame.size.width = profileImg.frame.size.height
+        
         self.post = post
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
         self.usernameLbl.text  = post.username
-        
-        var postImg: UIImage?
-        var userImg: UIImage?
-        
-        if let postImgUrl = post.imageUrl {
-            //get image from cache
-            postImg = DataService.imageCache.objectForKey(postImgUrl) as? UIImage
-            
-        }
-        
-        if let userImgUrl = post.userImageUrl{
-            //get image from cache
-            userImg = DataService.imageCache.objectForKey(userImgUrl) as? UIImage
-        }
-
-        
-        if post.userImageUrl != nil {
-            
-            //if there's an image in the cache, then load it from there
-            if userImg != nil {
-                self.profileImg.image = userImg
-                
-            } else {
-                
-                //TODO: Refactor
-                //if there is no image already in the cache, then make a request to get it from ImageShack
-                self.profileImg.ensureActivityIndicatorIsAnimating()
-                
-                request = Alamofire.request(.GET, post.userImageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
-                    
-                    self.profileImg.activityIndicator.stopAnimating()
-                    //request successful
-                    if err == nil {
-                        
-                        let img = UIImage(data: data!)!
-                        self.profileImg.image = img
-                        
-                        //add image to the cache for later use
-                        DataService.imageCache.setObject(img, forKey: self.post.userImageUrl!)
-                    }
-                    
-                    
-                })
-            }
-        }
-        if post.imageUrl != nil {
-            
-            //if there's an image in the cache, then load it from there
-            if postImg != nil {
-                self.showcaseImg.image = postImg
-                
-            } else{
-                
-                //TODO: Refactor
-                //if there is no image already in the cache, then make a request to get it from ImageShack
-                self.showcaseImg.ensureActivityIndicatorIsAnimating()
-                
-                request = Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
-                    
-                    self.showcaseImg.activityIndicator.stopAnimating()
-                    
-                    //request successful
-                    if err == nil {
-                        
-                        let img = UIImage(data: data!)!
-                        self.showcaseImg.image = img
-                        
-                        //add image to the cache for later use
-                        DataService.imageCache.setObject(img, forKey: self.post.imageUrl!)
-                    }
-                    
-                    
-                })
-            }
-            
-        }
-//                    else {
-//        //
-//        //            self.showcaseImg.hidden = true
-//        //        }
         
         //connecting to Firebase to see if the current user has liked this post
         likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
@@ -148,7 +71,7 @@ class PostCell: UITableViewCell {
         
     }
     
-    private func likeTapped(sender: UITapGestureRecognizer){
+    func likeTapped(sender: UITapGestureRecognizer){
         //connecting to Firebase
         likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
             
