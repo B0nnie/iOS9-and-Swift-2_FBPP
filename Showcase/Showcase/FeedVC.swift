@@ -20,6 +20,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
     private var imageCache = NSCache()
+    private var deletePostIndexPath: NSIndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,34 +203,35 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         if editingStyle == .Delete {
             
-            let post = posts[indexPath.row]
-              //delete post from Firebase
-            post.postRef.removeValue()
+            let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
+            if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
+                let post = posts[indexPath.row]
+               
+                if  post.username == username {
+                    
+                    deletePostIndexPath = indexPath
+                    let postToDelete = posts[indexPath.row]
+                    confirmDelete(postToDelete)
+                }
+            }
             
-            posts.removeAtIndex(indexPath.row)
-            
-            
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
         
     }
     
-//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        
-//        let uid = NSUserDefaults.standardUserDefaults().objectForKey(Constants.KEY_UID) as! String
-//        
-//        //Post object at row
-//        let post = posts[indexPath.row]
-//        
-//        if post.uid == uid {
-//            
-//            return true
-//            
-//        }
-//        
-//        return false
-// 
-//    }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
+        if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
+            let post = posts[indexPath.row]
+           
+            if  post.username != username {
+            return false
+            }
+            
+        }
+        return true
+    }
     
     //configure row height depending on if user uploaded image or not
     //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -331,6 +333,53 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         presentViewController(alert, animated: true, completion: nil)
         
     }
+    
+    private func confirmDelete(post:Post) {
+        let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to permanently delete your post?", preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeletePost)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeletePost)
+        
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func handleDeletePost(alertAction: UIAlertAction!){
+        
+        if let indexPath = deletePostIndexPath {
+            tableView.beginUpdates()
+            let post = posts[indexPath.row]
+            
+            //Delete post from Firebase:
+            
+            //delete from posts ref
+            post.postRef.removeValue()
+            //delete from users/uid/posts ref
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
+            //delete from users/uid/likes ref
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+            
+            //delete from all the users who have liked the post with that postKey
+            
+
+            posts.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+
+            deletePostIndexPath = nil
+            
+            tableView.endUpdates()
+        }
+    }
+    
+    private func cancelDeletePost(alertAction: UIAlertAction!) {
+        deletePostIndexPath = nil
+    }
+    
     
     private func postToFirebase(imgUrl: String){
         
