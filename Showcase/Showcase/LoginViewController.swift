@@ -123,6 +123,20 @@ class LoginViewController: UIViewController {
                     //print("Logged in with email and password")
                     NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
                     
+                    if NSUserDefaults.standardUserDefaults().valueForKey("username") == nil {
+                        DataService.ds.REF_USER_CURRENT.observeEventType(.Value, withBlock: { snapshot in
+                            if snapshot.value != nil {
+                                
+                                if let username = snapshot.value.objectForKey("username"), let imgUrl = snapshot.value.objectForKey("userImgUrl"){
+                                    NSUserDefaults.standardUserDefaults().setValue(username, forKey: "username")
+                                     NSUserDefaults.standardUserDefaults().setValue(imgUrl, forKey: "userImage")
+                                }
+                            }
+                            
+                        })
+                       
+                    }
+                    
                     self.segueAfterLoggingIn()
                 }
                 

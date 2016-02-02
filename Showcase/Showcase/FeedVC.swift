@@ -56,6 +56,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         })
     }
     
+    //MARK: TableView Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -185,17 +186,50 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     //to keep profile images from messing up after scrolling
-     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let post = posts[indexPath.row]
+    //     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    //        let post = posts[indexPath.row]
+    //
+    //        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
+    //            cell.request?.cancel()
+    //
+    //            cell.configureCell(post)
+    //
+    //        }
+    //
+    //    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
-            cell.request?.cancel()
+        if editingStyle == .Delete {
             
-            cell.configureCell(post)
-         
+            let post = posts[indexPath.row]
+              //delete post from Firebase
+            post.postRef.removeValue()
+            
+            posts.removeAtIndex(indexPath.row)
+            
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
         
     }
+    
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        
+//        let uid = NSUserDefaults.standardUserDefaults().objectForKey(Constants.KEY_UID) as! String
+//        
+//        //Post object at row
+//        let post = posts[indexPath.row]
+//        
+//        if post.uid == uid {
+//            
+//            return true
+//            
+//        }
+//        
+//        return false
+// 
+//    }
     
     //configure row height depending on if user uploaded image or not
     //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -209,7 +243,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     //        }
     //    }
     
-    private func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         selectedAppImg.image = image

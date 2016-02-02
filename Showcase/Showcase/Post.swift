@@ -18,8 +18,8 @@ class Post {
     private(set) var postKey: String!
     private(set) var postRef: Firebase!
     private(set) var userImageUrl: String!
-    
-   
+
+
 //    init(description: String, imageUrl: String, username: String) {
 //        
 //        self.postDescription = description
@@ -58,8 +58,7 @@ class Post {
             
             self.userImageUrl = userImg
         }
-        
-        
+    
         self.postRef = DataService.ds.REF_POSTS.childByAppendingPath(self.postKey)
         
     }
