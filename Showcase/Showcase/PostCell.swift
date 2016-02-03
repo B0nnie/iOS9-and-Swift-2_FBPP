@@ -58,17 +58,21 @@ class PostCell: UITableViewCell {
         self.usernameLbl.text  = post.username
         
         //connecting to Firebase to see if the current user has liked this post
-        likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
-            
-            if let likeNotExist = snapshot.value as? NSNull {
-                //if the current user has not liked this specific post
-                self.heartImg.image = UIImage(named: "heart-empty")
+        
+        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
+            likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
                 
-            } else{
-                
-                self.heartImg.image = UIImage(named: "heart-full")
-            }
-        })
+                if let likeNotExist = snapshot.value as? NSNull {
+                    //if the current user has not liked this specific post
+                    self.heartImg.image = UIImage(named: "heart-empty")
+                    
+                } else{
+                    
+                    self.heartImg.image = UIImage(named: "heart-full")
+                }
+            })
+        }
+       
         
     }
     

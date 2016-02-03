@@ -22,8 +22,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     private var imageCache = NSCache()
     private var deletePostIndexPath: NSIndexPath?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         tableView.delegate  = self
         tableView.dataSource = self
         
@@ -49,13 +52,14 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                         let post = Post(postKey: key, dictionary: postDict)
                         //print("POST KEY IS: \(post.postKey)")
                         
-                        self.posts.append(post)
+                        self.posts.insert(post, atIndex: 0)
                     }
                 }
             }
             self.tableView.reloadData()
         })
     }
+   
     
     //MARK: TableView Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -202,11 +206,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
             if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
                 let post = posts[indexPath.row]
-               
+                
                 if  post.username == username {
                     
                     deletePostIndexPath = indexPath
@@ -221,12 +223,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
         if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
             let post = posts[indexPath.row]
-           
+            
             if  post.username != username {
-            return false
+                return false
             }
             
         }
@@ -260,66 +261,76 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBAction func makePost(sender: MaterialButton) {
         
         if let txt = postFld.text where txt != "", let img = selectedAppImg.image where img != UIImage(named:"camera")  {
-            //MARK: Uploading image data to ImageShack
-            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
             
-            //turn image into NSData and compress it
-            let imgData = UIImageJPEGRepresentation(img, 0.2)!
-            //turn these strings into NSData
-            let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
-            let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+            //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
             
-            
-            Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
-                //upload image data
-                multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
-                //upload key data
-                multipartFormData.appendBodyPart(data: keyData, name: "key")
-                //upload json data
-                multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+            if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) == nil{
                 
-                }) { encodingResult in
+                showLoginAlert()
+                
+            } else {
+                
+                //MARK: Uploading image data to ImageShack
+                let url = (NSURL: "https://post.imageshack.us/upload_api.php")
+                
+                //turn image into NSData and compress it
+                let imgData = UIImageJPEGRepresentation(img, 0.2)!
+                //turn these strings into NSData
+                let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
+                let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+                
+                
+                Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+                    //upload image data
+                    multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
+                    //upload key data
+                    multipartFormData.appendBodyPart(data: keyData, name: "key")
+                    //upload json data
+                    multipartFormData.appendBodyPart(data: keyJSON, name: "format")
                     
-                    self.activityIndicator.startAnimating()
-                    
-                    switch encodingResult {
-                        //successfully uploaded image to ImageShack
-                    case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
-                        //json
-                        if let info = response.result.value as? [String:AnyObject]{
-                            
-                            if let links = info["links"] as? [String:AnyObject]{
-                                if let imgLink = links["image_link"] as? String {
-                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
-                                    //uploading image link we got back from ImageShack to Firebase
-                                    self.postToFirebase(imgLink)
+                    }) { encodingResult in
+                        
+                        self.activityIndicator.startAnimating()
+                        
+                        switch encodingResult {
+                            //successfully uploaded image to ImageShack
+                        case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
+                            //json
+                            if let info = response.result.value as? [String:AnyObject]{
+                                
+                                if let links = info["links"] as? [String:AnyObject]{
+                                    if let imgLink = links["image_link"] as? String {
+                                        //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                                        //uploading image link we got back from ImageShack to Firebase
+                                        self.postToFirebase(imgLink)
+                                    }
                                 }
                             }
+                            //reset textfield and camera image
+                            self.postFld.text = ""
+                            self.selectedAppImg.image = UIImage(named:"camera")
+                            
+                            self.activityIndicator.stopAnimating()
+                            
+                            //alerting user post was created successfully
+                            self.showAlert("", msg: "Your post was created! Thanks for sharing.")
+                            
+                            
+                        })
+                            //unsuccessful in uploading image to ImageShack
+                        case .Failure(let error):
+                            print(error)
+                            
+                            self.activityIndicator.stopAnimating()
+                            self.showAlert("", msg: "There was an error creating your post. Try again.")
                         }
-                        //reset textfield and camera image
-                        self.postFld.text = ""
-                        self.selectedAppImg.image = UIImage(named:"camera")
-                        
-                        self.activityIndicator.stopAnimating()
-                        
-                        //alerting user post was created successfully
-                        self.showAlert("", msg: "Your post was created! Thanks for sharing.")
-                        
-                        
-                    })
-                        //unsuccessful in uploading image to ImageShack
-                    case .Failure(let error):
-                        print(error)
-                        
-                        self.activityIndicator.stopAnimating()
-                        self.showAlert("", msg: "There was an error creating your post. Try again.")
-                    }
+                }
+                
             }
             
         }else {
             //error alert message saying they need to enter a description and choose an app image
             showAlert("", msg: "Please enter a description for your app and choose an image")
-            
             
         }
         
@@ -331,6 +342,21 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
         
         presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func showLoginAlert(){
+        
+        let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            self.performSegueWithIdentifier("toLoginVC", sender: nil)
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(signUpAction)
+        self.presentViewController(alert, animated: true, completion: nil)
         
     }
     
@@ -363,10 +389,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
             //delete from users/uid/likes ref
             DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
-        
+            
             posts.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-
+            
             deletePostIndexPath = nil
             
             tableView.endUpdates()

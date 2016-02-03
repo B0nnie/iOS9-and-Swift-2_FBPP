@@ -23,6 +23,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
         originalConstraint = materialViewBottomLayout.constant
         shiftUIWithKeyboard()
         
@@ -116,17 +119,17 @@ class LoginViewController: UIViewController {
                 if error != nil {
                     // an error occured while attempting login
                     print("an error occured while attempting login: \(error)")
-                    
-                    if error.code == Constants.STATUS_ACCOUNT_NONEXIST {
-                        self.showAccountCreationAlert()
+                
+                    switch error.code {
+                    case Constants.STATUS_ACCOUNT_NONEXIST: self.showAccountCreationAlert()
+                    case Constants.STATUS_INVALID_EMAIL: self.showErrorAlert("Could not log in", msg: "Please re-enter your email address")
+                    case Constants.STATUS_INVALID_PASSWORD: self.showErrorAlert("Could not log in", msg: "Please re-enter your password")
+                    default: self.showErrorAlert("Could not log in", msg: "Please try again")
                         
-                    } else {
-                        //there's some other kind of error
-                        self.showErrorAlert("Could not log in", msg: "Please check your username or password")
                     }
                     
                 } else {
-                    // user is logged in, check authData for data
+                    // user is authorized, check authData for data
                     //print("Logged in with email and password")
                     NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
                     
@@ -151,7 +154,7 @@ class LoginViewController: UIViewController {
             
         } else {
             //textfields were empty
-            showErrorAlert("Email and password required", msg: "You must enter an email and a password")
+            showErrorAlert("Email and password required", msg: "Please enter an email and a password")
         }
     }
     
@@ -159,8 +162,6 @@ class LoginViewController: UIViewController {
         let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Press OK to join our community", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
-            
             self.performSegueWithIdentifier("toCreateVCNav", sender: nil)
         })
         
@@ -226,6 +227,11 @@ class LoginViewController: UIViewController {
             }
         }
         
+    }
+    
+    func dismissKeyboard(){
+        
+        view.endEditing(true)
     }
     
 }

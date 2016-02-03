@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KDV-U9-3Kw">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -219,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="321" y="323"/>
+            <point key="canvasLocation" x="2289" y="323"/>
         </scene>
         <!--Create ProfileVC-->
         <scene sceneID="4uM-Y8-qLg">
@@ -238,7 +238,7 @@
                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
                                 <rect key="frame" x="20" y="183" width="222" height="128"/>
                                 <color key="backgroundColor" red="0.80784313730000001" green="0.57647058819999997" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
@@ -282,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="es1-e0-fdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1133" y="1031"/>
+            <point key="canvasLocation" x="2301" y="1081"/>
         </scene>
         <!--FeedVC-->
         <scene sceneID="sZo-IK-2a1">
@@ -514,6 +514,7 @@
                         <outlet property="postFld" destination="Uzn-FO-5sC" id="bSR-4k-cL2"/>
                         <outlet property="selectedAppImg" destination="GBU-Qi-SMN" id="28B-NK-gub"/>
                         <outlet property="tableView" destination="XJM-90-6Zt" id="Tgg-vF-e2N"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="toLoginVC" id="iOL-8j-5xx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zi1-1g-gKg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -541,7 +542,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oCf-bB-LtD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="981" y="323"/>
+            <point key="canvasLocation" x="913" y="323"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qfD-K7-bpM">
@@ -559,7 +560,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ycJ-jw-Ijp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="321" y="1031"/>
+            <point key="canvasLocation" x="1612" y="1081"/>
         </scene>
     </scenes>
     <resources>

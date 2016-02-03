@@ -68,7 +68,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    private func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
@@ -85,7 +85,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     private func showWelcomeAlertAndPerformSegue() {
         
-        let alert = UIAlertController(title: "Account Created", message: "Welcome!", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Account Created", message: "Welcome! Press OK if you're awesome", preferredStyle: .Alert)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             
             self.performSegueWithIdentifier("toFeedVC", sender: nil)
