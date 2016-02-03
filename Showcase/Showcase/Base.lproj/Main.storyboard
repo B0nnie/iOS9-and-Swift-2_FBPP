@@ -173,11 +173,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ha3-KF-Ssw" secondAttribute="bottom" id="2ve-bO-MFj"/>
                                     <constraint firstItem="Ha3-KF-Ssw" firstAttribute="top" secondItem="zbS-RK-qgz" secondAttribute="bottom" constant="50" id="BH4-dt-vaO"/>
                                     <constraint firstItem="zbS-RK-qgz" firstAttribute="leading" secondItem="wvb-ak-XDd" secondAttribute="leadingMargin" constant="20" id="GKy-dD-DO4"/>
                                     <constraint firstItem="zbS-RK-qgz" firstAttribute="top" secondItem="SWT-P0-4fX" secondAttribute="bottom" constant="20" id="L5U-Jc-1b7"/>
                                     <constraint firstAttribute="width" constant="560" id="LyY-xK-B3g"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="zbS-RK-qgz" secondAttribute="trailing" constant="20" id="NRD-01-QKd"/>
+                                    <constraint firstAttribute="height" constant="358" id="Wru-i0-DN0"/>
                                     <constraint firstItem="SWT-P0-4fX" firstAttribute="top" secondItem="wvb-ak-XDd" secondAttribute="top" constant="20" id="fh4-n5-5dG"/>
                                     <constraint firstAttribute="height" constant="353" id="hAE-xP-tHo"/>
                                     <constraint firstItem="Ha3-KF-Ssw" firstAttribute="centerX" secondItem="wvb-ak-XDd" secondAttribute="centerX" id="m90-85-fch"/>
@@ -187,6 +189,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="hAE-xP-tHo"/>
                                         <exclude reference="fh4-n5-5dG"/>
                                         <exclude reference="pLe-bD-dp6"/>
                                     </mask>
@@ -196,7 +199,6 @@
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="wvb-ak-XDd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="0sb-BS-2mo"/>
-                            <constraint firstItem="L9w-aZ-vSO" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="54" id="BWd-Y1-Lc3"/>
                             <constraint firstItem="wvb-ak-XDd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Dt6-8S-4dz"/>
                             <constraint firstItem="EdJ-Nb-Ygl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JjC-Cr-QaR"/>
                             <constraint firstItem="wvb-ak-XDd" firstAttribute="top" secondItem="L9w-aZ-vSO" secondAttribute="bottom" constant="20" id="Nhi-jV-82T"/>
@@ -315,14 +317,14 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="544" height="50"/>
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tiA-1E-veh">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="241" height="50"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="243" height="50"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="50" id="uCG-tn-OLt"/>
                                                                                 <constraint firstAttribute="height" constant="50" id="yMp-ir-Sbe"/>
                                                                             </constraints>
                                                                         </imageView>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="randomUser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="u83-DY-hrH">
-                                                                            <rect key="frame" x="251" y="0.0" width="95" height="50"/>
+                                                                            <rect key="frame" x="253" y="0.0" width="93" height="50"/>
                                                                             <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="13"/>
                                                                             <color key="textColor" red="0.95686274510000002" green="0.33333333329999998" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
@@ -337,7 +339,7 @@
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ghy-6z-aFB">
                                                                             <rect key="frame" x="416" y="0.0" width="128" height="50"/>
                                                                             <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -346,7 +348,7 @@
                                                                                         <rect key="frame" x="0.0" y="0.0" width="68" height="24"/>
                                                                                     </variation>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
                                                                                     <rect key="frame" x="0.0" y="26" width="128" height="24"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

@@ -15,13 +15,15 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var emailTxtFld: MaterialTextField!
     @IBOutlet weak var passwordTxtFld: MaterialTextField!
-    
     @IBOutlet weak var materialViewBottomLayout: NSLayoutConstraint!
     
+    private var originalConstraint: CGFloat = 0
+    private var showKeyboard = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        originalConstraint = materialViewBottomLayout.constant
         shiftUIWithKeyboard()
         
     }
@@ -201,11 +203,15 @@ class LoginViewController: UIViewController {
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification) -> Void in
             if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
-                // move constraint
-                keyboardHeight = kbSize.height
-                self.materialViewBottomLayout.constant += keyboardHeight
-                
-                self.view.layoutIfNeeded()
+                if self.showKeyboard{
+                    // move constraint
+                    keyboardHeight = kbSize.height
+                    self.materialViewBottomLayout.constant += keyboardHeight / 2
+                    
+                    self.view.layoutIfNeeded()
+                    
+                    self.showKeyboard = false
+                }
             }
         }
         
@@ -213,13 +219,13 @@ class LoginViewController: UIViewController {
             // move constraint back
             if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
                 keyboardHeight = kbSize.height
-                self.materialViewBottomLayout.constant -= keyboardHeight
-                
+                self.materialViewBottomLayout.constant = self.originalConstraint
                 
                 self.view.layoutIfNeeded()
+                self.showKeyboard = true
             }
         }
-       
+        
     }
     
 }
