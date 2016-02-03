@@ -16,8 +16,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTxtFld: MaterialTextField!
     @IBOutlet weak var passwordTxtFld: MaterialTextField!
     
+    @IBOutlet weak var materialViewBottomLayout: NSLayoutConstraint!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shiftUIWithKeyboard()
         
     }
     
@@ -92,7 +97,7 @@ class LoginViewController: UIViewController {
                     if let userDict = result as? [String:AnyObject] {
                         completionHandler(userDict)
                     }
-                   
+                    
                 }
             })
         }
@@ -129,12 +134,12 @@ class LoginViewController: UIViewController {
                                 
                                 if let username = snapshot.value.objectForKey("username"), let imgUrl = snapshot.value.objectForKey("userImgUrl"){
                                     NSUserDefaults.standardUserDefaults().setValue(username, forKey: "username")
-                                     NSUserDefaults.standardUserDefaults().setValue(imgUrl, forKey: "userImage")
+                                    NSUserDefaults.standardUserDefaults().setValue(imgUrl, forKey: "userImage")
                                 }
                             }
                             
                         })
-                       
+                        
                     }
                     
                     self.segueAfterLoggingIn()
@@ -188,6 +193,33 @@ class LoginViewController: UIViewController {
             }
         }
         
+    }
+    
+    func shiftUIWithKeyboard() {
+        
+        var keyboardHeight: CGFloat = 0
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification) -> Void in
+            if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
+                // move constraint
+                keyboardHeight = kbSize.height
+                self.materialViewBottomLayout.constant += keyboardHeight
+                
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+            // move constraint back
+            if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
+                keyboardHeight = kbSize.height
+                self.materialViewBottomLayout.constant -= keyboardHeight
+                
+                
+                self.view.layoutIfNeeded()
+            }
+        }
+       
     }
     
 }
