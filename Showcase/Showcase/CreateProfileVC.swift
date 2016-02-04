@@ -154,10 +154,9 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                     self.user = User(username: username, userImageUrl: imgLink)
                                     
                                     //save username & userImageUrl in nsuserdefaults
-                                    
-                                    NSUserDefaults.standardUserDefaults().setValue(self.user.username, forKey: "username")
-                                    NSUserDefaults.standardUserDefaults().setValue(self.user.userImageUrl, forKey: "userImage")
-                                    
+                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                                
                                     //create user in Firebase
                                     self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
                                     self.showWelcomeAlertAndPerformSegue()

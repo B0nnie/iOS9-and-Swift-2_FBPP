@@ -19,7 +19,8 @@ class DataService {
     private (set) var REF_POSTS = Firebase(url: "\(URL_BASE)/posts")
     private (set) var REF_USERS = Firebase(url: "\(URL_BASE)/users")
     var REF_USER_CURRENT :Firebase {
-        let uid = NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) as! String
+        let uid = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) as! String
+        
         let user = Firebase(url: "\(REF_USERS)").childByAppendingPath(uid)
       
         return user

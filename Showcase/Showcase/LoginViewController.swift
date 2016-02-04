@@ -31,13 +31,13 @@ class LoginViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
-            self.segueAfterLoggingIn()
-        }
-    }
+    //    override func viewDidAppear(animated: Bool) {
+    //        super.viewDidAppear(animated)
+    //
+    //        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
+    //            self.segueToFeedVCAfterLoggingIn()
+    //        }
+    //    }
     
     //login with facebook
     @IBAction func fbBtnPressed(sender: UIButton!){
@@ -76,15 +76,16 @@ class LoginViewController: UIViewController {
                                         
                                         DataService.ds.createFirebaseUser(authData.uid, user: facebookUser)
                                         
-                                        NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
-                                        NSUserDefaults.standardUserDefaults().setValue(user.username, forKey: "username")
-                                        NSUserDefaults.standardUserDefaults().setValue(user.userImageUrl, forKey: "userImage")
+                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: authData.uid)
+                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: user.username)
+                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: user.userImageUrl)
+                                        
                                     }
                                     
                                 }
                                 facebookLogin.logOut()
                             }
-                            self.segueAfterLoggingIn()
+                            self.segueToFeedVCAfterLoggingIn()
                         }
                 })
             }
@@ -119,7 +120,7 @@ class LoginViewController: UIViewController {
                 if error != nil {
                     // an error occured while attempting login
                     print("an error occured while attempting login: \(error)")
-                
+                    
                     switch error.code {
                     case Constants.STATUS_ACCOUNT_NONEXIST: self.showAccountCreationAlert()
                     case Constants.STATUS_INVALID_EMAIL: self.showErrorAlert("Could not log in", msg: "Please re-enter your email address")
@@ -131,15 +132,17 @@ class LoginViewController: UIViewController {
                 } else {
                     // user is authorized, check authData for data
                     //print("Logged in with email and password")
-                    NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: Constants.KEY_UID)
+                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: authData.uid)
                     
-                    if NSUserDefaults.standardUserDefaults().valueForKey("username") == nil {
+                    
+                    if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) == nil {
                         DataService.ds.REF_USER_CURRENT.observeEventType(.Value, withBlock: { snapshot in
                             if snapshot.value != nil {
                                 
                                 if let username = snapshot.value.objectForKey("username"), let imgUrl = snapshot.value.objectForKey("userImgUrl"){
-                                    NSUserDefaults.standardUserDefaults().setValue(username, forKey: "username")
-                                    NSUserDefaults.standardUserDefaults().setValue(imgUrl, forKey: "userImage")
+                                    
+                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: username)
+                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: imgUrl)
                                 }
                             }
                             
@@ -147,7 +150,7 @@ class LoginViewController: UIViewController {
                         
                     }
                     
-                    self.segueAfterLoggingIn()
+                    self.segueToFeedVCAfterLoggingIn()
                 }
                 
             })
@@ -181,7 +184,12 @@ class LoginViewController: UIViewController {
         
     }
     
-    private func segueAfterLoggingIn(){
+    private func unwindToFeedVC (){
+        
+        
+    }
+    
+    private func segueToFeedVCAfterLoggingIn(){
         
         self.performSegueWithIdentifier("loggedIn", sender: nil)
     }

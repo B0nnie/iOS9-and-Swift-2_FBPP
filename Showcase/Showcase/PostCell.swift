@@ -58,8 +58,9 @@ class PostCell: UITableViewCell {
         self.usernameLbl.text  = post.username
         
         //connecting to Firebase to see if the current user has liked this post
-        
-        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
+       
+        if  PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) != nil {
+            
             likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
                 
                 if let likeNotExist = snapshot.value as? NSNull {

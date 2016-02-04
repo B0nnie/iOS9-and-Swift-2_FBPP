@@ -206,7 +206,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
-            if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
+            if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String
+            {
                 let post = posts[indexPath.row]
                 
                 if  post.username == username {
@@ -223,7 +224,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        if let username = NSUserDefaults.standardUserDefaults().valueForKey("username") as? String {
+        if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
             let post = posts[indexPath.row]
             
             if  post.username != username {
@@ -264,7 +265,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             
             //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
             
-            if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) == nil{
+            if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) == nil{
                 
                 showLoginAlert()
                 
@@ -406,8 +407,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     private func postToFirebase(imgUrl: String){
         
-        let userImg = NSUserDefaults.standardUserDefaults().valueForKey("userImage") as! String
-        let name = NSUserDefaults.standardUserDefaults().valueForKey("username") as! String
+        
+        let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as! String
+        let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as! String
         
         //making a new post
         //matches format of test data in Firebase
