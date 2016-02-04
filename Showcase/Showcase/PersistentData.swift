@@ -10,10 +10,6 @@ import Foundation
 
 class PersistentData {
 
-    //KEYS
-    static let KEY_TEMP_TEXT = "text"
-    
-    
     //METHODS
     
      //retrieve

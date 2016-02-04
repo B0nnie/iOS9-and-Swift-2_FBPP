@@ -26,6 +26,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let text = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_TEMP_TEXT) as? String {
+            postFld.text = text
+            
+            PersistentData.resetValueForKeyToNil(Constants.KEY_TEMP_TEXT)
+        }
         
         tableView.delegate  = self
         tableView.dataSource = self
@@ -351,7 +356,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
-            
+            if let text = self.postFld.text {
+                PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_TEMP_TEXT, value: text)
+            }
             self.performSegueWithIdentifier("toLoginVC", sender: nil)
         })
         
