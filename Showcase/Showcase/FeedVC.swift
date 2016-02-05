@@ -26,10 +26,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let text = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_TEMP_TEXT) as? String {
+        if let text = PersistentData.tempText {
             postFld.text = text
             
-            PersistentData.resetValueForKeyToNil(Constants.KEY_TEMP_TEXT)
+            PersistentData.tempText = nil
+            
+        }
+        if let img = PersistentData.tempImg {
+            
+            selectedAppImg.image = img
+            
+            PersistentData.tempImg = nil
         }
         
         tableView.delegate  = self
@@ -356,9 +363,15 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
-            if let text = self.postFld.text {
-                PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_TEMP_TEXT, value: text)
-            }
+            
+                if let text = self.postFld.text {
+                    PersistentData.tempText = text
+                }
+                
+                if let img = self.selectedAppImg.image {
+                    PersistentData.tempImg = img
+                }
+            
             self.performSegueWithIdentifier("toLoginVC", sender: nil)
         })
         
@@ -437,3 +450,4 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
 }
+   

@@ -16,8 +16,7 @@ struct Constants {
     static let KEY_UID = "uid"
     static let KEY_USERNAME = "username"
     static let KEY_USERIMAGE = "userImage"
-    static let KEY_TEMP_TEXT = "text"
-    
+  
     //Segues
     //static let SEGUE_LOGGED_IN = "loggedIn"
     

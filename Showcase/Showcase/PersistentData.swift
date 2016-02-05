@@ -7,8 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
 class PersistentData {
+    
+    //GLOBAL PROPERTIES
+    static var tempImg: UIImage?
+    static var tempText: String?
 
     //METHODS
     
