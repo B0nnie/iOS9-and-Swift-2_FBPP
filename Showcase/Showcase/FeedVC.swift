@@ -220,7 +220,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if editingStyle == .Delete {
             if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String
             {
-                let post = posts[indgiexPath.row]
+                let post = posts[indexPath.row]
                 
                 if  post.username == username {
                     
