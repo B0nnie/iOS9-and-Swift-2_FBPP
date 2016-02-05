@@ -31,8 +31,6 @@ class User {
                            
                         } else {
                             //successful
-                            PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: result[Constants.KEY_UID] as! String)
-                            
                             DataService.ds.REF_BASE.authUser(email, password: password, withCompletionBlock: { err, authData in
                                 
                                 //connect with Firebase

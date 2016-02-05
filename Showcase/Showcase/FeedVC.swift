@@ -16,6 +16,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var postFld: MaterialTextField!
     @IBOutlet weak var selectedAppImg: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var logOutBtn: UIButton!
     
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
@@ -72,6 +73,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         })
     }
    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+        checkIfLoggedIn()
+    }
     
     //MARK: TableView Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -236,6 +242,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
+        if DataService.ds.REF_BASE.authData == nil {
+            return false
+        }
+        
         if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
             let post = posts[indexPath.row]
             
@@ -277,9 +287,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             
             //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
             
-            if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) == nil{
-                showLoginAlert()
-                
+            if DataService.ds.REF_BASE.authData == nil {
+                 showLoginAlert()
             } else {
                 
                 //MARK: Uploading image data to ImageShack
@@ -448,5 +457,20 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         }
     }
     
+    @IBAction func logOutBtnPressed(sender: UIButton) {
+        DataService.ds.REF_BASE.unauth()
+        showAlert("You are now logged out", msg: "")
+        checkIfLoggedIn()
+    }
+    
+    private func checkIfLoggedIn(){
+        if DataService.ds.REF_BASE.authData == nil {
+            //user is logged out
+           logOutBtn.hidden = true
+        } else{
+            //user is logged in
+           logOutBtn.hidden = false
+        }
+    }
 }
    

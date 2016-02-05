@@ -13,7 +13,6 @@ struct Constants {
     static let SHADOW_COLOR: CGFloat = 157.0 / 255.0
     
     //Keys
-    static let KEY_UID = "uid"
     static let KEY_USERNAME = "username"
     static let KEY_USERIMAGE = "userImage"
   

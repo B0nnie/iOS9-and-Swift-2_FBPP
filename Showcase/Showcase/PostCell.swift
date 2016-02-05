@@ -59,7 +59,7 @@ class PostCell: UITableViewCell {
         
         //connecting to Firebase to see if the current user has liked this post
        
-        if  PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) != nil {
+        if  DataService.ds.REF_BASE.authData != nil {
             
             likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
                 

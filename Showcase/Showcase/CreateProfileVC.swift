@@ -159,6 +159,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                 
                                     //create user in Firebase
                                     self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                                    
                                     self.showWelcomeAlertAndPerformSegue()
                                 }
                             }

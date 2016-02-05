@@ -75,8 +75,7 @@ class LoginViewController: UIViewController {
                                             "username": user.username, "userImgUrl": user.userImageUrl]
                                         
                                         DataService.ds.createFirebaseUser(authData.uid, user: facebookUser)
-                                        
-                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: authData.uid)
+                                        //save username and userImageUrl
                                         PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: user.username)
                                         PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: user.userImageUrl)
                                         
@@ -132,7 +131,6 @@ class LoginViewController: UIViewController {
                 } else {
                     // user is authorized, check authData for data
                     //print("Logged in with email and password")
-                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: authData.uid)
                     
                     if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) == nil {
                         DataService.ds.REF_USER_CURRENT.observeEventType(.Value, withBlock: { snapshot in
