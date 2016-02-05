@@ -220,7 +220,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if editingStyle == .Delete {
             if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String
             {
-                let post = posts[indexPath.row]
+                let post = posts[indgiexPath.row]
                 
                 if  post.username == username {
                     
@@ -239,12 +239,12 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
             let post = posts[indexPath.row]
             
-            if  post.username != username {
-                return false
+            if  post.username == username {
+                return true
             }
             
         }
-        return true
+        return false
     }
     
     //configure row height depending on if user uploaded image or not
@@ -278,7 +278,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
             
             if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_UID) == nil{
-                
                 showLoginAlert()
                 
             } else {
@@ -427,26 +426,26 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     private func postToFirebase(imgUrl: String){
         
-        
-        let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as! String
-        let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as! String
-        
-        //making a new post
-        //matches format of test data in Firebase
-        let post: [String:AnyObject] = [
-            "description": postFld.text!,
-            "likes": 0,
-            "imageUrl": imgUrl,
-            "userImgUrl": userImg,
-            "username": name]
-        
-        //connect with Firebase
-        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
-        firebasePost.setValue(post)
-        
-        DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
-        
-        tableView.reloadData()
+        if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
+            
+            //making a new post
+            //matches format of test data in Firebase
+            let post: [String:AnyObject] = [
+                "description": postFld.text!,
+                "likes": 0,
+                "imageUrl": imgUrl,
+                "userImgUrl": userImg,
+                "username": name]
+            
+            //connect with Firebase
+            let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+            firebasePost.setValue(post)
+            
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
+            
+            tableView.reloadData()
+            
+        }
     }
     
 }

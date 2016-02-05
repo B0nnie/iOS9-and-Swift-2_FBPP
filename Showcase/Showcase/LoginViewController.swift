@@ -134,7 +134,6 @@ class LoginViewController: UIViewController {
                     //print("Logged in with email and password")
                     PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_UID, value: authData.uid)
                     
-                    
                     if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) == nil {
                         DataService.ds.REF_USER_CURRENT.observeEventType(.Value, withBlock: { snapshot in
                             if snapshot.value != nil {
@@ -181,11 +180,6 @@ class LoginViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
         
         presentViewController(alert, animated: true, completion: nil)
-        
-    }
-    
-    private func unwindToFeedVC (){
-        
         
     }
     
