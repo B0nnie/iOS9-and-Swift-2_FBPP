@@ -10,27 +10,7 @@ import Foundation
 import UIKit
 
 
-@IBDesignable
-
-extension CALayer {
-    var borderUIColor: UIColor {
-        set {
-            self.borderColor = newValue.CGColor
-        }
-        
-        get {
-            return UIColor(CGColor: self.borderColor!)
-        }
-    }
-    
-    
-}
-
-
 @IBDesignable  class customButton: UIButton {
-    
-    
-    
     
     @IBInspectable var borderColor: UIColor? {
         didSet {
@@ -40,18 +20,14 @@ extension CALayer {
             
         }
     }
-    
-    
-    
-    
-    
+   
     @IBInspectable var borderWidth: CGFloat {
         get {
             return layer.borderWidth
         }
         set {
             layer.borderWidth = newValue
-            layer.masksToBounds = newValue > 0
+            layer.masksToBounds = true
         }
     }
     
@@ -62,11 +38,13 @@ extension CALayer {
         }
         set {
             layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
+            layer.masksToBounds = true
             
         }
     }
 }
+
+
 
 @IBDesignable  class customImageView: UIImageView {
     
@@ -79,10 +57,7 @@ extension CALayer {
             
         }
     }
-    
-    
-    
-    
+   
     
     @IBInspectable var borderWidth: CGFloat {
         get {
@@ -90,7 +65,7 @@ extension CALayer {
         }
         set {
             layer.borderWidth = newValue
-            layer.masksToBounds = newValue > 0
+            layer.masksToBounds = true
         }
     }
     
@@ -101,7 +76,7 @@ extension CALayer {
         }
         set {
             layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
+            layer.masksToBounds = true
             
         }
     }
