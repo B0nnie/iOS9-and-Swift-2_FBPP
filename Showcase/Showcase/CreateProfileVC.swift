@@ -24,10 +24,15 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         super.viewDidLoad()
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-
-        
-    }
     
+       
+    }
+
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        makeImgRound()
+    }
     
     @IBAction func chooseProfilePic(sender: UIButton) {
         
@@ -72,6 +77,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
+    
     }
     
     private func showAlert(title: String, msg: String){
@@ -179,6 +185,12 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
   
         })
         
+    }
+    
+    private func makeImgRound() {
+        profilePicImg.clipsToBounds = true
+        profilePicImg.layer.masksToBounds = true
+        profilePicImg.layer.cornerRadius = profilePicImg.frame.size.height/2
     }
     
 }

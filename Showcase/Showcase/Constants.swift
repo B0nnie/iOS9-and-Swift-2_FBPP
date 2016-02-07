@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 struct Constants {
+    
     static let SHADOW_COLOR: CGFloat = 157.0 / 255.0
     
     //Keys

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gmG-PY-NYK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OkU-sP-aPG">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -17,6 +18,7 @@
             <string>NotoSans-Bold</string>
         </mutableArray>
         <mutableArray key="NotoSans-Regular.ttf">
+            <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
@@ -233,29 +235,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f3y-YQ-1Hk" customClass="MaterialTextField" customModule="Showcase" customModuleProvider="target">
-                                <rect key="frame" x="20" y="115" width="157" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f3y-YQ-1Hk" customClass="MaterialTextField" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="20" y="102" width="560" height="28"/>
                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="default" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
-                                <rect key="frame" x="20" y="183" width="222" height="128"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" image="heart-full" translatesAutoresizingMaskIntoConstraints="NO" id="nNN-B9-d9S">
+                                <rect key="frame" x="210" y="210" width="180" height="180"/>
                                 <color key="backgroundColor" red="0.80784313730000001" green="0.57647058819999997" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="nNN-B9-d9S" secondAttribute="height" multiplier="1:1" id="BBq-mT-R4p"/>
+                                </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87D-L0-VgS" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
-                                <rect key="frame" x="20" y="353" width="164" height="30"/>
-                                <color key="backgroundColor" red="0.0" green="0.70588235290000001" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="87D-L0-VgS" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="237" y="410" width="126" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="OYF-tO-WU5"/>
+                                    <constraint firstAttribute="width" constant="126" id="ejJ-1M-ajA"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
-                                <state key="normal" title="Use My Pic">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Choose Pic"/>
                                 <connections>
                                     <action selector="chooseProfilePic:" destination="j4p-zv-jza" eventType="touchUpInside" id="vfq-fV-JDI"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DV7-y9-S60" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
-                                <rect key="frame" x="20" y="476" width="240" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DV7-y9-S60" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="210" y="509" width="180" height="36"/>
                                 <color key="backgroundColor" red="0.0" green="0.70588235290000001" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="uNs-Yx-56Y"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -264,8 +273,39 @@
                                     <action selector="doneBtnPressed:" destination="j4p-zv-jza" eventType="touchUpInside" id="wr6-29-z7G"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile Pic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LoO-lf-cFH">
+                                <rect key="frame" x="277" y="180" width="47" height="14"/>
+                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="10"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="87D-L0-VgS" firstAttribute="top" secondItem="nNN-B9-d9S" secondAttribute="bottom" constant="20" id="1JZ-4t-Fba"/>
+                            <constraint firstItem="LoO-lf-cFH" firstAttribute="centerX" secondItem="qLF-Ud-Xji" secondAttribute="centerX" id="3XY-gt-Lg6"/>
+                            <constraint firstItem="f3y-YQ-1Hk" firstAttribute="top" secondItem="9FJ-UC-1F9" secondAttribute="bottom" multiplier="1.6" id="3oC-XI-NYq"/>
+                            <constraint firstItem="LoO-lf-cFH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f3y-YQ-1Hk" secondAttribute="bottom" constant="8" id="Bl3-fZ-ixa"/>
+                            <constraint firstItem="nNN-B9-d9S" firstAttribute="centerX" secondItem="qLF-Ud-Xji" secondAttribute="centerX" id="DNI-jj-lFT"/>
+                            <constraint firstItem="f3y-YQ-1Hk" firstAttribute="leading" secondItem="qLF-Ud-Xji" secondAttribute="leadingMargin" id="G9s-i2-htg"/>
+                            <constraint firstItem="f3y-YQ-1Hk" firstAttribute="centerX" secondItem="qLF-Ud-Xji" secondAttribute="centerX" id="InM-tv-GnY"/>
+                            <constraint firstItem="DV7-y9-S60" firstAttribute="width" secondItem="nNN-B9-d9S" secondAttribute="width" id="LWj-Kv-ImJ"/>
+                            <constraint firstItem="LIl-IO-H50" firstAttribute="top" secondItem="DV7-y9-S60" secondAttribute="bottom" multiplier="1.1" id="NVS-qa-y5r"/>
+                            <constraint firstItem="nNN-B9-d9S" firstAttribute="width" secondItem="qLF-Ud-Xji" secondAttribute="height" multiplier="0.3" id="QfM-Mp-wpQ"/>
+                            <constraint firstItem="DV7-y9-S60" firstAttribute="top" relation="greaterThanOrEqual" secondItem="87D-L0-VgS" secondAttribute="bottom" constant="8" id="SSa-2n-B53"/>
+                            <constraint firstItem="LoO-lf-cFH" firstAttribute="top" secondItem="f3y-YQ-1Hk" secondAttribute="bottom" multiplier="1.4" id="Uof-dG-7oM"/>
+                            <constraint firstItem="f3y-YQ-1Hk" firstAttribute="trailing" secondItem="qLF-Ud-Xji" secondAttribute="trailingMargin" id="VxB-Zd-1DS"/>
+                            <constraint firstItem="87D-L0-VgS" firstAttribute="centerX" secondItem="qLF-Ud-Xji" secondAttribute="centerX" id="szf-jq-H1T"/>
+                            <constraint firstItem="DV7-y9-S60" firstAttribute="centerX" secondItem="qLF-Ud-Xji" secondAttribute="centerX" id="vZr-6h-rHN"/>
+                            <constraint firstItem="nNN-B9-d9S" firstAttribute="top" secondItem="LoO-lf-cFH" secondAttribute="bottom" constant="16" id="xEH-ZO-w2M"/>
+                            <constraint firstItem="nNN-B9-d9S" firstAttribute="centerY" secondItem="qLF-Ud-Xji" secondAttribute="centerY" id="y0O-wF-cGQ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="InM-tv-GnY"/>
+                                <exclude reference="Uof-dG-7oM"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="0o9-yE-Jpr">
                         <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="aDG-Ek-n8S">
@@ -339,7 +379,7 @@
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ghy-6z-aFB">
                                                                             <rect key="frame" x="416" y="0.0" width="128" height="50"/>
                                                                             <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -348,7 +388,7 @@
                                                                                         <rect key="frame" x="0.0" y="0.0" width="68" height="24"/>
                                                                                     </variation>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
                                                                                     <rect key="frame" x="0.0" y="26" width="128" height="24"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -577,12 +617,12 @@
     </scenes>
     <resources>
         <image name="camera" width="50" height="50"/>
-        <image name="default" width="318" height="281"/>
         <image name="fb-icon" width="65" height="65"/>
         <image name="heart-empty" width="150" height="147"/>
+        <image name="heart-full" width="150" height="147"/>
         <image name="screen" width="300" height="534"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vh7-9F-jGn"/>
+        <segue reference="S4c-LT-1aV"/>
     </inferredMetricsTieBreakers>
 </document>

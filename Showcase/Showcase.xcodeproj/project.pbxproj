@@ -31,6 +31,7 @@
 		2992B62F1C5A9AFA00B641B7 /* CreateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992B62E1C5A9AFA00B641B7 /* CreateProfileVC.swift */; };
 		2992B6311C5ABC5F00B641B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992B6301C5ABC5F00B641B7 /* User.swift */; };
 		29932E841C63CAF700CD5405 /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29932E831C63CAF700CD5405 /* PersistentData.swift */; };
+		29DB370F1C67DBB500D767A0 /* ClassExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB370E1C67DBB500D767A0 /* ClassExtensions.swift */; };
 		3B924EBBFE27AD4A0919424E /* Pods_Showcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C709A17A1B1E6905C1BDCEE5 /* Pods_Showcase.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		2992B62E1C5A9AFA00B641B7 /* CreateProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileVC.swift; sourceTree = "<group>"; };
 		2992B6301C5ABC5F00B641B7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		29932E831C63CAF700CD5405 /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
+		29DB370E1C67DBB500D767A0 /* ClassExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassExtensions.swift; sourceTree = "<group>"; };
 		BE907DEE84EA940D83E6DB6B /* Pods-Showcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Showcase.release.xcconfig"; path = "Pods/Target Support Files/Pods-Showcase/Pods-Showcase.release.xcconfig"; sourceTree = "<group>"; };
 		C709A17A1B1E6905C1BDCEE5 /* Pods_Showcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Showcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE2E5E268899AF750418054 /* Pods-Showcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Showcase.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Showcase/Pods-Showcase.debug.xcconfig"; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				29178AF91C4EB81E007FF83F /* MaterialButton.swift */,
 				29178AFB1C4EC100007FF83F /* MaterialTextField.swift */,
 				293ED01C1C51AD8D00E05769 /* PostCell.swift */,
+				29DB370E1C67DBB500D767A0 /* ClassExtensions.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				296B39381C4D661200254893 /* AppDelegate.swift in Sources */,
 				29178AF81C4EB11A007FF83F /* Constants.swift in Sources */,
 				2992B6311C5ABC5F00B641B7 /* User.swift in Sources */,
+				29DB370F1C67DBB500D767A0 /* ClassExtensions.swift in Sources */,
 				2992B62F1C5A9AFA00B641B7 /* CreateProfileVC.swift in Sources */,
 				29178AFA1C4EB81E007FF83F /* MaterialButton.swift in Sources */,
 				29932E841C63CAF700CD5405 /* PersistentData.swift in Sources */,
