@@ -72,7 +72,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             self.tableView.reloadData()
         })
     }
-   
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
@@ -207,20 +207,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         
     }
-    
-    //to keep profile images from messing up after scrolling
-    //     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-    //        let post = posts[indexPath.row]
-    //
-    //        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
-    //            cell.request?.cancel()
-    //
-    //            cell.configureCell(post)
-    //
-    //        }
-    //
-    //    }
-    
+   
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
@@ -288,90 +275,105 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
             
             if DataService.ds.REF_BASE.authData == nil {
-                 showLoginAlert()
+                showLoginAlert()
             } else {
                 
-                //MARK: Uploading image data to ImageShack
-                let url = (NSURL: "https://post.imageshack.us/upload_api.php")
-                
-                //turn image into NSData and compress it
-                let imgData = UIImageJPEGRepresentation(img, 0.2)!
-                //turn these strings into NSData
-                let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
-                let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
-                
-                
-                Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
-                    //upload image data
-                    multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
-                    //upload key data
-                    multipartFormData.appendBodyPart(data: keyData, name: "key")
-                    //upload json data
-                    multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+                //upload image to Cloudinary and post image url to Firebase
+                DataService.ds.uploadImage(img, onCompletion: { status, url in
                     
-                    }) { encodingResult in
+                    if status == true {
                         
-                        self.activityIndicator.startAnimating()
+                        //print("Img Url: \(url)")
+                        self.postToFirebase(url!)
+                        self.postFld.text = ""
+                        self.selectedAppImg.image = UIImage(named:"camera")
                         
-                        switch encodingResult {
-                            //successfully uploaded image to ImageShack
-                        case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
-                            //json
-                            if let info = response.result.value as? [String:AnyObject]{
-                                
-                                if let links = info["links"] as? [String:AnyObject]{
-                                    if let imgLink = links["image_link"] as? String {
-                                        //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
-                                        //uploading image link we got back from ImageShack to Firebase
-                                        self.postToFirebase(imgLink)
-                                    }
-                                }
-                            }
-                            //reset textfield and camera image
-                            self.postFld.text = ""
-                            self.selectedAppImg.image = UIImage(named:"camera")
-                            
-                            self.activityIndicator.stopAnimating()
-                            
-                            //alerting user post was created successfully
-                            self.showAlert("", msg: "Your post was created! Thanks for sharing.")
-                            
-                            
-                        })
-                            //unsuccessful in uploading image to ImageShack
-                        case .Failure(let error):
-                            print(error)
-                            
-                            self.activityIndicator.stopAnimating()
-                            self.showAlert("", msg: "There was an error creating your post. Try again.")
-                        }
-                }
+                    }
+                    
+                })
+                
+                //                //MARK: Uploading image data to ImageShack
+                //                let url = (NSURL: "https://post.imageshack.us/upload_api.php")
+                //
+                //                //turn image into NSData and compress it
+                //                let imgData = UIImageJPEGRepresentation(img, 0.2)!
+                //                //turn these strings into NSData
+                //                let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
+                //                let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+                //
+                //
+                //                Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+                //                    //upload image data
+                //                    multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
+                //                    //upload key data
+                //                    multipartFormData.appendBodyPart(data: keyData, name: "key")
+                //                    //upload json data
+                //                    multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+                //
+                //                    }) { encodingResult in
+                //
+                //                        self.activityIndicator.startAnimating()
+                //
+                //                        switch encodingResult {
+                //                            //successfully uploaded image to ImageShack
+                //                        case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
+                //                            //json
+                //                            if let info = response.result.value as? [String:AnyObject]{
+                //
+                //                                if let links = info["links"] as? [String:AnyObject]{
+                //                                    if let imgLink = links["image_link"] as? String {
+                //                                        //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                //                                        //uploading image link we got back from ImageShack to Firebase
+                //                                        self.postToFirebase(imgLink)
+                //                                    }
+                //                                }
+                //                            }
+                //                            //reset textfield and camera image
+                //                            self.postFld.text = ""
+                //                            self.selectedAppImg.image = UIImage(named:"camera")
+                //
+                //                            self.activityIndicator.stopAnimating()
+                //
+                //                            //alerting user post was created successfully
+                //                            self.showAlert("", msg: "Your post was created! Thanks for sharing.")
+                //
+                //
+                //                        })
+                //                            //unsuccessful in uploading image to ImageShack
+                //                        case .Failure(let error):
+                //                            print(error)
+                //
+                //                            self.activityIndicator.stopAnimating()
+                //                            self.showAlert("", msg: "There was an error creating your post. Try again.")
+                //                        }
+                //                }
+                //
+                //            }
+                
+            }
+        } else {
+                //error alert message saying they need to enter a description and choose an app image
+                showAlert("", msg: "Please enter a description for your app and choose an image")
                 
             }
             
-        }else {
-            //error alert message saying they need to enter a description and choose an app image
-            showAlert("", msg: "Please enter a description for your app and choose an image")
+        }
+        
+        private func showAlert(title: String, msg: String){
+            
+            let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
+            
+            presentViewController(alert, animated: true, completion: nil)
             
         }
         
-    }
-    
-    private func showAlert(title: String, msg: String){
-        
-        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
-        
-        presentViewController(alert, animated: true, completion: nil)
-        
-    }
-    
-    private func showLoginAlert(){
-        
-        let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
+        private func showLoginAlert(){
             
+            let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
+                
                 if let text = self.postFld.text {
                     PersistentData.tempText = text
                 }
@@ -379,98 +381,98 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 if let img = self.selectedAppImg.image {
                     PersistentData.tempImg = img
                 }
+                
+                self.performSegueWithIdentifier("toLoginVC", sender: nil)
+            })
             
-            self.performSegueWithIdentifier("toLoginVC", sender: nil)
-        })
-        
-        alert.addAction(cancelAction)
-        alert.addAction(signUpAction)
-        self.presentViewController(alert, animated: true, completion: nil)
-        
-    }
-    
-    private func confirmDelete(post:Post) {
-        let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to permanently delete your post?", preferredStyle: .ActionSheet)
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeletePost)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeletePost)
-        
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        
-        alert.popoverPresentationController?.sourceView = self.view
-        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    private func handleDeletePost(alertAction: UIAlertAction!){
-        
-        if let indexPath = deletePostIndexPath {
-            tableView.beginUpdates()
-            let post = posts[indexPath.row]
+            alert.addAction(cancelAction)
+            alert.addAction(signUpAction)
+            self.presentViewController(alert, animated: true, completion: nil)
             
-            //Delete post from Firebase:
+        }
+        
+        private func confirmDelete(post:Post) {
+            let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to permanently delete your post?", preferredStyle: .ActionSheet)
             
-            //delete from posts ref
-            post.postRef.removeValue()
-            //delete from users/uid/posts ref
-            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
-            //delete from users/uid/likes ref
-            DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+            let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeletePost)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeletePost)
             
-            posts.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            alert.addAction(deleteAction)
+            alert.addAction(cancelAction)
             
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+        private func handleDeletePost(alertAction: UIAlertAction!){
+            
+            if let indexPath = deletePostIndexPath {
+                tableView.beginUpdates()
+                let post = posts[indexPath.row]
+                
+                //Delete post from Firebase:
+                
+                //delete from posts ref
+                post.postRef.removeValue()
+                //delete from users/uid/posts ref
+                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
+                //delete from users/uid/likes ref
+                DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+                
+                posts.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                
+                deletePostIndexPath = nil
+                
+                tableView.endUpdates()
+            }
+        }
+        
+        private func cancelDeletePost(alertAction: UIAlertAction!) {
             deletePostIndexPath = nil
-            
-            tableView.endUpdates()
         }
-    }
-    
-    private func cancelDeletePost(alertAction: UIAlertAction!) {
-        deletePostIndexPath = nil
-    }
-    
-    
-    private func postToFirebase(imgUrl: String){
         
-        if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
+        
+        private func postToFirebase(imgUrl: String){
             
-            //making a new post
-            //matches format of test data in Firebase
-            let post: [String:AnyObject] = [
-                "description": postFld.text!,
-                "likes": 0,
-                "imageUrl": imgUrl,
-                "userImgUrl": userImg,
-                "username": name]
-            
-            //connect with Firebase
-            let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
-            firebasePost.setValue(post)
-            
-            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
-            
-            tableView.reloadData()
-            
+            if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
+                
+                //making a new post
+                //matches format of test data in Firebase
+                let post: [String:AnyObject] = [
+                    "description": postFld.text!,
+                    "likes": 0,
+                    "imageUrl": imgUrl,
+                    "userImgUrl": userImg,
+                    "username": name]
+                
+                //connect with Firebase
+                let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+                firebasePost.setValue(post)
+                
+                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
+                
+                tableView.reloadData()
+                
+            }
         }
-    }
-    
-    @IBAction func logOutBtnPressed(sender: UIButton) {
-        DataService.ds.REF_BASE.unauth()
-        showAlert("You are now logged out", msg: "")
-        checkIfLoggedIn()
-    }
-    
-    private func checkIfLoggedIn(){
-        if DataService.ds.REF_BASE.authData == nil {
-            //user is logged out
-           logOutBtn.hidden = true
-        } else{
-            //user is logged in
-           logOutBtn.hidden = false
+        
+        @IBAction func logOutBtnPressed(sender: UIButton) {
+            DataService.ds.REF_BASE.unauth()
+            showAlert("You are now logged out", msg: "")
+            checkIfLoggedIn()
         }
-    }
+        
+        private func checkIfLoggedIn(){
+            if DataService.ds.REF_BASE.authData == nil {
+                //user is logged out
+                logOutBtn.hidden = true
+            } else{
+                //user is logged in
+                logOutBtn.hidden = false
+            }
+        }
 }
    

@@ -24,13 +24,14 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         super.viewDidLoad()
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-    
-       
+        profilePicImg.hidden = true
+        
     }
-
+    
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
+        profilePicImg.hidden = false
         makeImgRound()
     }
     
@@ -57,11 +58,11 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                 alert.addAction(cancelAction)
                 alert.addAction(signUpAction)
                 self.presentViewController(alert, animated: true, completion: nil)
-               
+                
             } else{
                 self.signNewUserUp(username)
             }
-          
+            
         } else {
             
             showAlert("", msg: "Please enter a username")
@@ -77,7 +78,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
-    
+        
     }
     
     private func showAlert(title: String, msg: String){
@@ -102,6 +103,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     private func signNewUserUp(username: String){
+        
         DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             //confirm username isn't taken and show alert if it is taken
@@ -124,65 +126,88 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                 
             }
             
-            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
-            
-            //turn image into NSData and compress it
-            let imgData = UIImageJPEGRepresentation(self.profilePicImg.image!, 0.2)!
-            //turn these strings into NSData
-            let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
-            let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
-            
-            
-            Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
-                //upload image data
-                multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
-                //upload key data
-                multipartFormData.appendBodyPart(data: keyData, name: "key")
-                //upload json data
-                multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+            //upload image to Cloudinary
+            DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
                 
-                }) { encodingResult in
+                if status == true {
+                    //User init
+                    self.user = User(username: username, userImageUrl: url!)
                     
-                   // self.activityIndicator.startAnimating()
+                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
                     
-                    switch encodingResult {
-                        //successfully uploaded image to ImageShack
-                    case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
-                        //json
-                        if let info = response.result.value as? [String:AnyObject]{
-                            
-                            if let links = info["links"] as? [String:AnyObject]{
-                                if let imgLink = links["image_link"] as? String {
-                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
-                                    //uploading image link we got back from ImageShack to Firebase
-                                    
-                                    //User init
-                                    self.user = User(username: username, userImageUrl: imgLink)
-                                    
-                                    //save username & userImageUrl in nsuserdefaults
-                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
-                                
-                                    //create user in Firebase
-                                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
-                                    
-                                    self.showWelcomeAlertAndPerformSegue()
-                                }
-                            }
-                        }
-                       
-                      //  self.activityIndicator.stopAnimating()
-                       
-                    })
-                        //unsuccessful in uploading image to ImageShack
-                    case .Failure(let error):
-                        print(error)
-                        
-                       // self.activityIndicator.stopAnimating()
-                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
-                    }
-            }
-  
+                    //create user in Firebase
+                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                    
+                    self.showWelcomeAlertAndPerformSegue()
+
+                    
+                } else {
+                  self.showAlert("", msg: "There was an error saving your image. Please try again.")
+                }
+               
+            })
+           
+            //MARK: ImageShack
+            //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
+            //
+            //            //turn image into NSData and compress it
+            //            let imgData = UIImageJPEGRepresentation(self.profilePicImg.image!, 0.2)!
+            //            //turn these strings into NSData
+            //            let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
+            //            let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+            //
+            //
+            //            Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+            //                //upload image data
+            //                multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
+            //                //upload key data
+            //                multipartFormData.appendBodyPart(data: keyData, name: "key")
+            //                //upload json data
+            //                multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+            //
+            //                }) { encodingResult in
+            //
+            //                   // self.activityIndicator.startAnimating()
+            //
+            //                    switch encodingResult {
+            //                        //successfully uploaded image to ImageShack
+            //                    case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
+            //                        //json
+            //                        if let info = response.result.value as? [String:AnyObject]{
+            //
+            //                            if let links = info["links"] as? [String:AnyObject]{
+            //                                if let imgLink = links["image_link"] as? String {
+            //                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+            //                                    //uploading image link we got back from ImageShack to Firebase
+            //
+            //                                    //User init
+            //                                    self.user = User(username: username, userImageUrl: imgLink)
+            //
+            //                                    //save username & userImageUrl in nsuserdefaults
+            //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+            //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+            //
+            //                                    //create user in Firebase
+            //                                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+            //
+            //                                    self.showWelcomeAlertAndPerformSegue()
+            //                                }
+            //                            }
+            //                        }
+            //
+            //                      //  self.activityIndicator.stopAnimating()
+            //
+            //                    })
+            //                        //unsuccessful in uploading image to ImageShack
+            //                    case .Failure(let error):
+            //                        print(error)
+            //                        
+            //                       // self.activityIndicator.stopAnimating()
+            //                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
+            //                    }
+            //            }
+            
         })
         
     }
