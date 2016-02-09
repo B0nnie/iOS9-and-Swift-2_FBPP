@@ -14,7 +14,7 @@ class DataService: NSObject, CLUploaderDelegate {
     
     static let ds = DataService()
     static let URL_BASE = "https://showcase-e-n.firebaseio.com"
-    let cloudinary_url = "cloudinary://241999697464238:rHnA9hi9k7OW8IGvCVazma8HYiE@billmcduff"
+    let cloudinary_url = "cloudinary://583966332844476:juShbxmwhdBGjjPxugSwfs0U5fk@ddo2zlkvq"
 
     private (set) var REF_BASE = Firebase(url: "\(URL_BASE)")
     private (set) var REF_POSTS = Firebase(url: "\(URL_BASE)/posts")
@@ -48,8 +48,6 @@ class DataService: NSObject, CLUploaderDelegate {
                    
                 } else{
                     if let data = dataDictionary {
-                        
-                        //let publicId = data["public_id"] as! String
                         let cloudImgUrlStr = data["url"] as! String
                         
                         onCompletion(status: true, url: cloudImgUrlStr)
