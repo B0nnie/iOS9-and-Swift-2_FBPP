@@ -25,14 +25,14 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         profilePicImg.hidden = true
-        
     }
     
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        profilePicImg.hidden = false
         makeImgRound()
+        profilePicImg.hidden = false
+        
     }
     
     @IBAction func chooseProfilePic(sender: UIButton) {
@@ -46,9 +46,9 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         if let username = usernameFld.text where username != "" {
             
             //check to see if user wants to use default profile image
-            if profilePicImg.image == UIImage(named:"default") {
+            if profilePicImg.image == UIImage(named:"tiynoborder3") {
                 
-                let alert = UIAlertController(title: "", message: "Press 'OK' to use the default image or 'Cancel' to go back and choose your own image", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "", message: "Press 'OK' to use the default profile image or 'Cancel' to go back and choose your own image", preferredStyle: .Alert)
                 let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
                 let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
                     
@@ -78,6 +78,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
+        makeImgRound()  
         
     }
     
@@ -103,9 +104,10 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     private func signNewUserUp(username: String){
-        
+        print("SignNewUserUp is first called")
         DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
             
+            print("Connecting to users in Firebase")
             //confirm username isn't taken and show alert if it is taken
             if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
                 
@@ -119,34 +121,40 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                 self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
                                 
                                 self.usernameFld.text = ""
+                                
+                                return
                             }
                         }
                     }
                 }
                 
             }
-            
-            //upload image to Cloudinary
-            DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
                 
-                if status == true {
-                    //User init
-                    self.user = User(username: username, userImageUrl: url!)
+                //upload image to Cloudinary
+                DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
                     
-                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                    if status == true {
+                        
+                        print("THIS RAN")
+                        //User init
+                        self.user = User(username: username, userImageUrl: url!)
+                        
+                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                        
+                        //create user in Firebase
+                        self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                        
+                        self.showWelcomeAlertAndPerformSegue()
+                        
+                        
+                    } else {
+                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
+                    }
                     
-                    //create user in Firebase
-                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
-                    
-                    self.showWelcomeAlertAndPerformSegue()
-
-                    
-                } else {
-                  self.showAlert("", msg: "There was an error saving your image. Please try again.")
-                }
-               
-            })
+                })
+        
+            
            
             //MARK: ImageShack
             //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
