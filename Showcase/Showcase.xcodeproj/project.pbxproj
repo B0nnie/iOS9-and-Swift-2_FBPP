@@ -174,8 +174,8 @@
 				29178AE31C4EABD7007FF83F /* Resources */,
 				296B39371C4D661200254893 /* AppDelegate.swift */,
 				296B393B1C4D661200254893 /* Main.storyboard */,
-				296B393E1C4D661200254893 /* Assets.xcassets */,
 				296B39401C4D661200254893 /* LaunchScreen.storyboard */,
+				296B393E1C4D661200254893 /* Assets.xcassets */,
 				296B39431C4D661200254893 /* Info.plist */,
 			);
 			path = Showcase;
