@@ -11,9 +11,8 @@ import UIKit
 class MaterialButton: UIButton {
 
     override func awakeFromNib() {
-        layer.cornerRadius = 2.0
-        layer.shadowColor = UIColor(red: Constants.SHADOW_COLOR, green: Constants.SHADOW_COLOR, blue: Constants.SHADOW_COLOR, alpha: 0.5).CGColor
-        layer.shadowOpacity = 0.8
+        layer.shadowColor = Constants.SHADOW_COLOR.CGColor
+        layer.shadowOpacity = 1.0
         layer.shadowRadius = 5.0
         layer.shadowOffset = CGSizeMake(0.0, 2.0)
         

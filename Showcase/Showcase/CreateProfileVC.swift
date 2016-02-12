@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Alamofire
 
-class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate{
     
     @IBOutlet weak var usernameFld: MaterialTextField!
     @IBOutlet weak var profilePicImg: UIImageView!
@@ -25,6 +25,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         profilePicImg.hidden = true
+        usernameFld.delegate = self
     }
     
     
@@ -224,6 +225,11 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         profilePicImg.clipsToBounds = true
         profilePicImg.layer.masksToBounds = true
         profilePicImg.layer.cornerRadius = profilePicImg.frame.size.height/2
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }

@@ -12,9 +12,12 @@ class MaterialTextField: UITextField {
     
     override func awakeFromNib() {
         layer.cornerRadius = 2.0
-        layer.borderColor = UIColor(red: Constants.SHADOW_COLOR, green: Constants.SHADOW_COLOR, blue: Constants.SHADOW_COLOR, alpha: 0.1).CGColor
-        layer.borderWidth = 1.0
-    
+        layer.masksToBounds = false
+        layer.shadowRadius = 2.0
+        layer.shadowColor = Constants.SHADOW_COLOR.CGColor
+        layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        layer.shadowOpacity = 1.0
+       
     }
     
     //To indent placeholder text
