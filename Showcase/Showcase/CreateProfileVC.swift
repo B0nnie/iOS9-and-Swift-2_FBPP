@@ -14,6 +14,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     @IBOutlet weak var usernameFld: MaterialTextField!
     @IBOutlet weak var profilePicImg: UIImageView!
+    @IBOutlet weak var doneButton: MaterialButton!
     private var imagePicker: UIImagePickerController!
     private var user: User!
     var email: String!
@@ -26,6 +27,9 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         imagePicker.delegate = self
         profilePicImg.hidden = true
         usernameFld.delegate = self
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
+       
     }
     
     
@@ -79,7 +83,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         
         imagePicker.dismissViewControllerAnimated(true, completion: nil)
         profilePicImg.image = image
-        makeImgRound()  
+        makeImgRound()
         
     }
     
@@ -105,10 +109,12 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     private func signNewUserUp(username: String){
-        print("SignNewUserUp is first called")
+        Constants.LINEAR_BAR.startAnimation()
+        doneButton.userInteractionEnabled = false
+        doneButton.alpha = 0.7
+        
         DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
             
-            print("Connecting to users in Firebase")
             //confirm username isn't taken and show alert if it is taken
             if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
                 
@@ -119,6 +125,10 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                             //print("USERNAME VALUES: \(firebaseUsers)")
                             
                             if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
+                                
+                                Constants.LINEAR_BAR.stopAnimation()
+                                self.doneButton.userInteractionEnabled = true
+                                self.doneButton.alpha = 1.0
                                 self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
                                 
                                 self.usernameFld.text = ""
@@ -130,33 +140,38 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                 }
                 
             }
-                
-                //upload image to Cloudinary
-                DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
-                    
-                    if status == true {
-                        
-                        print("THIS RAN")
-                        //User init
-                        self.user = User(username: username, userImageUrl: url!)
-                        
-                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
-                        
-                        //create user in Firebase
-                        self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
-                        
-                        self.showWelcomeAlertAndPerformSegue()
-                        
-                        
-                    } else {
-                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
-                    }
-                    
-                })
-        
             
-           
+            //upload image to Cloudinary
+            DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
+                
+                if status == true {
+                    //User init
+                    self.user = User(username: username, userImageUrl: url!)
+                    
+                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                    
+                    
+                    print("USERNAME: \(self.user.username)\n USERIMAGEURL: \(self.user.userImageUrl)\n EMAIL: \(self.email)\n PASSWORD: \(self.password)")
+                    //create user in Firebase
+                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                    
+                    Constants.LINEAR_BAR.stopAnimation()
+                    
+                    self.showWelcomeAlertAndPerformSegue()
+                    self.doneButton.alpha = 1.0
+                    self.doneButton.userInteractionEnabled = true
+                    
+                } else {
+                    Constants.LINEAR_BAR.stopAnimation()
+                    self.doneButton.userInteractionEnabled = true
+                    self.showAlert("", msg: "There was an error saving your image. Please try again.")
+                }
+                
+            })
+            
+            
+            
             //MARK: ImageShack
             //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
             //
@@ -211,7 +226,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             //                        //unsuccessful in uploading image to ImageShack
             //                    case .Failure(let error):
             //                        print(error)
-            //                        
+            //
             //                       // self.activityIndicator.stopAnimating()
             //                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
             //                    }

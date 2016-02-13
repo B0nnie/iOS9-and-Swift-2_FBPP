@@ -12,6 +12,8 @@ import UIKit
 struct Constants {
     
     static let SHADOW_COLOR = UIColor(red: 0, green: 0.376, blue: 0.392, alpha: 1.0)
+    static let LINEAR_BAR: LinearProgressBar = LinearProgressBar()
+    static var NAVIGATION_BAR_HEIGHT : CGFloat = 0.0
     
     //Keys
     static let KEY_USERNAME = "username"
