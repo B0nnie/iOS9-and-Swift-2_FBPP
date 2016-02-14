@@ -82,7 +82,7 @@
                                 <rect key="frame" x="20" y="233" width="560" height="347"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Login / Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SWT-P0-4fX">
-                                        <rect key="frame" x="182" y="55" width="196" height="24"/>
+                                        <rect key="frame" x="182" y="51" width="196" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="9xc-Pb-Xsu"/>
                                             <constraint firstAttribute="width" constant="151" id="KM5-Ai-f0r"/>
@@ -97,6 +97,7 @@
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="9xc-Pb-Xsu"/>
                                                 <exclude reference="KM5-Ai-f0r"/>
                                                 <exclude reference="QlM-aQ-PrG"/>
                                                 <exclude reference="ZWS-1D-Ajo"/>
@@ -204,10 +205,8 @@
                         <outlet property="emailTxtFld" destination="UJ9-YF-Vne" id="Gzu-Mc-1Yd"/>
                         <outlet property="facebookBtn" destination="BkU-iL-okn" id="Gyo-gT-rvP"/>
                         <outlet property="loginBtn" destination="Ha3-KF-Ssw" id="baD-5H-DUu"/>
-                        <outlet property="loginBtnBottomConstraint" destination="2ve-bO-MFj" id="WeT-Qe-My9"/>
                         <outlet property="materialViewBottomLayout" destination="kTN-4n-5R5" id="P33-eb-JMa"/>
                         <outlet property="passwordTxtFld" destination="i18-rI-G1X" id="RSj-UD-CHP"/>
-                        <outlet property="stackViewAlignCenterY" destination="tUw-6Q-K2Q" id="AeZ-F9-nDv"/>
                         <segue destination="OkU-sP-aPG" kind="show" identifier="toCreateVCNav" id="mnJ-BS-Ais"/>
                     </connections>
                 </viewController>
