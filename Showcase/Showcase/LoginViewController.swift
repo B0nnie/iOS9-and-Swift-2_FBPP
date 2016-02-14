@@ -19,6 +19,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookBtn: MaterialButton!
     @IBOutlet weak var loginBtn: MaterialButton!
     
+    @IBOutlet weak var loginBtnBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var stackViewAlignCenterY: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var constraintMaterialViewTopLayout: NSLayoutConstraint!
+    
+    
+    
     private var originalConstraint: CGFloat = 0
     private var showKeyboard = true
     
@@ -216,6 +225,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 if self.showKeyboard{
                     // move constraint
                     keyboardHeight = kbSize.height
+                    
+                    self.constraintMaterialViewTopLayout.constant += keyboardHeight / 2
+                    
                     self.materialViewBottomLayout.constant += keyboardHeight / 2
                     
                     self.view.layoutIfNeeded()
@@ -229,6 +241,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             // move constraint back
             if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
                 keyboardHeight = kbSize.height
+                
                 self.materialViewBottomLayout.constant = self.originalConstraint
                 
                 self.view.layoutIfNeeded()
