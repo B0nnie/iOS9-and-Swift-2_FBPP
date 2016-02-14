@@ -11,43 +11,45 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var emailTxtFld: MaterialTextField!
     @IBOutlet weak var passwordTxtFld: MaterialTextField!
     @IBOutlet weak var materialViewBottomLayout: NSLayoutConstraint!
+    @IBOutlet weak var facebookBtn: MaterialButton!
+    @IBOutlet weak var loginBtn: MaterialButton!
     
     private var originalConstraint: CGFloat = 0
     private var showKeyboard = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        emailTxtFld.delegate = self
+        passwordTxtFld.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
-        
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
         originalConstraint = materialViewBottomLayout.constant
         shiftUIWithKeyboard()
         
     }
     
-    //    override func viewDidAppear(animated: Bool) {
-    //        super.viewDidAppear(animated)
-    //
-    //        if NSUserDefaults.standardUserDefaults().valueForKey(Constants.KEY_UID) != nil {
-    //            self.segueToFeedVCAfterLoggingIn()
-    //        }
-    //    }
-    
     //login with facebook
     @IBAction func fbBtnPressed(sender: UIButton!){
+        
+       startActivityIndicator()
         
         let facebookLogin = FBSDKLoginManager()
         facebookLogin.logInWithReadPermissions(["email"], fromViewController: self) { (facebookResult, facebookError) -> Void in
             
             if facebookError != nil {
+               self.stopActivityIndicator()
+                
                 print("Facebook login failed. Error \(facebookError)")
             } else if facebookResult.isCancelled {
+               self.stopActivityIndicator()
+                
                 print("Facebook login was cancelled.")
             } else {
                 //successful
@@ -57,6 +59,7 @@ class LoginViewController: UIViewController {
                 DataService.ds.REF_BASE.authWithOAuthProvider("facebook", token: accessToken,
                     withCompletionBlock: { error, authData in
                         if error != nil {
+                            self.stopActivityIndicator()
                             print("Login failed. \(error)")
                         } else {
                             //successful
@@ -84,6 +87,8 @@ class LoginViewController: UIViewController {
                                 }
                                 facebookLogin.logOut()
                             }
+                            
+                            self.stopActivityIndicator()
                             self.segueToFeedVCAfterLoggingIn()
                         }
                 })
@@ -114,11 +119,15 @@ class LoginViewController: UIViewController {
         
         if let email = emailTxtFld.text where email != "", let pwd = passwordTxtFld.text where pwd != "" {
             
+            startActivityIndicator()
+            
             DataService.ds.REF_BASE.authUser(email, password: pwd, withCompletionBlock: { error, authData in
                 
                 if error != nil {
                     // an error occured while attempting login
                     print("an error occured while attempting login: \(error)")
+                    
+                    self.stopActivityIndicator()
                     
                     switch error.code {
                     case Constants.STATUS_ACCOUNT_NONEXIST: self.showAccountCreationAlert()
@@ -147,6 +156,7 @@ class LoginViewController: UIViewController {
                         
                     }
                     
+                    self.stopActivityIndicator()
                     self.segueToFeedVCAfterLoggingIn()
                 }
                 
@@ -182,8 +192,7 @@ class LoginViewController: UIViewController {
     }
     
     private func segueToFeedVCAfterLoggingIn(){
-        
-        self.performSegueWithIdentifier("loggedIn", sender: nil)
+        navigationController?.popToRootViewControllerAnimated(true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -198,7 +207,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    func shiftUIWithKeyboard() {
+    private func shiftUIWithKeyboard() {
         
         var keyboardHeight: CGFloat = 0
         
@@ -229,9 +238,29 @@ class LoginViewController: UIViewController {
         
     }
     
+    private func startActivityIndicator(){
+        Constants.LINEAR_BAR.startAnimation()
+        facebookBtn.userInteractionEnabled = false
+        facebookBtn.alpha = 0.7
+        loginBtn.userInteractionEnabled = false
+        loginBtn.alpha = 0.7
+    }
+    
+    private func stopActivityIndicator(){
+        Constants.LINEAR_BAR.stopAnimation()
+        self.facebookBtn.alpha = 1.0
+        self.facebookBtn.userInteractionEnabled = true
+        loginBtn.userInteractionEnabled = true
+        loginBtn.alpha = 1.0
+    }
+    
     func dismissKeyboard(){
-        
         view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }
