@@ -19,11 +19,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookBtn: MaterialButton!
     @IBOutlet weak var loginBtn: MaterialButton!
     @IBOutlet weak var constraintMaterialViewTopLayout: NSLayoutConstraint!
-    
-    
-    
-    private var originalConstraint: CGFloat = 0
+
     private var showKeyboard = true
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +31,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
         self.view.addSubview(Constants.LINEAR_BAR)
-        originalConstraint = materialViewBottomLayout.constant
+       
         shiftUIWithKeyboard()
         
     }
