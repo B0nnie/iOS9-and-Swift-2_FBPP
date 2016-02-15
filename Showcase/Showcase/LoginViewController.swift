@@ -234,8 +234,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size {
                 keyboardHeight = kbSize.height
                 
-                self.materialViewBottomLayout.constant = 20
-                self.constraintMaterialViewTopLayout.constant = 10
+                self.materialViewBottomLayout.constant = 0
+                self.constraintMaterialViewTopLayout.constant = 0
                 
                 self.view.layoutIfNeeded()
                 self.showKeyboard = true
