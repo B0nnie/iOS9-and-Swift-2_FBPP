@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import Alamofire
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var postFld: MaterialTextField!
@@ -27,6 +27,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //navigation bar logo
+        loadNavBarTitleImage()
+        
+        //temporarily save description and pic for user
         if let text = PersistentData.tempText {
             postFld.text = text
             
@@ -42,6 +46,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         tableView.delegate  = self
         tableView.dataSource = self
+        postFld.delegate = self
         
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -75,7 +80,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        
         checkIfLoggedIn()
     }
     
@@ -353,7 +357,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             }
         } else {
                 //error alert message saying they need to enter a description and choose an app image
-                showAlert("", msg: "Please enter a description for your app and choose an image")
+                showAlert("", msg: "Please enter a description for your project and choose an image")
                 
             }
             
@@ -474,5 +478,27 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 logOutBtn.hidden = false
             }
         }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    private func loadNavBarTitleImage(){
+        let customView = UIView()
+        customView.frame =  CGRectMake(0, 0, (self.navigationController?.navigationBar.bounds.size.width)!,  (self.navigationController?.navigationBar.bounds.size.height)!)
+        customView.backgroundColor = UIColor.clearColor()
+        customView.clipsToBounds = true
+        let logoView = UIImageView()
+        let titleViewWidthHeight = customView.frame.size.height
+        logoView.frame = CGRectMake(customView.center.x - ((titleViewWidthHeight * 1.4)/2), customView.center.y - (titleViewWidthHeight/1.8), titleViewWidthHeight, titleViewWidthHeight)
+        logoView.contentMode = .ScaleAspectFit
+        logoView.clipsToBounds = true
+        logoView.layer.masksToBounds = true
+        logoView.image = UIImage(named: "tiyshowlogo1x")
+        customView.addSubview(logoView)
+        self.navigationItem.titleView = customView
+        
+    }
 }
    

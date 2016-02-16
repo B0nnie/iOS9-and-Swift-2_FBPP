@@ -1,15 +1,15 @@
 //
-//  MaterialView.swift
+//  MaterialImageView.swift
 //  Showcase
 //
-//  Created by Ebony Nyenya on 1/19/16.
+//  Created by Ebony Nyenya on 2/15/16.
 //  Copyright © 2016 Ebony Nyenya. All rights reserved.
 //
 
 import UIKit
 
-class MaterialView: UIView {
-
+class MaterialImageView: UIImageView {
+    
     override func awakeFromNib() {
         layer.cornerRadius = 2.0
         layer.shadowColor = Constants.SHADOW_COLOR.CGColor
@@ -18,5 +18,4 @@ class MaterialView: UIView {
         layer.shadowOffset = CGSizeMake(0.0, 2.0)
         
     }
-
 }

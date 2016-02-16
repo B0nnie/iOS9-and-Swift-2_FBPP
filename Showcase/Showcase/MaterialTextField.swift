@@ -23,13 +23,14 @@ class MaterialTextField: UITextField {
     //To indent placeholder text
     
     override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, 10, 0)
+        return CGRectInset(bounds, 3, 0)
     
     }
     
     //To indent text that user types into textfield
     override func editingRectForBounds(bounds: CGRect) -> CGRect {
-         return CGRectInset(bounds, 10, 0)
+         return CGRectInset(bounds, 3, 0)
     }
+ 
     
 }
