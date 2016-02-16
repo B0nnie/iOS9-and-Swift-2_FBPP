@@ -33,7 +33,6 @@
 		29932E841C63CAF700CD5405 /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29932E831C63CAF700CD5405 /* PersistentData.swift */; };
 		29A7718A1C6E9F150028663D /* LinearProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A771891C6E9F150028663D /* LinearProgressBar.swift */; };
 		29D685221C727A41004579E2 /* MaterialImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D685211C727A41004579E2 /* MaterialImageView.swift */; };
-		29D6852A1C729DF1004579E2 /* tiyshowlogo1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 29D685291C729DF1004579E2 /* tiyshowlogo1x.png */; };
 		29DB370F1C67DBB500D767A0 /* IBDesignableClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB370E1C67DBB500D767A0 /* IBDesignableClasses.swift */; };
 		3B924EBBFE27AD4A0919424E /* Pods_Showcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C709A17A1B1E6905C1BDCEE5 /* Pods_Showcase.framework */; };
 /* End PBXBuildFile section */
@@ -68,7 +67,6 @@
 		29932E831C63CAF700CD5405 /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
 		29A771891C6E9F150028663D /* LinearProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearProgressBar.swift; sourceTree = "<group>"; };
 		29D685211C727A41004579E2 /* MaterialImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialImageView.swift; sourceTree = "<group>"; };
-		29D685291C729DF1004579E2 /* tiyshowlogo1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tiyshowlogo1x.png; path = Assets.xcassets/tiyshowlogo.imageset/tiyshowlogo1x.png; sourceTree = "<group>"; };
 		29DB370E1C67DBB500D767A0 /* IBDesignableClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBDesignableClasses.swift; sourceTree = "<group>"; };
 		BE907DEE84EA940D83E6DB6B /* Pods-Showcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Showcase.release.xcconfig"; path = "Pods/Target Support Files/Pods-Showcase/Pods-Showcase.release.xcconfig"; sourceTree = "<group>"; };
 		C709A17A1B1E6905C1BDCEE5 /* Pods_Showcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Showcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,7 +125,6 @@
 		29178AE31C4EABD7007FF83F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				29D685291C729DF1004579E2 /* tiyshowlogo1x.png */,
 				29178AEA1C4EAC9A007FF83F /* NotoSans-Bold.ttf */,
 				29178AEB1C4EAC9A007FF83F /* NotoSans-BoldItalic.ttf */,
 				29178AEC1C4EAC9A007FF83F /* NotoSans-Italic.ttf */,
@@ -276,7 +273,6 @@
 				29178AEF1C4EAC9A007FF83F /* NotoSans-BoldItalic.ttf in Resources */,
 				29178AF01C4EAC9A007FF83F /* NotoSans-Italic.ttf in Resources */,
 				296B393F1C4D661200254893 /* Assets.xcassets in Resources */,
-				29D6852A1C729DF1004579E2 /* tiyshowlogo1x.png in Resources */,
 				296B393D1C4D661200254893 /* Main.storyboard in Resources */,
 				29178AF11C4EAC9A007FF83F /* NotoSans-Regular.ttf in Resources */,
 			);

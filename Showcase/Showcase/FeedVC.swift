@@ -211,7 +211,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         
     }
-   
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
@@ -356,128 +356,128 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 
             }
         } else {
-                //error alert message saying they need to enter a description and choose an app image
-                showAlert("", msg: "Please enter a description for your project and choose an image")
-                
+            //error alert message saying they need to enter a description and choose an app image
+            showAlert("", msg: "Please enter a description for your project and choose an image")
+            
+        }
+        
+    }
+    
+    private func showAlert(title: String, msg: String){
+        
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
+        
+        presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func showLoginAlert(){
+        
+        let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
+            
+            if let text = self.postFld.text {
+                PersistentData.tempText = text
             }
             
-        }
-        
-        private func showAlert(title: String, msg: String){
-            
-            let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
-            
-            presentViewController(alert, animated: true, completion: nil)
-            
-        }
-        
-        private func showLoginAlert(){
-            
-            let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
-                
-                if let text = self.postFld.text {
-                    PersistentData.tempText = text
-                }
-                
-                if let img = self.selectedAppImg.image {
-                    PersistentData.tempImg = img
-                }
-                
-                self.performSegueWithIdentifier("toLoginVC", sender: nil)
-            })
-            
-            alert.addAction(cancelAction)
-            alert.addAction(signUpAction)
-            self.presentViewController(alert, animated: true, completion: nil)
-            
-        }
-        
-        private func confirmDelete(post:Post) {
-            let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to permanently delete your post?", preferredStyle: .ActionSheet)
-            
-            let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeletePost)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeletePost)
-            
-            alert.addAction(deleteAction)
-            alert.addAction(cancelAction)
-            
-            alert.popoverPresentationController?.sourceView = self.view
-            alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
-            
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        
-        private func handleDeletePost(alertAction: UIAlertAction!){
-            
-            if let indexPath = deletePostIndexPath {
-                tableView.beginUpdates()
-                let post = posts[indexPath.row]
-                
-                //Delete post from Firebase:
-                
-                //delete from posts ref
-                post.postRef.removeValue()
-                //delete from users/uid/posts ref
-                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
-                //delete from users/uid/likes ref
-                DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
-                
-                posts.removeAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                
-                deletePostIndexPath = nil
-                
-                tableView.endUpdates()
+            if let img = self.selectedAppImg.image {
+                PersistentData.tempImg = img
             }
-        }
+            
+            self.performSegueWithIdentifier("toLoginVC", sender: nil)
+        })
         
-        private func cancelDeletePost(alertAction: UIAlertAction!) {
+        alert.addAction(cancelAction)
+        alert.addAction(signUpAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func confirmDelete(post:Post) {
+        let alert = UIAlertController(title: "Delete Post", message: "Are you sure you want to permanently delete your post?", preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: handleDeletePost)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: cancelDeletePost)
+        
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func handleDeletePost(alertAction: UIAlertAction!){
+        
+        if let indexPath = deletePostIndexPath {
+            tableView.beginUpdates()
+            let post = posts[indexPath.row]
+            
+            //Delete post from Firebase:
+            
+            //delete from posts ref
+            post.postRef.removeValue()
+            //delete from users/uid/posts ref
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
+            //delete from users/uid/likes ref
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+            
+            posts.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
             deletePostIndexPath = nil
-        }
-        
-        
-        private func postToFirebase(imgUrl: String){
             
-            if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
-                
-                //making a new post
-                //matches format of test data in Firebase
-                let post: [String:AnyObject] = [
-                    "description": postFld.text!,
-                    "likes": 0,
-                    "imageUrl": imgUrl,
-                    "userImgUrl": userImg,
-                    "username": name]
-                
-                //connect with Firebase
-                let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
-                firebasePost.setValue(post)
-                
-                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
-                
-                tableView.reloadData()
-                
-            }
+            tableView.endUpdates()
         }
+    }
+    
+    private func cancelDeletePost(alertAction: UIAlertAction!) {
+        deletePostIndexPath = nil
+    }
+    
+    
+    private func postToFirebase(imgUrl: String){
         
-        @IBAction func logOutBtnPressed(sender: UIButton) {
-            DataService.ds.REF_BASE.unauth()
-            showAlert("You are now logged out", msg: "")
-            checkIfLoggedIn()
+        if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
+            
+            //making a new post
+            //matches format of test data in Firebase
+            let post: [String:AnyObject] = [
+                "description": postFld.text!,
+                "likes": 0,
+                "imageUrl": imgUrl,
+                "userImgUrl": userImg,
+                "username": name]
+            
+            //connect with Firebase
+            let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+            firebasePost.setValue(post)
+            
+            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
+            
+            tableView.reloadData()
+            
         }
-        
-        private func checkIfLoggedIn(){
-            if DataService.ds.REF_BASE.authData == nil {
-                //user is logged out
-                logOutBtn.hidden = true
-            } else{
-                //user is logged in
-                logOutBtn.hidden = false
-            }
+    }
+    
+    @IBAction func logOutBtnPressed(sender: UIButton) {
+        DataService.ds.REF_BASE.unauth()
+        showAlert("You are now logged out", msg: "")
+        checkIfLoggedIn()
+    }
+    
+    private func checkIfLoggedIn(){
+        if DataService.ds.REF_BASE.authData == nil {
+            //user is logged out
+            logOutBtn.hidden = true
+        } else{
+            //user is logged in
+            logOutBtn.hidden = false
         }
+    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -495,7 +495,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         logoView.contentMode = .ScaleAspectFit
         logoView.clipsToBounds = true
         logoView.layer.masksToBounds = true
-        logoView.image = UIImage(named: "tiyshowlogo1x")
+        logoView.image = UIImage(named: "logo")
         customView.addSubview(logoView)
         self.navigationItem.titleView = customView
         
