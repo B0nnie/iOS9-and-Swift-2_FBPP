@@ -81,6 +81,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         checkIfLoggedIn()
+        tableView.reloadData()
     }
     
     //MARK: TableView Methods
@@ -374,7 +375,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     private func showLoginAlert(){
         
-        let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your app", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Login Required", message: "Please login before posting about your project", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             
@@ -467,6 +468,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         DataService.ds.REF_BASE.unauth()
         showAlert("You are now logged out", msg: "")
         checkIfLoggedIn()
+        tableView.reloadData()
     }
     
     private func checkIfLoggedIn(){

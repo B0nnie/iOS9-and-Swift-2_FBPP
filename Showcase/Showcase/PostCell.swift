@@ -35,7 +35,7 @@ class PostCell: UITableViewCell {
         heartImg.addGestureRecognizer(tap)
         heartImg.userInteractionEnabled = true
         
-       // profileImg.frame.size.width = profileImg.frame.size.height
+        // profileImg.frame.size.width = profileImg.frame.size.height
         
     }
     
@@ -50,17 +50,17 @@ class PostCell: UITableViewCell {
     
     
     func configureCell(post: Post){
-      //profileImg.frame.size.width = profileImg.frame.size.height
+        //profileImg.frame.size.width = profileImg.frame.size.height
         
         self.post = post
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
         self.usernameLbl.text  = post.username
         
-        //connecting to Firebase to see if the current user has liked this post
-       
+        //only run if user is logged in
         if  DataService.ds.REF_BASE.authData != nil {
             
+            //connecting to Firebase to see if the current user has liked this post
             likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
                 
                 if let likeNotExist = snapshot.value as? NSNull {
@@ -72,28 +72,34 @@ class PostCell: UITableViewCell {
                     self.heartImg.image = UIImage(named: "heart-full")
                 }
             })
+        }else {
+            self.heartImg.image = UIImage(named: "heart-empty")
         }
-       
+        
         
     }
     
     func likeTapped(sender: UITapGestureRecognizer){
-        //connecting to Firebase
-        likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
-            
-            if let likeNotExist = snapshot.value as? NSNull {
-                //if the current user has never liked this specific post before, then heart is already empty, make it full
-                self.heartImg.image = UIImage(named: "heart-full")
-                self.post.adjustLikes(true)
-                self.likeRef.setValue(true)
-            } else{
-                //user unlikes this post
-                self.heartImg.image = UIImage(named: "heart-empty")
-                self.post.adjustLikes(false)
-                self.likeRef.removeValue()
-            }
-        })
         
+        //only run if user is logged in
+        if  DataService.ds.REF_BASE.authData != nil {
+            
+            //connecting to Firebase
+            likeRef.observeSingleEventOfType(.Value, withBlock: {snapshot in
+                
+                if let likeNotExist = snapshot.value as? NSNull {
+                    //if the current user has never liked this specific post before, then heart is already empty, make it full
+                    self.heartImg.image = UIImage(named: "heart-full")
+                    self.post.adjustLikes(true)
+                    self.likeRef.setValue(true)
+                } else{
+                    //user unlikes this post
+                    self.heartImg.image = UIImage(named: "heart-empty")
+                    self.post.adjustLikes(false)
+                    self.likeRef.removeValue()
+                }
+            })
+        }
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
