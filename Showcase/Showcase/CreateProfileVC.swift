@@ -15,6 +15,9 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var usernameFld: MaterialTextField!
     @IBOutlet weak var profilePicImg: UIImageView!
     @IBOutlet weak var doneButton: MaterialButton!
+    @IBOutlet weak var cancelBtn: UIBarButtonItem!
+    @IBOutlet weak var choosePicBtn: MaterialButton!
+    
     private var imagePicker: UIImagePickerController!
     private var user: User!
     var email: String!
@@ -27,9 +30,6 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         imagePicker.delegate = self
         profilePicImg.hidden = true
         usernameFld.delegate = self
-        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
-        self.view.addSubview(Constants.LINEAR_BAR)
-        
     }
     
     
@@ -38,6 +38,11 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         makeImgRound()
         profilePicImg.hidden = false
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
     }
     
     @IBAction func chooseProfilePic(sender: UIButton) {
@@ -111,9 +116,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     private func signNewUserUp(username: String){
         if Reachability.isConnectedToNetwork() == true {
             
-            Constants.LINEAR_BAR.startAnimation()
-            doneButton.userInteractionEnabled = false
-            doneButton.alpha = 0.7
+            startActivityIndicator()
             
             DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
                 
@@ -128,9 +131,8 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                                 
                                 if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
                                     
-                                    Constants.LINEAR_BAR.stopAnimation()
-                                    self.doneButton.userInteractionEnabled = true
-                                    self.doneButton.alpha = 1.0
+                                     self.stopActivityIndicator()
+                                    
                                     self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
                                     
                                     self.usernameFld.text = ""
@@ -156,21 +158,17 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                         //create user in Firebase
                         self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
                         
-                        Constants.LINEAR_BAR.stopAnimation()
-                        
                         self.showWelcomeAlertAndPerformSegue()
-                        self.doneButton.alpha = 1.0
-                        self.doneButton.userInteractionEnabled = true
+                        
+                        self.stopActivityIndicator()
                         
                     } else {
-                        Constants.LINEAR_BAR.stopAnimation()
-                        self.doneButton.userInteractionEnabled = true
+                         self.stopActivityIndicator()
+                        
                         self.showAlert("", msg: "There was an error saving your image. Please try again.")
                     }
                     
                 })
-                
-                
                 
                 //MARK: ImageShack
                 //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
@@ -235,7 +233,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             })
         } else {
             
-            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+            showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
         }
     }
     
@@ -248,6 +246,24 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    private func startActivityIndicator(){
+        Constants.LINEAR_BAR.startAnimation()
+        doneButton.userInteractionEnabled = false
+        doneButton.alpha = 0.7
+        cancelBtn.enabled = false
+        choosePicBtn.userInteractionEnabled = false
+        
+    }
+    
+    private func stopActivityIndicator(){
+        Constants.LINEAR_BAR.stopAnimation()
+        self.doneButton.alpha = 1.0
+        self.doneButton.userInteractionEnabled = true
+        cancelBtn.enabled = true
+        self.choosePicBtn.userInteractionEnabled = true
+        
     }
     
 }

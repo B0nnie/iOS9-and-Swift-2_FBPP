@@ -29,11 +29,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTxtFld.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
-        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
-        self.view.addSubview(Constants.LINEAR_BAR)
-       
+        
         shiftUIWithKeyboard()
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
     }
     
     //login with facebook
@@ -134,6 +137,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     case Constants.STATUS_ACCOUNT_NONEXIST: self.showAccountCreationAlert()
                     case Constants.STATUS_INVALID_EMAIL: self.showErrorAlert("Could not log in", msg: "Please re-enter your email address")
                     case Constants.STATUS_INVALID_PASSWORD: self.showErrorAlert("Could not log in", msg: "Please re-enter your password")
+                    case Constants.STATUS_NETWORK_ERROR: self.showErrorAlert("Error", msg: "No online connectivity. Please turn on Wi-Fi or cellular data.")
                     default: self.showErrorAlert("Could not log in", msg: "Please try again")
                         
                     }

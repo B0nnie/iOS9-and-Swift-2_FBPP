@@ -397,6 +397,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelBtn" destination="aDG-Ek-n8S" id="OL6-aB-VWM"/>
+                        <outlet property="choosePicBtn" destination="87D-L0-VgS" id="ADC-9W-RIn"/>
                         <outlet property="doneButton" destination="DV7-y9-S60" id="MFa-FL-6h2"/>
                         <outlet property="profilePicImg" destination="nNN-B9-d9S" id="sKy-C0-4C3"/>
                         <outlet property="usernameFld" destination="f3y-YQ-1Hk" id="YKZ-aH-Jgs"/>

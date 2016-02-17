@@ -29,10 +29,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //activity indicator
-        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
-        self.view.addSubview(Constants.LINEAR_BAR)
+        print("REACHABILITY RESULT from VIEWDIDLOAD: \(Reachability.isConnectedToNetwork())")
         
         //navigation bar logo
         loadNavBarTitleImage()
@@ -60,42 +57,28 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         tableView.estimatedRowHeight = 372
         
-        if Reachability.isConnectedToNetwork() == true {
+        //get posts from Firebase when app first loads
+        loadPostsFromFirebase()
+        
+        //get posts from Firebase when user returns to the app (ex. they left app to turn on wifi/data); need to get viewDidLoad to run again
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification) -> Void in
             
-            //get all the posts from Firebase, convert each into a Post object, and add the Posts to the posts array
-            DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
-                //print(snapshot.value)
-                
-                self.posts = []
-                if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
-                    
-                    for snap in snapshots {
-                        //print("SNAP: \(snap)")
-                        
-                        if let postDict = snap.value as? [String:AnyObject] {
-                            
-                            let key = snap.key
-                            //Post init
-                            let post = Post(postKey: key, dictionary: postDict)
-                            //print("POST KEY IS: \(post.postKey)")
-                            
-                            self.posts.insert(post, atIndex: 0)
-                        }
-                    }
-                }
-                self.tableView.reloadData()
-            })
-        } else {
-            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+            self.loadPostsFromFirebase()
         }
         
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        //activity indicator
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
+        
         checkIfLoggedIn()
         tableView.reloadData()
+        
     }
+    
     
     //MARK: TableView Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -123,21 +106,18 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         var userImg: UIImage?
         
         if let postImgUrl = post.imageUrl {
-            
             //get image from cache
             postImg = imageCache.objectForKey(postImgUrl) as? UIImage
             
         }
         
         if let userImgUrl = post.userImageUrl{
-            
             //get image from cache
             userImg = imageCache.objectForKey(userImgUrl) as? UIImage
         }
         
         
         if post.userImageUrl != nil {
-            
             //if there's an image in the cache, then load it from there
             if userImg != nil {
                 
@@ -145,8 +125,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 
             } else {
                 
-                //TODO: Refactor
-                //if there is no image already in the cache, then make a request to get it from ImageShack
+                //TODO: Refactor (redundancy)
+                //if there is no image already in the cache, then make a request to get it from Cloudinary
                 
                 //activity indicator while image loads
                 cell.profileImg.ensureActivityIndicatorIsAnimating()
@@ -157,8 +137,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     cell.profileImg.activityIndicator.stopAnimating()
                     //                        request successful
                     if err == nil {
-                        
-                        
                         if cell.tag == indexPath.row {
                             let img = UIImage(data: data!)!
                             cell.profileImg.image = img
@@ -185,21 +163,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             } else {
                 
                 
-                //TODO: Refactor
-                //if there is no image already in the cache, then make a request to get it from ImageShack
-                
+                //TODO: Refactor (redundancy)
+                //if there is no image already in the cache, then make a request to get it from Cloudinary
                 
                 cell.showcaseImg.ensureActivityIndicatorIsAnimating()
+                
                 Alamofire.request(.GET, post.imageUrl!).validate(contentType: ["image/*"]).response(completionHandler: { request, response, data, err in
-                    
-                    
                     
                     cell.showcaseImg.activityIndicator.stopAnimating()
                     
-                    
                     //request successful
                     if err == nil {
-                        
                         
                         if cell.tag == indexPath.row {
                             let img = UIImage(data: data!)!
@@ -247,6 +221,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             if DataService.ds.REF_BASE.authData == nil {
                 return false
             }
+        } else {
+            showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
         }
         
         if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
@@ -371,14 +347,14 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     
                 }
             } else {
-                showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+                showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
             }
+            
         } else {
             //error alert message saying they need to enter a description and choose an app image
             showAlert("", msg: "Please enter a description for your project and choose an image")
             
         }
-        
     }
     
     private func showAlert(title: String, msg: String){
@@ -451,7 +427,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 tableView.endUpdates()
             }
         }else{
-            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+            showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
         }
     }
     
@@ -486,6 +462,38 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             showAlert("", msg: "Your post was created! Thanks for sharing.")
             
         }
+    }
+    
+    private func loadPostsFromFirebase(){
+        //get all the posts from Firebase, convert each into a Post object, and add the Posts to the posts array
+        if Reachability.isConnectedToNetwork() == true{
+            
+            DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
+                //print(snapshot.value)
+                
+                self.posts = []
+                if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
+                    
+                    for snap in snapshots {
+                        //print("SNAP: \(snap)")
+                        
+                        if let postDict = snap.value as? [String:AnyObject] {
+                            
+                            let key = snap.key
+                            //Post init
+                            let post = Post(postKey: key, dictionary: postDict)
+                            //print("POST KEY IS: \(post.postKey)")
+                            
+                            self.posts.insert(post, atIndex: 0)
+                        }
+                    }
+                }
+                self.tableView.reloadData()
+            })
+        } else {
+            self.showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
+        }
+        
     }
     
     @IBAction func logOutBtnPressed(sender: UIButton) {

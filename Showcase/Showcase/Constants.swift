@@ -26,5 +26,6 @@ struct Constants {
     static let STATUS_ACCOUNT_NONEXIST = -8
     static let STATUS_INVALID_EMAIL = -5
     static let STATUS_INVALID_PASSWORD = -6
+    static let STATUS_NETWORK_ERROR = -15
 }
 
