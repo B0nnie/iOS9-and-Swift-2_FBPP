@@ -685,7 +685,9 @@
                     <connections>
                         <outlet property="activityIndicator" destination="mvR-z5-Ws2" id="XAH-Z2-tvM"/>
                         <outlet property="logOutBtn" destination="vAI-Ti-6ev" id="0rh-R3-nPB"/>
+                        <outlet property="postBtn" destination="K0U-Nt-cFK" id="8rs-Wp-KvE"/>
                         <outlet property="postFld" destination="Uzn-FO-5sC" id="bSR-4k-cL2"/>
+                        <outlet property="selectImgTapper" destination="eMj-Dh-Nba" id="8CB-aK-DKS"/>
                         <outlet property="selectedAppImg" destination="GBU-Qi-SMN" id="28B-NK-gub"/>
                         <outlet property="tableView" destination="XJM-90-6Zt" id="Tgg-vF-e2N"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="toLoginVC" id="iOL-8j-5xx"/>

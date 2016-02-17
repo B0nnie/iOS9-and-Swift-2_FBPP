@@ -17,6 +17,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var selectedAppImg: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var logOutBtn: UIButton!
+    @IBOutlet weak var postBtn: MaterialButton!
+    
+    @IBOutlet var selectImgTapper: UITapGestureRecognizer!
     
     private var posts = [Post]()
     private var imagePicker: UIImagePickerController!
@@ -26,6 +29,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //activity indicator
+        Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
+        self.view.addSubview(Constants.LINEAR_BAR)
         
         //navigation bar logo
         loadNavBarTitleImage()
@@ -53,29 +60,35 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         tableView.estimatedRowHeight = 372
         
-        //get all the posts from Firebase, convert each into a Post object, and add the Posts to the posts array
-        DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
-            //print(snapshot.value)
+        if Reachability.isConnectedToNetwork() == true {
             
-            self.posts = []
-            if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
+            //get all the posts from Firebase, convert each into a Post object, and add the Posts to the posts array
+            DataService.ds.REF_POSTS.observeEventType(.Value, withBlock: {snapshot in
+                //print(snapshot.value)
                 
-                for snap in snapshots {
-                    //print("SNAP: \(snap)")
+                self.posts = []
+                if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
                     
-                    if let postDict = snap.value as? [String:AnyObject] {
+                    for snap in snapshots {
+                        //print("SNAP: \(snap)")
                         
-                        let key = snap.key
-                        //Post init
-                        let post = Post(postKey: key, dictionary: postDict)
-                        //print("POST KEY IS: \(post.postKey)")
-                        
-                        self.posts.insert(post, atIndex: 0)
+                        if let postDict = snap.value as? [String:AnyObject] {
+                            
+                            let key = snap.key
+                            //Post init
+                            let post = Post(postKey: key, dictionary: postDict)
+                            //print("POST KEY IS: \(post.postKey)")
+                            
+                            self.posts.insert(post, atIndex: 0)
+                        }
                     }
                 }
-            }
-            self.tableView.reloadData()
-        })
+                self.tableView.reloadData()
+            })
+        } else {
+            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+        }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -151,9 +164,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                             cell.profileImg.image = img
                             self.imageCache.setObject(img, forKey: post.userImageUrl!)
                         }
-                        
-                        
-                        
                         
                         //add image to the cache for later use
                         
@@ -233,9 +243,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
-        if DataService.ds.REF_BASE.authData == nil {
-            return false
+        if Reachability.isConnectedToNetwork() == true {
+            if DataService.ds.REF_BASE.authData == nil {
+                return false
+            }
         }
         
         if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
@@ -277,84 +288,90 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         if let txt = postFld.text where txt != "", let img = selectedAppImg.image where img != UIImage(named:"camera")  {
             
-            //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
-            
-            if DataService.ds.REF_BASE.authData == nil {
-                showLoginAlert()
+            if Reachability.isConnectedToNetwork() == true {
+                
+                //first check if user is authorized in Firebase, and if she is then save her uid, username, and userImgUrl in userDefaults; otherwise show alert prompting user to create account and segue to LoginVC
+                
+                if DataService.ds.REF_BASE.authData == nil {
+                    showLoginAlert()
+                } else {
+                    startActivityIndicator()
+                    
+                    //upload image to Cloudinary and post image url to Firebase
+                    DataService.ds.uploadImage(img, onCompletion: { status, url in
+                        
+                        if status == true {
+                            
+                            //print("Img Url: \(url)")
+                            self.postToFirebase(url!)
+                            self.postFld.text = ""
+                            self.selectedAppImg.image = UIImage(named:"camera")
+                            
+                        }
+                        
+                    })
+                    
+                    //                //MARK: Uploading image data to ImageShack
+                    //                let url = (NSURL: "https://post.imageshack.us/upload_api.php")
+                    //
+                    //                //turn image into NSData and compress it
+                    //                let imgData = UIImageJPEGRepresentation(img, 0.2)!
+                    //                //turn these strings into NSData
+                    //                let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
+                    //                let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+                    //
+                    //
+                    //                Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+                    //                    //upload image data
+                    //                    multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
+                    //                    //upload key data
+                    //                    multipartFormData.appendBodyPart(data: keyData, name: "key")
+                    //                    //upload json data
+                    //                    multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+                    //
+                    //                    }) { encodingResult in
+                    //
+                    //                        self.activityIndicator.startAnimating()
+                    //
+                    //                        switch encodingResult {
+                    //                            //successfully uploaded image to ImageShack
+                    //                        case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
+                    //                            //json
+                    //                            if let info = response.result.value as? [String:AnyObject]{
+                    //
+                    //                                if let links = info["links"] as? [String:AnyObject]{
+                    //                                    if let imgLink = links["image_link"] as? String {
+                    //                                        //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                    //                                        //uploading image link we got back from ImageShack to Firebase
+                    //                                        self.postToFirebase(imgLink)
+                    //                                    }
+                    //                                }
+                    //                            }
+                    //                            //reset textfield and camera image
+                    //                            self.postFld.text = ""
+                    //                            self.selectedAppImg.image = UIImage(named:"camera")
+                    //
+                    //                            self.activityIndicator.stopAnimating()
+                    //
+                    //                            //alerting user post was created successfully
+                    //                            self.showAlert("", msg: "Your post was created! Thanks for sharing.")
+                    //
+                    //
+                    //                        })
+                    //                            //unsuccessful in uploading image to ImageShack
+                    //                        case .Failure(let error):
+                    //                            print(error)
+                    //
+                    //                            self.activityIndicator.stopAnimating()
+                    //                            self.showAlert("", msg: "There was an error creating your post. Try again.")
+                    //                        }
+                    //                }
+                    //
+                    //            }
+                    
+                }
             } else {
-                
-                //upload image to Cloudinary and post image url to Firebase
-                DataService.ds.uploadImage(img, onCompletion: { status, url in
-                    
-                    if status == true {
-                        
-                        //print("Img Url: \(url)")
-                        self.postToFirebase(url!)
-                        self.postFld.text = ""
-                        self.selectedAppImg.image = UIImage(named:"camera")
-                        
-                    }
-                    
-                })
-                
-                //                //MARK: Uploading image data to ImageShack
-                //                let url = (NSURL: "https://post.imageshack.us/upload_api.php")
-                //
-                //                //turn image into NSData and compress it
-                //                let imgData = UIImageJPEGRepresentation(img, 0.2)!
-                //                //turn these strings into NSData
-                //                let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
-                //                let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
-                //
-                //
-                //                Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
-                //                    //upload image data
-                //                    multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
-                //                    //upload key data
-                //                    multipartFormData.appendBodyPart(data: keyData, name: "key")
-                //                    //upload json data
-                //                    multipartFormData.appendBodyPart(data: keyJSON, name: "format")
-                //
-                //                    }) { encodingResult in
-                //
-                //                        self.activityIndicator.startAnimating()
-                //
-                //                        switch encodingResult {
-                //                            //successfully uploaded image to ImageShack
-                //                        case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
-                //                            //json
-                //                            if let info = response.result.value as? [String:AnyObject]{
-                //
-                //                                if let links = info["links"] as? [String:AnyObject]{
-                //                                    if let imgLink = links["image_link"] as? String {
-                //                                        //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
-                //                                        //uploading image link we got back from ImageShack to Firebase
-                //                                        self.postToFirebase(imgLink)
-                //                                    }
-                //                                }
-                //                            }
-                //                            //reset textfield and camera image
-                //                            self.postFld.text = ""
-                //                            self.selectedAppImg.image = UIImage(named:"camera")
-                //
-                //                            self.activityIndicator.stopAnimating()
-                //
-                //                            //alerting user post was created successfully
-                //                            self.showAlert("", msg: "Your post was created! Thanks for sharing.")
-                //
-                //
-                //                        })
-                //                            //unsuccessful in uploading image to ImageShack
-                //                        case .Failure(let error):
-                //                            print(error)
-                //
-                //                            self.activityIndicator.stopAnimating()
-                //                            self.showAlert("", msg: "There was an error creating your post. Try again.")
-                //                        }
-                //                }
-                //
-                //            }
-                
+                showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
             }
         } else {
             //error alert message saying they need to enter a description and choose an app image
@@ -412,26 +429,29 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     private func handleDeletePost(alertAction: UIAlertAction!){
-        
-        if let indexPath = deletePostIndexPath {
-            tableView.beginUpdates()
-            let post = posts[indexPath.row]
-            
-            //Delete post from Firebase:
-            
-            //delete from posts ref
-            post.postRef.removeValue()
-            //delete from users/uid/posts ref
-            DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
-            //delete from users/uid/likes ref
-            DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
-            
-            posts.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            
-            deletePostIndexPath = nil
-            
-            tableView.endUpdates()
+        if Reachability.isConnectedToNetwork() == true {
+            if let indexPath = deletePostIndexPath {
+                tableView.beginUpdates()
+                let post = posts[indexPath.row]
+                
+                //Delete post from Firebase:
+                
+                //delete from posts ref
+                post.postRef.removeValue()
+                //delete from users/uid/posts ref
+                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
+                //delete from users/uid/likes ref
+                DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+                
+                posts.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                
+                deletePostIndexPath = nil
+                
+                tableView.endUpdates()
+            }
+        }else{
+            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
         }
     }
     
@@ -459,7 +479,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             
             DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").updateChildValues([firebasePost.key: "true"])
             
+            stopActivityIndicator()
+            
             tableView.reloadData()
+            
+            showAlert("", msg: "Your post was created! Thanks for sharing.")
             
         }
     }
@@ -500,6 +524,26 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         logoView.image = UIImage(named: "logo")
         customView.addSubview(logoView)
         self.navigationItem.titleView = customView
+        
+    }
+    
+    private func startActivityIndicator(){
+        Constants.LINEAR_BAR.startAnimation()
+        postBtn.userInteractionEnabled = false
+        postBtn.alpha = 0.7
+        postFld.userInteractionEnabled = false
+        selectedAppImg.removeGestureRecognizer(selectImgTapper)
+        logOutBtn.userInteractionEnabled = false
+        
+    }
+    
+    private func stopActivityIndicator(){
+        Constants.LINEAR_BAR.stopAnimation()
+        postBtn.alpha = 1.0
+        postBtn.userInteractionEnabled = true
+        postFld.userInteractionEnabled = true
+        selectedAppImg.addGestureRecognizer(selectImgTapper)
+        logOutBtn.userInteractionEnabled = true
         
     }
 }

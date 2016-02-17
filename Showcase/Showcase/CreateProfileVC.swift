@@ -29,7 +29,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         usernameFld.delegate = self
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
         self.view.addSubview(Constants.LINEAR_BAR)
-       
+        
     }
     
     
@@ -109,129 +109,134 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     private func signNewUserUp(username: String){
-        Constants.LINEAR_BAR.startAnimation()
-        doneButton.userInteractionEnabled = false
-        doneButton.alpha = 0.7
-        
-        DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
+        if Reachability.isConnectedToNetwork() == true {
             
-            //confirm username isn't taken and show alert if it is taken
-            if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
+            Constants.LINEAR_BAR.startAnimation()
+            doneButton.userInteractionEnabled = false
+            doneButton.alpha = 0.7
+            
+            DataService.ds.REF_USERS.observeSingleEventOfType(.Value, withBlock: { snapshot in
                 
-                for snap in snapshots {
+                //confirm username isn't taken and show alert if it is taken
+                if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
                     
-                    if let value = snap.value as? [String: AnyObject]{
-                        if let firebaseUsers = value["username"] as? String {
-                            //print("USERNAME VALUES: \(firebaseUsers)")
-                            
-                            if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
+                    for snap in snapshots {
+                        
+                        if let value = snap.value as? [String: AnyObject]{
+                            if let firebaseUsers = value["username"] as? String {
+                                //print("USERNAME VALUES: \(firebaseUsers)")
                                 
-                                Constants.LINEAR_BAR.stopAnimation()
-                                self.doneButton.userInteractionEnabled = true
-                                self.doneButton.alpha = 1.0
-                                self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
-                                
-                                self.usernameFld.text = ""
-                                
-                                return
+                                if(username.caseInsensitiveCompare(firebaseUsers) == NSComparisonResult.OrderedSame){
+                                    
+                                    Constants.LINEAR_BAR.stopAnimation()
+                                    self.doneButton.userInteractionEnabled = true
+                                    self.doneButton.alpha = 1.0
+                                    self.showAlert("This username is already being used", msg: "Please come up with another username, you creative genius!")
+                                    
+                                    self.usernameFld.text = ""
+                                    
+                                    return
+                                }
                             }
                         }
                     }
+                    
                 }
                 
-            }
-            
-            //upload image to Cloudinary
-            DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
+                //upload image to Cloudinary
+                DataService.ds.uploadImage(self.profilePicImg.image!, onCompletion: { status, url in
+                    
+                    if status == true {
+                        //User init
+                        self.user = User(username: username, userImageUrl: url!)
+                        
+                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                        
+                        //create user in Firebase
+                        self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                        
+                        Constants.LINEAR_BAR.stopAnimation()
+                        
+                        self.showWelcomeAlertAndPerformSegue()
+                        self.doneButton.alpha = 1.0
+                        self.doneButton.userInteractionEnabled = true
+                        
+                    } else {
+                        Constants.LINEAR_BAR.stopAnimation()
+                        self.doneButton.userInteractionEnabled = true
+                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
+                    }
+                    
+                })
                 
-                if status == true {
-                    //User init
-                    self.user = User(username: username, userImageUrl: url!)
-                    
-                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
-                    
-                    //create user in Firebase
-                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
-                    
-                    Constants.LINEAR_BAR.stopAnimation()
-                    
-                    self.showWelcomeAlertAndPerformSegue()
-                    self.doneButton.alpha = 1.0
-                    self.doneButton.userInteractionEnabled = true
-                    
-                } else {
-                    Constants.LINEAR_BAR.stopAnimation()
-                    self.doneButton.userInteractionEnabled = true
-                    self.showAlert("", msg: "There was an error saving your image. Please try again.")
-                }
+                
+                
+                //MARK: ImageShack
+                //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
+                //
+                //            //turn image into NSData and compress it
+                //            let imgData = UIImageJPEGRepresentation(self.profilePicImg.image!, 0.2)!
+                //            //turn these strings into NSData
+                //            let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
+                //            let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
+                //
+                //
+                //            Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
+                //                //upload image data
+                //                multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
+                //                //upload key data
+                //                multipartFormData.appendBodyPart(data: keyData, name: "key")
+                //                //upload json data
+                //                multipartFormData.appendBodyPart(data: keyJSON, name: "format")
+                //
+                //                }) { encodingResult in
+                //
+                //                   // self.activityIndicator.startAnimating()
+                //
+                //                    switch encodingResult {
+                //                        //successfully uploaded image to ImageShack
+                //                    case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
+                //                        //json
+                //                        if let info = response.result.value as? [String:AnyObject]{
+                //
+                //                            if let links = info["links"] as? [String:AnyObject]{
+                //                                if let imgLink = links["image_link"] as? String {
+                //                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
+                //                                    //uploading image link we got back from ImageShack to Firebase
+                //
+                //                                    //User init
+                //                                    self.user = User(username: username, userImageUrl: imgLink)
+                //
+                //                                    //save username & userImageUrl in nsuserdefaults
+                //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
+                //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
+                //
+                //                                    //create user in Firebase
+                //                                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
+                //
+                //                                    self.showWelcomeAlertAndPerformSegue()
+                //                                }
+                //                            }
+                //                        }
+                //
+                //                      //  self.activityIndicator.stopAnimating()
+                //
+                //                    })
+                //                        //unsuccessful in uploading image to ImageShack
+                //                    case .Failure(let error):
+                //                        print(error)
+                //
+                //                       // self.activityIndicator.stopAnimating()
+                //                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
+                //                    }
+                //            }
                 
             })
+        } else {
             
-            
-            
-            //MARK: ImageShack
-            //            let url = (NSURL: "https://post.imageshack.us/upload_api.php")
-            //
-            //            //turn image into NSData and compress it
-            //            let imgData = UIImageJPEGRepresentation(self.profilePicImg.image!, 0.2)!
-            //            //turn these strings into NSData
-            //            let keyData = "45BHIJOV53cb774724bf91772c598f8f754c3055".dataUsingEncoding(NSUTF8StringEncoding)!
-            //            let keyJSON = "json".dataUsingEncoding(NSUTF8StringEncoding)!
-            //
-            //
-            //            Alamofire.upload(.POST, url, multipartFormData: { multipartFormData in
-            //                //upload image data
-            //                multipartFormData.appendBodyPart(data: imgData, name: "fileupload", fileName: "image", mimeType: "image/jpg")
-            //                //upload key data
-            //                multipartFormData.appendBodyPart(data: keyData, name: "key")
-            //                //upload json data
-            //                multipartFormData.appendBodyPart(data: keyJSON, name: "format")
-            //
-            //                }) { encodingResult in
-            //
-            //                   // self.activityIndicator.startAnimating()
-            //
-            //                    switch encodingResult {
-            //                        //successfully uploaded image to ImageShack
-            //                    case .Success(let upload,_,_): upload.responseJSON(completionHandler: { response in
-            //                        //json
-            //                        if let info = response.result.value as? [String:AnyObject]{
-            //
-            //                            if let links = info["links"] as? [String:AnyObject]{
-            //                                if let imgLink = links["image_link"] as? String {
-            //                                    //print("IMAGE LINK FROM IMAGESHACK: \(imgLink)")
-            //                                    //uploading image link we got back from ImageShack to Firebase
-            //
-            //                                    //User init
-            //                                    self.user = User(username: username, userImageUrl: imgLink)
-            //
-            //                                    //save username & userImageUrl in nsuserdefaults
-            //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-            //                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
-            //
-            //                                    //create user in Firebase
-            //                                    self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)
-            //
-            //                                    self.showWelcomeAlertAndPerformSegue()
-            //                                }
-            //                            }
-            //                        }
-            //
-            //                      //  self.activityIndicator.stopAnimating()
-            //
-            //                    })
-            //                        //unsuccessful in uploading image to ImageShack
-            //                    case .Failure(let error):
-            //                        print(error)
-            //
-            //                       // self.activityIndicator.stopAnimating()
-            //                        self.showAlert("", msg: "There was an error saving your image. Please try again.")
-            //                    }
-            //            }
-            
-        })
-        
+            showAlert("Error", msg: "No online connectivity detected. Please turn on your Wi-Fi or cellular data.")
+        }
     }
     
     private func makeImgRound() {
