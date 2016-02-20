@@ -29,23 +29,23 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("REACHABILITY RESULT from VIEWDIDLOAD: \(Reachability.isConnectedToNetwork())")
+        //print("REACHABILITY RESULT from VIEWDIDLOAD: \(Reachability.isConnectedToNetwork())")
         
         //navigation bar logo
         loadNavBarTitleImage()
         
         //temporarily save description and pic for user
-        if let text = PersistentData.tempText {
+        if let text = GlobalData.tempText {
             postFld.text = text
             
-            PersistentData.tempText = nil
+            GlobalData.tempText = nil
             
         }
-        if let img = PersistentData.tempImg {
+        if let img = GlobalData.tempImg {
             
             selectedAppImg.image = img
             
-            PersistentData.tempImg = nil
+            GlobalData.tempImg = nil
         }
         
         tableView.delegate  = self
@@ -73,6 +73,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         //activity indicator
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
         self.view.addSubview(Constants.LINEAR_BAR)
+        
+        //get username from Firebase if they are logged in
+        if DataService.ds.REF_BASE.authData != nil {
+            DataService.ds.getUsernameAndImgUrl()
+        }
         
         checkIfLoggedIn()
         tableView.reloadData()
@@ -200,39 +205,38 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == .Delete {
-            if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String
-            {
+            
+            if DataService.ds.REF_BASE.authData != nil {
+                
                 let post = posts[indexPath.row]
                 
-                if  post.username == username {
-                    
+                if  post.username == GlobalData.username {
                     deletePostIndexPath = indexPath
-                    let postToDelete = posts[indexPath.row]
-                    confirmDelete(postToDelete)
+                    confirmDelete(post)
                 }
             }
-            
         }
         
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if Reachability.isConnectedToNetwork() == true {
+            
+            //if not logged in, can't edit
             if DataService.ds.REF_BASE.authData == nil {
                 return false
+            } else {
+                //if logged in, make sure username on post and current user's username match
+                let post = self.posts[indexPath.row]
+                if post.username == GlobalData.username {
+                    return true
+                }
+
             }
         } else {
             showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
         }
         
-        if let username = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
-            let post = posts[indexPath.row]
-            
-            if  post.username == username {
-                return true
-            }
-            
-        }
         return false
     }
     
@@ -373,11 +377,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             
             if let text = self.postFld.text {
-                PersistentData.tempText = text
+                GlobalData.tempText = text
             }
             
             if let img = self.selectedAppImg.image {
-                PersistentData.tempImg = img
+                GlobalData.tempImg = img
             }
             
             self.performSegueWithIdentifier("toLoginVC", sender: nil)
@@ -407,6 +411,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     private func handleDeletePost(alertAction: UIAlertAction!){
         if Reachability.isConnectedToNetwork() == true {
             if let indexPath = deletePostIndexPath {
+              
                 tableView.beginUpdates()
                 let post = posts[indexPath.row]
                 
@@ -437,17 +442,17 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     
     private func postToFirebase(imgUrl: String){
-        
-        if let userImg = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERIMAGE) as? String, let name = PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) as? String {
-            
             //making a new post
+        
+        if let userImg = GlobalData.userImg as String!, let username = GlobalData.username as String!{
+            
             //matches format of test data in Firebase
             let post: [String:AnyObject] = [
                 "description": postFld.text!,
                 "likes": 0,
                 "imageUrl": imgUrl,
                 "userImgUrl": userImg,
-                "username": name]
+                "username": username]
             
             //connect with Firebase
             let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
@@ -460,8 +465,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             tableView.reloadData()
             
             showAlert("", msg: "Your post was created! Thanks for sharing.")
-            
         }
+        
     }
     
     private func loadPostsFromFirebase(){

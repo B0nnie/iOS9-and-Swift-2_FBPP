@@ -27,11 +27,30 @@ class DataService: NSObject, CLUploaderDelegate {
     }
     
     override init(){
-        
+        super.init()
     }
     
     func createFirebaseUser(uid: String, user: [String:AnyObject]) {
         REF_USERS.childByAppendingPath(uid).updateChildValues(user)
+        
+    }
+    
+    func getUsernameAndImgUrl(){
+        DataService.ds.REF_USER_CURRENT.childByAppendingPath("username").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            if let name = snapshot.value as? String {
+                GlobalData.username = name
+            }
+            
+        })
+        
+        DataService.ds.REF_USER_CURRENT.childByAppendingPath("userImgUrl").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            
+            if let img = snapshot.value as? String {
+               GlobalData.userImg = img
+            }
+            
+        })
         
     }
     
@@ -57,8 +76,6 @@ class DataService: NSObject, CLUploaderDelegate {
                     
                     
                 }
-                
-                
                 
 //                self.uploadResponse = Mapper<ImageUploadResponse>().map(dataDictionary)
 //                if code < 400 { onCompletion(status: true, url: self.uploadResponse?.imageURL)}

@@ -58,7 +58,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
             //check to see if user wants to use default profile image
             if profilePicImg.image == UIImage(named:"tiynoborder3") {
                 
-                let alert = UIAlertController(title: "", message: "Press 'OK' to use the default profile image or 'Cancel' to go back and choose your own image", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "", message: "Tap 'OK' to use the default profile image or 'Cancel' to go back and choose your own image", preferredStyle: .Alert)
                 let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
                 let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
                     
@@ -103,7 +103,7 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     
     private func showWelcomeAlertAndPerformSegue() {
         
-        let alert = UIAlertController(title: "Account Created", message: "Welcome! Press OK if you're awesome", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Account Created", message: "Welcome! Tap 'OK' if you're awesome.", preferredStyle: .Alert)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             
             self.performSegueWithIdentifier("toFeedVC", sender: nil)
@@ -151,9 +151,6 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
                     if status == true {
                         //User init
                         self.user = User(username: username, userImageUrl: url!)
-                        
-                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: self.user.username)
-                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: self.user.userImageUrl)
                         
                         //create user in Firebase
                         self.user.createNewUser(self.email, password: self.password, username: self.user.username, img: self.user.userImageUrl)

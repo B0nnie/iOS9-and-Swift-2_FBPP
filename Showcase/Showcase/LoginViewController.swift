@@ -82,10 +82,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                             "username": user.username, "userImgUrl": user.userImageUrl]
                                         
                                         DataService.ds.createFirebaseUser(authData.uid, user: facebookUser)
-                                        //save username and userImageUrl
-                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: user.username)
-                                        PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: user.userImageUrl)
-                                        
                                     }
                                     
                                 }
@@ -143,23 +139,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     }
                     
                 } else {
-                    // user is authorized, check authData for data
+                    // user is already authorized
                     //print("Logged in with email and password")
-                    
-                    if PersistentData.getStringFromUserDefaultsWithKey(Constants.KEY_USERNAME) == nil {
-                        DataService.ds.REF_USER_CURRENT.observeEventType(.Value, withBlock: { snapshot in
-                            if snapshot.value != nil {
-                                
-                                if let username = snapshot.value.objectForKey("username"), let imgUrl = snapshot.value.objectForKey("userImgUrl"){
-                                    
-                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERNAME, value: username)
-                                    PersistentData.saveValueToUserDefaultsWithKey(Constants.KEY_USERIMAGE, value: imgUrl)
-                                }
-                            }
-                            
-                        })
-                        
-                    }
                     
                     self.stopActivityIndicator()
                     self.segueToFeedVCAfterLoggingIn()
@@ -174,7 +155,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func showAccountCreationAlert(){
-        let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Press OK to join our community", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Account not found", message: "There is no account linked to your credentials. Tap 'OK' to join our community", preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         let signUpAction = UIAlertAction(title: "OK", style: .Default, handler: { action in
             self.performSegueWithIdentifier("toCreateVCNav", sender: nil)
