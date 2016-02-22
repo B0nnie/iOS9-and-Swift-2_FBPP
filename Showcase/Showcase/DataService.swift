@@ -88,5 +88,11 @@ class DataService: NSObject, CLUploaderDelegate {
     }
     
     
- 
+    func deleteImage(publicId: String){
+        let cloudinaryHandler = CLCloudinary(url:cloudinary_url)
+        let uploader:CLUploader = CLUploader(cloudinaryHandler, delegate: self)
+        
+        uploader.destroy(publicId, options: nil)
+    }
+    
 }

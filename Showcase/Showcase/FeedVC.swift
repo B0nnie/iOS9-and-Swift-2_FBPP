@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Alamofire
+import Cloudinary
 
 class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -415,6 +416,24 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 tableView.beginUpdates()
                 let post = posts[indexPath.row]
                 
+               
+               
+                
+                //posts/post ref key/imageUrl
+               post.postRef.childByAppendingPath("imageUrl").observeSingleEventOfType(.Value, withBlock: { snapshot in
+                    if let imgUrl = snapshot.value as? String {
+                        
+                         //url to use for Cloudinary delete method
+                        let stringArray = imgUrl.componentsSeparatedByString("/")
+                        let lastElement = stringArray[7]
+                        let publicId = lastElement.stringByReplacingOccurrencesOfString(".jpg", withString: "")
+                        
+                        print("PUBLIC ID: \(publicId)")
+                        
+                         //delete image from Cloudinary
+                        DataService.ds.deleteImage(publicId)
+                    }
+                
                 //Delete post from Firebase:
                 
                 //delete from posts ref
@@ -423,6 +442,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
                 //delete from users/uid/likes ref
                 DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+                
+                })
+                
                 
                 posts.removeAtIndex(indexPath.row)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
