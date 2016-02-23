@@ -10,6 +10,10 @@ import UIKit
 import Alamofire
 import Firebase
 
+protocol NotLoggedInLikesDelegate : class {
+    func showAlert(title:String, msg:String)
+}
+
 class PostCell: UITableViewCell {
     
     @IBOutlet weak var profileImg: UIImageView!
@@ -21,6 +25,7 @@ class PostCell: UITableViewCell {
     
     private var post: Post!
     private(set) var request: Request?
+    weak var delegate:NotLoggedInLikesDelegate?
     
     //creating reference for the likes of the current user for a specific post
     private var likeRef: Firebase! {
@@ -81,7 +86,7 @@ class PostCell: UITableViewCell {
     
     func likeTapped(sender: UITapGestureRecognizer){
         
-        //only run if user is logged in
+        //if user is logged in, then enable liking/unliking
         if  DataService.ds.REF_BASE.authData != nil {
             
             //connecting to Firebase
@@ -99,6 +104,8 @@ class PostCell: UITableViewCell {
                     self.likeRef.removeValue()
                 }
             })
+        } else {
+            delegate?.showAlert("", msg: "Please login by tapping the 'Post' button before liking a post.")
         }
     }
     

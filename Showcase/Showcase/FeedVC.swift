@@ -11,7 +11,7 @@ import Firebase
 import Alamofire
 import Cloudinary
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, NotLoggedInLikesDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var postFld: MaterialTextField!
@@ -52,7 +52,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         tableView.delegate  = self
         tableView.dataSource = self
         postFld.delegate = self
-        
+       
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
@@ -86,7 +86,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     
-    //MARK: TableView Methods
+    //MARK: TableView Methods - start
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -98,13 +98,11 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         
         let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
         
+        cell.delegate = self
         cell.showcaseImg.clipsToBounds = true
-        
         cell.profileImg.image = nil
         cell.showcaseImg.image = nil
-        
         cell.tag = indexPath.row
-        
         
         cell.configureCell(post)
         
@@ -239,7 +237,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         }
         
         return false
-    }
+    }  //MARK: TableView Methods - end
     
     //configure row height depending on if user uploaded image or not
     //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -362,7 +360,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         }
     }
     
-    private func showAlert(title: String, msg: String){
+    func showAlert(title: String, msg: String){
         
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
@@ -416,9 +414,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 tableView.beginUpdates()
                 let post = posts[indexPath.row]
                 
-               
-               
-                
                 //posts/post ref key/imageUrl
                post.postRef.childByAppendingPath("imageUrl").observeSingleEventOfType(.Value, withBlock: { snapshot in
                     if let imgUrl = snapshot.value as? String {
@@ -444,7 +439,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
                 
                 })
-                
                 
                 posts.removeAtIndex(indexPath.row)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
