@@ -423,7 +423,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                         let lastElement = stringArray[7]
                         let publicId = lastElement.stringByReplacingOccurrencesOfString(".jpg", withString: "")
                         
-                        print("PUBLIC ID: \(publicId)")
+                        //print("PUBLIC ID: \(publicId)")
                         
                          //delete image from Cloudinary
                         DataService.ds.deleteImage(publicId)

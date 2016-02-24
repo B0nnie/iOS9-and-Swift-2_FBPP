@@ -22,6 +22,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var heartImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
+    @IBOutlet weak var likesTxtLbl: UILabel!
     
     private var post: Post!
     private(set) var request: Request?
@@ -61,6 +62,12 @@ class PostCell: UITableViewCell {
         self.descriptionTxt.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
         self.usernameLbl.text  = post.username
+        
+        if post.likes == 1 {
+            likesTxtLbl.text = "Like"
+        }else{
+            likesTxtLbl.text = "Likes"
+        }
         
         //only run if user is logged in
         if  DataService.ds.REF_BASE.authData != nil {
