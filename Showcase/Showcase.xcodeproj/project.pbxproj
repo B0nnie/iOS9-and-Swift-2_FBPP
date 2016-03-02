@@ -32,6 +32,7 @@
 		2992B62F1C5A9AFA00B641B7 /* CreateProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992B62E1C5A9AFA00B641B7 /* CreateProfileVC.swift */; };
 		2992B6311C5ABC5F00B641B7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992B6301C5ABC5F00B641B7 /* User.swift */; };
 		29932E841C63CAF700CD5405 /* GlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29932E831C63CAF700CD5405 /* GlobalData.swift */; };
+		299B09881C866D7600C5F871 /* LicenseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299B09871C866D7500C5F871 /* LicenseVC.swift */; };
 		29A7718A1C6E9F150028663D /* LinearProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A771891C6E9F150028663D /* LinearProgressBar.swift */; };
 		29D685221C727A41004579E2 /* MaterialImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D685211C727A41004579E2 /* MaterialImageView.swift */; };
 		29DB370F1C67DBB500D767A0 /* IBDesignableClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DB370E1C67DBB500D767A0 /* IBDesignableClasses.swift */; };
@@ -67,6 +68,7 @@
 		2992B62E1C5A9AFA00B641B7 /* CreateProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProfileVC.swift; sourceTree = "<group>"; };
 		2992B6301C5ABC5F00B641B7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		29932E831C63CAF700CD5405 /* GlobalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalData.swift; sourceTree = "<group>"; };
+		299B09871C866D7500C5F871 /* LicenseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseVC.swift; sourceTree = "<group>"; };
 		29A771891C6E9F150028663D /* LinearProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearProgressBar.swift; sourceTree = "<group>"; };
 		29D685211C727A41004579E2 /* MaterialImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialImageView.swift; sourceTree = "<group>"; };
 		29DB370E1C67DBB500D767A0 /* IBDesignableClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBDesignableClasses.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				296B39391C4D661200254893 /* LoginViewController.swift */,
 				293ED01A1C51AC7900E05769 /* FeedVC.swift */,
 				2992B62E1C5A9AFA00B641B7 /* CreateProfileVC.swift */,
+				299B09871C866D7500C5F871 /* LicenseVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				29178AF51C4EB0D1007FF83F /* MaterialView.swift in Sources */,
 				296B393A1C4D661200254893 /* LoginViewController.swift in Sources */,
 				290A3D521C5EBCE90040F199 /* ImageFromUrl.swift in Sources */,
+				299B09881C866D7600C5F871 /* LicenseVC.swift in Sources */,
 				293ED01B1C51AC7900E05769 /* FeedVC.swift in Sources */,
 				293ED01D1C51AD8D00E05769 /* PostCell.swift in Sources */,
 				29A7718A1C6E9F150028663D /* LinearProgressBar.swift in Sources */,

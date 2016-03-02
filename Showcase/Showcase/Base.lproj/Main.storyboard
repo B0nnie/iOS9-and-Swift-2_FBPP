@@ -16,8 +16,13 @@
             <string>NotoSans-Bold</string>
             <string>NotoSans-Bold</string>
             <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
         </mutableArray>
         <mutableArray key="NotoSans-Regular.ttf">
+            <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
@@ -109,7 +114,7 @@
                                         </variation>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="zbS-RK-qgz">
-                                        <rect key="frame" x="28" y="122" width="504" height="83"/>
+                                        <rect key="frame" x="28" y="122" width="504" height="84"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UJ9-YF-Vne" customClass="MaterialTextField" customModule="Showcase" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="504" height="32"/>
@@ -127,7 +132,7 @@
                                                 </variation>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i18-rI-G1X" customClass="MaterialTextField" customModule="Showcase" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="52" width="504" height="31"/>
+                                                <rect key="frame" x="0.0" y="52" width="504" height="32"/>
                                                 <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="NDz-KN-r4a"/>
@@ -154,7 +159,7 @@
                                             </mask>
                                         </variation>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ha3-KF-Ssw" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ha3-KF-Ssw" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
                                         <rect key="frame" x="182" y="246" width="196" height="41"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.2784313725" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -235,6 +240,141 @@
             </objects>
             <point key="canvasLocation" x="2287" y="323"/>
         </scene>
+        <!--LicenseVC-->
+        <scene sceneID="MMW-kD-foi">
+            <objects>
+                <viewController id="g0M-Ba-Ff4" customClass="LicenseVC" customModule="Showcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0ud-SF-LuZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="nzy-io-8f2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BVT-Lj-gPf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1843"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="42W-x8-bUX">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1843"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFc-KE-M7b">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="1843"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIY Showcase App End User License Agreement" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-eq-dgI">
+                                                <rect key="frame" x="20" y="20" width="560" height="24"/>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="1000" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWU-J9-hve">
+                                                <rect key="frame" x="8" y="58" width="584" height="1696"/>
+                                                <mutableString key="text">This End User License Agreement (“Agreement”) is between you and TIY Showcase and governs use of this app made available through the Apple App Store. By installing the TIY Showcase App, you agree to be bound by this Agreement and understand that there is no tolerance for objectionable content. If you do not agree with the terms and conditions of this Agreement, you are not entitled to use the TIY Showcase App.
+In order to ensure TIY Showcase provides the best experience possible for everyone, we strongly enforce a no tolerance policy for objectionable content. If you see inappropriate content, please use the “Report as offensive” feature found under each post.
+
+1. Parties
+This Agreement is between you and TIY Showcase only, and not Apple, Inc. (“Apple”). Notwithstanding the foregoing, you acknowledge that Apple and its subsidiaries are third party beneficiaries of this Agreement and Apple has the right to enforce this Agreement against you. TIY Showcase, not Apple, is solely responsible for the TIY Showcase App and its content.
+
+2. Privacy
+TIY Showcase may collect and use information about your usage of the TIY Showcase App, including certain types of information from and about your device. TIY Showcase may use this information, as long as it is in a form that does not personally identify you, to measure the use and performance of the TIY Showcase App.
+
+3. Limited License
+TIY Showcase grants you a limited, non-exclusive, non-transferable, revocable license to use theTIY Showcase App for your personal, non-commercial purposes. You may only use the TIY Showcase App on Apple devices that you own or control and as permitted by the App Store Terms of Service.
+
+4. Age Restrictions
+By using the TIY Showcase App, you represent and warrant that (a) you are 17 years of age or older and you agree to be bound by this Agreement; (b) if you are under 17 years of age, you have obtained verifiable consent from a parent or legal guardian; and (c) your use of the TIY Showcase App does not violate any applicable law or regulation. Your access to the TIY Showcase App may be terminated without warning if TIY Showcase believes, in its sole discretion, that you are under the age of 17 years and have not obtained verifiable consent from a parent or legal guardian. If you are a parent or legal guardian and you provide your consent to your child’s use of the TIY Showcase App, you agree to be bound by this Agreement in respect to your child’s use of the TIY Showcase App.
+
+5. Objectionable Content Policy
+Content may not be submitted to TIY Showcase, who will moderate all content and ultimately decide whether or not to post a submission to the extent such content includes, is in conjunction with, or alongside any, Objectionable Content. Objectionable Content includes, but is not limited to: (i) sexually explicit materials; (ii) obscene, defamatory, libelous, slanderous, violent and/or unlawful content or profanity; (iii) content that infringes upon the rights of any third party, including copyright, trademark, privacy, publicity or other personal or proprietary right, or that is deceptive or fraudulent; (iv) content that promotes the use or sale of illegal or regulated substances, tobacco products, ammunition and/or firearms; and (v) gambling, including without limitation, any online casino, sports books, bingo or poker.
+
+6. Warranty
+TIY Showcase disclaims all warranties about the TIY Showcase App to the fullest extent permitted by law. To the extent any warranty exists under law that cannot be disclaimed, TIY Showcase, not Apple, shall be solely responsible for such warranty.
+
+7. Maintenance and Support
+TIY Showcase does provide minimal maintenance or support for it but not to the extent that any maintenance or support is required by applicable law, TIY Showcase, not Apple, shall be obligated to furnish any such maintenance or support.
+
+8. Product Claims
+TIY Showcase, not Apple, is responsible for addressing any claims by you relating to the TIY Showcase App or use of it, including, but not limited to: (i) any product liability claim; (ii) any claim that the TIY Showcase App fails to conform to any applicable legal or regulatory requirement; and (iii) any claim arising under consumer protection or similar legislation. Nothing in this Agreement shall be deemed an admission that you may have such claims.
+
+9. Third Party Intellectual Property Claims
+TIY Showcase shall not be obligated to indemnify or defend you with respect to any third party claim arising out or relating to the TIY Showcase App. To the extent TIY Showcase is required to provide indemnification by applicable law, TIY Showcase, not Apple, shall be solely responsible for the investigation, defense, settlement and discharge of any claim that the TIY Showcase App or your use of it infringes any third party intellectual property right.</mutableString>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ld7-0k-dPK" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                                <rect key="frame" x="201" y="1795" width="198" height="40"/>
+                                                <color key="backgroundColor" red="0.23529411759999999" green="0.2784313725" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="Ejs-fC-vnW"/>
+                                                    <constraint firstAttribute="width" constant="180" id="cHU-hN-5VG"/>
+                                                    <constraint firstAttribute="height" constant="36" id="oJZ-4V-Zfj"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
+                                                <state key="normal" title="Done">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="cHU-hN-5VG"/>
+                                                        <exclude reference="oJZ-4V-Zfj"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="doneBtnPressed:" destination="g0M-Ba-Ff4" eventType="touchUpInside" id="niV-9L-0y6"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="iWU-J9-hve" firstAttribute="centerX" secondItem="HFc-KE-M7b" secondAttribute="centerX" id="0cZ-UT-DCT"/>
+                                            <constraint firstItem="iWU-J9-hve" firstAttribute="top" secondItem="fDk-eq-dgI" secondAttribute="bottom" constant="14" id="0fL-zS-XYm"/>
+                                            <constraint firstAttribute="trailing" secondItem="iWU-J9-hve" secondAttribute="trailing" constant="8" id="D69-12-lz8"/>
+                                            <constraint firstItem="fDk-eq-dgI" firstAttribute="centerX" secondItem="HFc-KE-M7b" secondAttribute="centerX" id="FMb-g4-36n"/>
+                                            <constraint firstAttribute="height" constant="3000" id="OcN-St-6zx"/>
+                                            <constraint firstItem="iWU-J9-hve" firstAttribute="leading" secondItem="HFc-KE-M7b" secondAttribute="leading" constant="8" id="Say-3Q-rGb"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ld7-0k-dPK" secondAttribute="bottom" constant="8" id="UOi-kS-KUW"/>
+                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="height" secondItem="HFc-KE-M7b" secondAttribute="height" multiplier="1e-05" id="WUi-8z-6Mk"/>
+                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="top" secondItem="iWU-J9-hve" secondAttribute="bottom" constant="41" id="XYh-xS-p5Y"/>
+                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="centerX" secondItem="HFc-KE-M7b" secondAttribute="centerX" id="r77-Ik-BTt"/>
+                                            <constraint firstItem="fDk-eq-dgI" firstAttribute="leading" secondItem="HFc-KE-M7b" secondAttribute="leading" constant="20" id="sOl-us-cHU"/>
+                                            <constraint firstAttribute="trailing" secondItem="fDk-eq-dgI" secondAttribute="trailing" constant="20" id="tEl-IX-G4L"/>
+                                            <constraint firstItem="fDk-eq-dgI" firstAttribute="top" secondItem="HFc-KE-M7b" secondAttribute="top" constant="20" id="wE3-Wv-3uX"/>
+                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="width" secondItem="HFc-KE-M7b" secondAttribute="width" multiplier="0.33" id="xCU-4f-Xjb"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="OcN-St-6zx"/>
+                                                <exclude reference="WUi-8z-6Mk"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="HFc-KE-M7b" secondAttribute="trailing" id="Ouc-IB-k0c"/>
+                                    <constraint firstAttribute="bottom" secondItem="HFc-KE-M7b" secondAttribute="bottom" id="ejb-2J-QQy"/>
+                                    <constraint firstItem="HFc-KE-M7b" firstAttribute="top" secondItem="42W-x8-bUX" secondAttribute="top" id="h9i-tX-7Xw"/>
+                                    <constraint firstItem="HFc-KE-M7b" firstAttribute="leading" secondItem="42W-x8-bUX" secondAttribute="leading" id="vJz-cc-DBx"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="42W-x8-bUX" firstAttribute="leading" secondItem="BVT-Lj-gPf" secondAttribute="leading" id="BuD-lw-wR3"/>
+                            <constraint firstItem="42W-x8-bUX" firstAttribute="top" secondItem="BVT-Lj-gPf" secondAttribute="top" id="b30-GE-upG"/>
+                            <constraint firstAttribute="trailing" secondItem="42W-x8-bUX" secondAttribute="trailing" id="gYU-eA-mgd"/>
+                            <constraint firstItem="HFc-KE-M7b" firstAttribute="width" secondItem="BVT-Lj-gPf" secondAttribute="width" id="nAu-Az-O5B"/>
+                            <constraint firstItem="nzy-io-8f2" firstAttribute="top" secondItem="42W-x8-bUX" secondAttribute="bottom" id="qvP-0q-03r"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="1843"/>
+                    <connections>
+                        <outlet property="contentView" destination="HFc-KE-M7b" id="NgX-Xv-anM"/>
+                        <outlet property="scrollView" destination="42W-x8-bUX" id="3oJ-yC-x0X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jb2-5a-wuH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3110" y="-342"/>
+        </scene>
         <!--Create ProfileVC-->
         <scene sceneID="4uM-Y8-qLg">
             <objects>
@@ -282,13 +422,13 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DV7-y9-S60" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
-                                        <rect key="frame" x="181" y="417" width="198" height="40"/>
+                                        <rect key="frame" x="181" y="403" width="198" height="40"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.2784313725" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="ZML-Pp-8B9"/>
                                             <constraint firstAttribute="height" constant="36" id="uNs-Yx-56Y"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                         <state key="normal" title="Done">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -348,26 +488,59 @@
                                             <rect key="frame" x="112" y="96" width="137" height="28"/>
                                         </variation>
                                     </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="tIV-jq-ODl">
+                                        <rect key="frame" x="14" y="451" width="532" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to our " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-qr-ZHP">
+                                                <rect key="frame" x="0.0" y="0.0" width="305" height="30"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="13"/>
+                                                <color key="textColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="3rP-Xj-1xn">
+                                                <rect key="frame" x="308" y="0.0" width="224" height="30"/>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="13"/>
+                                                <state key="normal" title="License Agreement     ">
+                                                    <color key="titleColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="g0M-Ba-Ff4" kind="presentation" id="Ybl-3o-g54"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="3rP-Xj-1xn" firstAttribute="centerY" secondItem="dgE-qr-ZHP" secondAttribute="centerY" id="Ytc-p9-dfU"/>
+                                            <constraint firstAttribute="trailing" secondItem="3rP-Xj-1xn" secondAttribute="trailing" id="aNP-cX-Kqi"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="aNP-cX-Kqi"/>
+                                            </mask>
+                                        </variation>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="tIV-jq-ODl" firstAttribute="centerX" secondItem="lvo-yv-n6j" secondAttribute="centerX" id="2t3-eG-tsr"/>
+                                    <constraint firstItem="tIV-jq-ODl" firstAttribute="top" secondItem="DV7-y9-S60" secondAttribute="bottom" constant="8" id="4lw-6O-afM"/>
                                     <constraint firstItem="DV7-y9-S60" firstAttribute="width" secondItem="nNN-B9-d9S" secondAttribute="width" id="5YD-FY-w5U"/>
                                     <constraint firstItem="f3y-YQ-1Hk" firstAttribute="height" secondItem="lvo-yv-n6j" secondAttribute="height" multiplier="0.07" id="CeD-Ok-xMe"/>
                                     <constraint firstItem="5Vz-Vk-nTz" firstAttribute="centerX" secondItem="lvo-yv-n6j" secondAttribute="centerX" id="JC6-Yp-mje"/>
                                     <constraint firstItem="5Vz-Vk-nTz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lvo-yv-n6j" secondAttribute="top" id="M9T-z3-vSe"/>
                                     <constraint firstItem="87D-L0-VgS" firstAttribute="centerX" secondItem="lvo-yv-n6j" secondAttribute="centerX" id="MEL-QV-wX1"/>
                                     <constraint firstItem="DV7-y9-S60" firstAttribute="height" secondItem="lvo-yv-n6j" secondAttribute="height" multiplier="0.08" id="RAj-u5-puX"/>
-                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DV7-y9-S60" secondAttribute="bottom" id="XJx-nK-fbv"/>
                                     <constraint firstItem="nNN-B9-d9S" firstAttribute="centerY" secondItem="lvo-yv-n6j" secondAttribute="centerY" id="Z2b-kY-NdY"/>
+                                    <constraint firstItem="tIV-jq-ODl" firstAttribute="width" secondItem="lvo-yv-n6j" secondAttribute="width" multiplier="0.95" id="a1w-mT-VAv"/>
                                     <constraint firstAttribute="trailing" secondItem="f3y-YQ-1Hk" secondAttribute="trailing" constant="20" id="cHY-cv-7p5"/>
                                     <constraint firstItem="f3y-YQ-1Hk" firstAttribute="leading" secondItem="lvo-yv-n6j" secondAttribute="leading" constant="20" id="dtN-Mk-tXr"/>
                                     <constraint firstItem="87D-L0-VgS" firstAttribute="top" secondItem="nNN-B9-d9S" secondAttribute="bottom" multiplier="1.05" id="f2d-7I-ayT"/>
                                     <constraint firstItem="DV7-y9-S60" firstAttribute="centerX" secondItem="lvo-yv-n6j" secondAttribute="centerX" id="gAj-5f-Cjv"/>
                                     <constraint firstItem="f3y-YQ-1Hk" firstAttribute="top" secondItem="5Vz-Vk-nTz" secondAttribute="bottom" constant="17" id="i5r-Nt-A7p"/>
                                     <constraint firstItem="nNN-B9-d9S" firstAttribute="centerX" secondItem="lvo-yv-n6j" secondAttribute="centerX" id="jiX-5V-wWj"/>
+                                    <constraint firstItem="DV7-y9-S60" firstAttribute="top" secondItem="87D-L0-VgS" secondAttribute="bottom" constant="24" id="kJ8-Lo-op8"/>
                                     <constraint firstItem="nNN-B9-d9S" firstAttribute="height" secondItem="lvo-yv-n6j" secondAttribute="height" multiplier="0.4" id="meG-ui-yo3"/>
                                     <constraint firstItem="nNN-B9-d9S" firstAttribute="top" secondItem="f3y-YQ-1Hk" secondAttribute="bottom" multiplier="1.2" id="q5C-Ta-v3S"/>
-                                    <constraint firstItem="DV7-y9-S60" firstAttribute="top" secondItem="87D-L0-VgS" secondAttribute="bottom" multiplier="1.1" id="vAb-qe-ALU"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="tIV-jq-ODl" secondAttribute="bottom" constant="8" id="trY-oi-phM"/>
                                     <constraint firstItem="5Vz-Vk-nTz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lvo-yv-n6j" secondAttribute="top" id="yNY-e0-8wI"/>
                                     <constraint firstItem="f3y-YQ-1Hk" firstAttribute="top" secondItem="5Vz-Vk-nTz" secondAttribute="bottom" multiplier="1.6" id="zer-f8-aaa"/>
                                     <constraint firstItem="87D-L0-VgS" firstAttribute="height" secondItem="lvo-yv-n6j" secondAttribute="height" multiplier="0.03" id="zsZ-5f-Uam"/>
@@ -400,6 +573,7 @@
                         <outlet property="cancelBtn" destination="aDG-Ek-n8S" id="OL6-aB-VWM"/>
                         <outlet property="choosePicBtn" destination="87D-L0-VgS" id="ADC-9W-RIn"/>
                         <outlet property="doneButton" destination="DV7-y9-S60" id="MFa-FL-6h2"/>
+                        <outlet property="licenseAgreeBtn" destination="3rP-Xj-1xn" id="6el-K1-RzR"/>
                         <outlet property="profilePicImg" destination="nNN-B9-d9S" id="sKy-C0-4C3"/>
                         <outlet property="usernameFld" destination="f3y-YQ-1Hk" id="YKZ-aH-Jgs"/>
                         <segue destination="gmG-PY-NYK" kind="show" identifier="toFeedVC" id="S4c-LT-1aV"/>

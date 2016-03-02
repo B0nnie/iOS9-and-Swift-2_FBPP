@@ -18,6 +18,8 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var cancelBtn: UIBarButtonItem!
     @IBOutlet weak var choosePicBtn: MaterialButton!
     
+    @IBOutlet weak var licenseAgreeBtn: UIButton!
+    
     private var imagePicker: UIImagePickerController!
     private var user: User!
     var email: String!
@@ -30,6 +32,10 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         imagePicker.delegate = self
         profilePicImg.hidden = true
         usernameFld.delegate = self
+        
+        self.licenseAgreeBtn.titleLabel!.minimumScaleFactor = 0.5
+       
+        self.licenseAgreeBtn.titleLabel!.adjustsFontSizeToFitWidth = true
     }
     
     
@@ -262,5 +268,12 @@ class CreateProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavi
         self.choosePicBtn.userInteractionEnabled = true
         
     }
+    
+    @IBAction func licenseBtnPressed(){
+        
+        
+    }
+    
+    
     
 }
