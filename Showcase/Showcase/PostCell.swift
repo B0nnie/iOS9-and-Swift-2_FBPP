@@ -18,7 +18,11 @@ class PostCell: UITableViewCell {
     
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var showcaseImg: UIImageView!
-    @IBOutlet weak var descriptionTxt: UITextView!
+
+    @IBOutlet weak var descriptionLbl: UILabel!
+    
+    
+    
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var heartImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
@@ -59,7 +63,7 @@ class PostCell: UITableViewCell {
         //profileImg.frame.size.width = profileImg.frame.size.height
         
         self.post = post
-        self.descriptionTxt.text = post.postDescription
+        self.descriptionLbl.text = post.postDescription
         self.likesLbl.text = "\(post.likes)"
         self.usernameLbl.text  = post.username
         

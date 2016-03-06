@@ -18,6 +18,7 @@ class Post {
     private(set) var postKey: String!
     private(set) var postRef: Firebase!
     private(set) var userImageUrl: String!
+    var flagged:  Bool?
 
 
 //    init(description: String, imageUrl: String, username: String) {

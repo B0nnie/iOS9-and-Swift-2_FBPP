@@ -19,8 +19,7 @@ class LicenseVC: UIViewController {
         super.viewDidLoad()
         
     }
-    
-    
+
 
     @IBAction func doneBtnPressed(sender: AnyObject) {
         

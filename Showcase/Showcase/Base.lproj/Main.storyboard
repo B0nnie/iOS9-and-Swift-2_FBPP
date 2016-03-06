@@ -20,8 +20,15 @@
             <string>NotoSans-Bold</string>
             <string>NotoSans-Bold</string>
             <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
+            <string>NotoSans-Bold</string>
         </mutableArray>
         <mutableArray key="NotoSans-Regular.ttf">
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
+            <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
             <string>NotoSans</string>
@@ -51,13 +58,13 @@
                                 <rect key="frame" x="20" y="77" width="560" height="120"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Rbf-6s-Lf4">
-                                        <rect key="frame" x="20" y="10" width="520" height="100"/>
+                                        <rect key="frame" x="20" y="10" width="520" height="84"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb-icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ahc-0h-WVv">
-                                                <rect key="frame" x="0.0" y="18" width="65" height="65"/>
+                                                <rect key="frame" x="0.0" y="10" width="65" height="65"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BkU-iL-okn" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
-                                                <rect key="frame" x="105" y="34" width="415" height="33"/>
+                                                <rect key="frame" x="105" y="26" width="415" height="33"/>
                                                 <color key="backgroundColor" red="0.11764705882352941" green="0.53333333333333333" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="15"/>
                                                 <state key="normal" title="FACEBOOK LOGIN">
@@ -69,18 +76,53 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="ZNk-MM-6XM">
+                                        <rect key="frame" x="0.0" y="94" width="560" height="26"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By logging in, you agree to our " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="gxt-xS-1mA">
+                                                <rect key="frame" x="0.0" y="0.0" width="319" height="26"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="10"/>
+                                                <color key="textColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="sDr-Wm-yt9">
+                                                <rect key="frame" x="322" y="0.0" width="238" height="26"/>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="10"/>
+                                                <state key="normal" title="License Agreement     ">
+                                                    <color key="titleColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="g0M-Ba-Ff4" kind="presentation" id="Yox-s8-cjh"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="sDr-Wm-yt9" secondAttribute="trailing" id="yIJ-vX-E1g"/>
+                                            <constraint firstItem="sDr-Wm-yt9" firstAttribute="centerY" secondItem="gxt-xS-1mA" secondAttribute="centerY" id="yT0-qI-US4"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="yIJ-vX-E1g"/>
+                                            </mask>
+                                        </variation>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ZNk-MM-6XM" secondAttribute="trailing" id="4sG-zw-hFf"/>
+                                    <constraint firstItem="ZNk-MM-6XM" firstAttribute="leading" secondItem="L9w-aZ-vSO" secondAttribute="leading" id="8gc-OS-SQ6"/>
                                     <constraint firstItem="Rbf-6s-Lf4" firstAttribute="leading" secondItem="L9w-aZ-vSO" secondAttribute="leading" constant="20" id="Cwd-lH-S71"/>
                                     <constraint firstAttribute="bottom" secondItem="Rbf-6s-Lf4" secondAttribute="bottom" constant="10" id="EgP-dg-ykg"/>
                                     <constraint firstAttribute="trailing" secondItem="Rbf-6s-Lf4" secondAttribute="trailing" constant="20" id="eLH-ER-eAE"/>
                                     <constraint firstItem="Rbf-6s-Lf4" firstAttribute="top" secondItem="L9w-aZ-vSO" secondAttribute="top" constant="10" id="fTZ-vK-el7"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZNk-MM-6XM" secondAttribute="bottom" id="imx-Qv-NNr"/>
                                     <constraint firstAttribute="height" constant="128" id="nt1-Mx-f0R"/>
+                                    <constraint firstItem="ZNk-MM-6XM" firstAttribute="top" secondItem="Rbf-6s-Lf4" secondAttribute="bottom" id="vo3-wc-kQk"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="nt1-Mx-f0R"/>
+                                        <exclude reference="EgP-dg-ykg"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -159,8 +201,8 @@
                                             </mask>
                                         </variation>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ha3-KF-Ssw" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
-                                        <rect key="frame" x="182" y="246" width="196" height="41"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ha3-KF-Ssw" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
+                                        <rect key="frame" x="182" y="247" width="196" height="41"/>
                                         <color key="backgroundColor" red="0.23529411759999999" green="0.2784313725" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="TRr-T3-syK"/>
@@ -261,12 +303,12 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIY Showcase App End User License Agreement" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-eq-dgI">
                                                 <rect key="frame" x="20" y="20" width="560" height="24"/>
                                                 <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="1000" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWU-J9-hve">
                                                 <rect key="frame" x="8" y="58" width="584" height="1696"/>
-                                                <mutableString key="text">This End User License Agreement (“Agreement”) is between you and TIY Showcase and governs use of this app made available through the Apple App Store. By installing the TIY Showcase App, you agree to be bound by this Agreement and understand that there is no tolerance for objectionable content. If you do not agree with the terms and conditions of this Agreement, you are not entitled to use the TIY Showcase App.
+                                                <string key="text">This End User License Agreement (“Agreement”) is between you and TIY Showcase and governs use of this app made available through the Apple App Store. By installing the TIY Showcase App, you agree to be bound by this Agreement and understand that there is no tolerance for objectionable content. If you do not agree with the terms and conditions of this Agreement, you are not entitled to use the TIY Showcase App.
 In order to ensure TIY Showcase provides the best experience possible for everyone, we strongly enforce a no tolerance policy for objectionable content. If you see inappropriate content, please use the “Report as offensive” feature found under each post.
 
 1. Parties
@@ -294,9 +336,9 @@ TIY Showcase does provide minimal maintenance or support for it but not to the e
 TIY Showcase, not Apple, is responsible for addressing any claims by you relating to the TIY Showcase App or use of it, including, but not limited to: (i) any product liability claim; (ii) any claim that the TIY Showcase App fails to conform to any applicable legal or regulatory requirement; and (iii) any claim arising under consumer protection or similar legislation. Nothing in this Agreement shall be deemed an admission that you may have such claims.
 
 9. Third Party Intellectual Property Claims
-TIY Showcase shall not be obligated to indemnify or defend you with respect to any third party claim arising out or relating to the TIY Showcase App. To the extent TIY Showcase is required to provide indemnification by applicable law, TIY Showcase, not Apple, shall be solely responsible for the investigation, defense, settlement and discharge of any claim that the TIY Showcase App or your use of it infringes any third party intellectual property right.</mutableString>
+TIY Showcase shall not be obligated to indemnify or defend you with respect to any third party claim arising out or relating to the TIY Showcase App. To the extent TIY Showcase is required to provide indemnification by applicable law, TIY Showcase, not Apple, shall be solely responsible for the investigation, defense, settlement and discharge of any claim that the TIY Showcase App or your use of it infringes any third party intellectual property right.</string>
                                                 <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="15"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ld7-0k-dPK" customClass="MaterialButton" customModule="Showcase" customModuleProvider="target">
@@ -331,7 +373,7 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                             <constraint firstAttribute="height" constant="3000" id="OcN-St-6zx"/>
                                             <constraint firstItem="iWU-J9-hve" firstAttribute="leading" secondItem="HFc-KE-M7b" secondAttribute="leading" constant="8" id="Say-3Q-rGb"/>
                                             <constraint firstAttribute="bottom" secondItem="Ld7-0k-dPK" secondAttribute="bottom" constant="8" id="UOi-kS-KUW"/>
-                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="height" secondItem="HFc-KE-M7b" secondAttribute="height" multiplier="1e-05" id="WUi-8z-6Mk"/>
+                                            <constraint firstItem="Ld7-0k-dPK" firstAttribute="height" secondItem="HFc-KE-M7b" secondAttribute="height" id="WUi-8z-6Mk"/>
                                             <constraint firstItem="Ld7-0k-dPK" firstAttribute="top" secondItem="iWU-J9-hve" secondAttribute="bottom" constant="41" id="XYh-xS-p5Y"/>
                                             <constraint firstItem="Ld7-0k-dPK" firstAttribute="centerX" secondItem="HFc-KE-M7b" secondAttribute="centerX" id="r77-Ik-BTt"/>
                                             <constraint firstItem="fDk-eq-dgI" firstAttribute="leading" secondItem="HFc-KE-M7b" secondAttribute="leading" constant="20" id="sOl-us-cHU"/>
@@ -583,6 +625,188 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
             </objects>
             <point key="canvasLocation" x="2940" y="1047.75"/>
         </scene>
+        <!--Post DetailVC-->
+        <scene sceneID="zd1-dD-3vZ">
+            <objects>
+                <viewController storyboardIdentifier="PostDetailVC" id="1c3-j4-QqV" customClass="PostDetailVC" customModule="Showcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UQL-Bn-OD0"/>
+                        <viewControllerLayoutGuide type="bottom" id="KbW-01-bIl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8RM-eR-NVL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wx4-BX-nFR" customClass="MaterialView" customModule="Showcase" customModuleProvider="target">
+                                <rect key="frame" x="20" y="24" width="560" height="559"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Ks9-lA-0DN">
+                                        <rect key="frame" x="459" y="31" width="85" height="24"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PC7-Eb-933">
+                                                <rect key="frame" x="0.0" y="0.0" width="39" height="24"/>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gla-C6-4y8">
+                                                <rect key="frame" x="45" y="0.0" width="40" height="24"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.01" translatesAutoresizingMaskIntoConstraints="NO" id="LlR-Et-KsW">
+                                        <rect key="frame" x="8" y="77" width="544" height="1"/>
+                                        <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+                                        <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="15"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-full" translatesAutoresizingMaskIntoConstraints="NO" id="MHx-nW-sKL">
+                                        <rect key="frame" x="59" y="78" width="442" height="442"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="MHx-nW-sKL" secondAttribute="height" multiplier="1:1" id="lbi-nh-x06"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleAspectFill" alignment="center" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="Iuf-KD-FG2">
+                                        <rect key="frame" x="8" y="15" width="163" height="56"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T6N-d2-VYO">
+                                                <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="T6N-d2-VYO" secondAttribute="height" multiplier="1:1" id="wdf-tb-RF1"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username3000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjy-PR-v7A">
+                                                <rect key="frame" x="67" y="19" width="96" height="18"/>
+                                                <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="13"/>
+                                                <color key="textColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zDQ-PP-LR9" userLabel="FlagView">
+                                        <rect key="frame" x="485" y="525" width="59" height="28"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyflag2" translatesAutoresizingMaskIntoConstraints="NO" id="Kbz-3T-ejW">
+                                                <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="H89-Y2-XNo"/>
+                                                    <constraint firstAttribute="width" secondItem="Kbz-3T-ejW" secondAttribute="height" multiplier="1:1" id="O1e-29-WCv"/>
+                                                </constraints>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="H89-Y2-XNo"/>
+                                                    </mask>
+                                                </variation>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.01" translatesAutoresizingMaskIntoConstraints="NO" id="dUf-tb-7Dt">
+                                                <rect key="frame" x="29" y="0.0" width="30" height="28"/>
+                                                <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="15"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0K1-c1-Ny6">
+                                                <rect key="frame" x="0.0" y="0.0" width="59" height="28"/>
+                                                <connections>
+                                                    <action selector="didFlagPostPressed:" destination="1c3-j4-QqV" eventType="touchUpInside" id="D3K-Lh-CoS"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="0K1-c1-Ny6" secondAttribute="trailing" id="3it-zf-wqi"/>
+                                            <constraint firstAttribute="bottom" secondItem="dUf-tb-7Dt" secondAttribute="bottom" id="EcN-du-450"/>
+                                            <constraint firstItem="Kbz-3T-ejW" firstAttribute="leading" secondItem="zDQ-PP-LR9" secondAttribute="leading" id="Fms-DK-K7F"/>
+                                            <constraint firstItem="0K1-c1-Ny6" firstAttribute="leading" secondItem="zDQ-PP-LR9" secondAttribute="leading" id="IXx-h2-6nb"/>
+                                            <constraint firstAttribute="trailing" secondItem="dUf-tb-7Dt" secondAttribute="trailing" id="Jo6-Fm-0t7"/>
+                                            <constraint firstItem="dUf-tb-7Dt" firstAttribute="top" secondItem="zDQ-PP-LR9" secondAttribute="top" id="MQe-8I-xjT"/>
+                                            <constraint firstAttribute="bottom" secondItem="Kbz-3T-ejW" secondAttribute="bottom" id="NRC-eW-eiK"/>
+                                            <constraint firstAttribute="height" constant="50" id="bfn-5z-sQL"/>
+                                            <constraint firstItem="0K1-c1-Ny6" firstAttribute="top" secondItem="zDQ-PP-LR9" secondAttribute="top" id="dHx-oP-pTB"/>
+                                            <constraint firstItem="Kbz-3T-ejW" firstAttribute="leading" secondItem="zDQ-PP-LR9" secondAttribute="leading" id="eKo-xE-DRG"/>
+                                            <constraint firstAttribute="bottom" secondItem="0K1-c1-Ny6" secondAttribute="bottom" id="gAT-0z-axz"/>
+                                            <constraint firstAttribute="width" constant="98" id="oUY-lC-QZF"/>
+                                            <constraint firstItem="Kbz-3T-ejW" firstAttribute="top" secondItem="zDQ-PP-LR9" secondAttribute="top" id="rUI-vX-DEc"/>
+                                            <constraint firstItem="dUf-tb-7Dt" firstAttribute="leading" secondItem="Kbz-3T-ejW" secondAttribute="trailing" multiplier="1.05" id="y1k-MX-r5T"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="bfn-5z-sQL"/>
+                                                <exclude reference="oUY-lC-QZF"/>
+                                                <exclude reference="eKo-xE-DRG"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="MHx-nW-sKL" firstAttribute="top" relation="greaterThanOrEqual" secondItem="LlR-Et-KsW" secondAttribute="bottom" id="4E5-Sy-O57"/>
+                                    <constraint firstItem="T6N-d2-VYO" firstAttribute="height" secondItem="zDQ-PP-LR9" secondAttribute="height" multiplier="2" id="74u-xe-3ou"/>
+                                    <constraint firstItem="Iuf-KD-FG2" firstAttribute="top" secondItem="zDQ-PP-LR9" secondAttribute="bottom" multiplier="1.2" id="Cas-pz-rDY"/>
+                                    <constraint firstAttribute="trailing" secondItem="LlR-Et-KsW" secondAttribute="trailing" constant="8" id="GUt-SD-V5n"/>
+                                    <constraint firstItem="Ks9-lA-0DN" firstAttribute="centerY" secondItem="zDQ-PP-LR9" secondAttribute="centerY" id="Grd-YU-QVQ"/>
+                                    <constraint firstItem="zDQ-PP-LR9" firstAttribute="top" secondItem="MHx-nW-sKL" secondAttribute="bottom" multiplier="1.01" id="IRq-bY-5RA"/>
+                                    <constraint firstItem="MHx-nW-sKL" firstAttribute="width" secondItem="wx4-BX-nFR" secondAttribute="height" multiplier="7:13" id="Ila-qI-KC5"/>
+                                    <constraint firstItem="MHx-nW-sKL" firstAttribute="centerX" secondItem="wx4-BX-nFR" secondAttribute="centerX" id="JFp-pK-2p0"/>
+                                    <constraint firstItem="Iuf-KD-FG2" firstAttribute="centerY" secondItem="Ks9-lA-0DN" secondAttribute="centerY" id="McL-Ku-Rrv"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ks9-lA-0DN" secondAttribute="trailing" multiplier="1.03" id="Ovd-Oy-lc1"/>
+                                    <constraint firstAttribute="bottom" secondItem="zDQ-PP-LR9" secondAttribute="bottom" multiplier="1.01" id="QN1-Uw-S50"/>
+                                    <constraint firstItem="zDQ-PP-LR9" firstAttribute="height" secondItem="wx4-BX-nFR" secondAttribute="height" multiplier="0.05" id="VcV-b9-ADH"/>
+                                    <constraint firstItem="zDQ-PP-LR9" firstAttribute="top" secondItem="wx4-BX-nFR" secondAttribute="top" constant="15" id="Yki-TW-TFi"/>
+                                    <constraint firstItem="MHx-nW-sKL" firstAttribute="width" secondItem="wx4-BX-nFR" secondAttribute="width" multiplier="0.79" id="coS-MV-5ow"/>
+                                    <constraint firstItem="Iuf-KD-FG2" firstAttribute="top" secondItem="wx4-BX-nFR" secondAttribute="top" constant="15" id="fQH-1G-X6K"/>
+                                    <constraint firstItem="LlR-Et-KsW" firstAttribute="top" secondItem="zDQ-PP-LR9" secondAttribute="bottom" multiplier="1.4" id="k47-li-LnH"/>
+                                    <constraint firstItem="zDQ-PP-LR9" firstAttribute="leading" secondItem="wx4-BX-nFR" secondAttribute="leading" constant="15" id="ldn-og-EVs"/>
+                                    <constraint firstItem="zDQ-PP-LR9" firstAttribute="width" secondItem="wx4-BX-nFR" secondAttribute="width" multiplier="0.25" id="lsV-hg-Lyd"/>
+                                    <constraint firstItem="Kbz-3T-ejW" firstAttribute="width" secondItem="wx4-BX-nFR" secondAttribute="width" multiplier="0.05" id="nIe-zG-nTm"/>
+                                    <constraint firstItem="MHx-nW-sKL" firstAttribute="height" secondItem="wx4-BX-nFR" secondAttribute="height" multiplier="0.47" id="oMt-Iz-d3z"/>
+                                    <constraint firstAttribute="bottom" secondItem="MHx-nW-sKL" secondAttribute="bottom" multiplier="1.03" id="ro5-9N-ONW"/>
+                                    <constraint firstItem="LlR-Et-KsW" firstAttribute="leading" secondItem="wx4-BX-nFR" secondAttribute="leading" constant="8" id="uo5-Cv-K0w"/>
+                                    <constraint firstItem="Iuf-KD-FG2" firstAttribute="leading" secondItem="wx4-BX-nFR" secondAttribute="leading" constant="8" id="vop-oG-njF"/>
+                                    <constraint firstAttribute="trailing" secondItem="zDQ-PP-LR9" secondAttribute="trailing" multiplier="1.03" id="vqn-ky-oCD"/>
+                                    <constraint firstItem="LlR-Et-KsW" firstAttribute="top" secondItem="Iuf-KD-FG2" secondAttribute="bottom" multiplier="1.09" id="vsJ-Xh-WBD"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Cas-pz-rDY"/>
+                                        <exclude reference="k47-li-LnH"/>
+                                        <exclude reference="Ila-qI-KC5"/>
+                                        <exclude reference="oMt-Iz-d3z"/>
+                                        <exclude reference="ro5-9N-ONW"/>
+                                        <exclude reference="Grd-YU-QVQ"/>
+                                        <exclude reference="Yki-TW-TFi"/>
+                                        <exclude reference="ldn-og-EVs"/>
+                                        <exclude reference="lsV-hg-Lyd"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="wx4-BX-nFR" firstAttribute="leading" secondItem="8RM-eR-NVL" secondAttribute="leadingMargin" id="DHi-L4-GNE"/>
+                            <constraint firstItem="KbW-01-bIl" firstAttribute="top" secondItem="wx4-BX-nFR" secondAttribute="bottom" multiplier="1.03" id="FEK-fD-rB9"/>
+                            <constraint firstItem="wx4-BX-nFR" firstAttribute="top" secondItem="UQL-Bn-OD0" secondAttribute="bottom" multiplier="1.2" id="dPe-LG-LK8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wx4-BX-nFR" secondAttribute="trailing" id="kQq-sE-kNp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionLbl" destination="LlR-Et-KsW" id="Apy-gb-LSi"/>
+                        <outlet property="flagBtn" destination="zDQ-PP-LR9" id="ftr-iI-FvR"/>
+                        <outlet property="flagImg" destination="Kbz-3T-ejW" id="6vQ-bB-sYp"/>
+                        <outlet property="likesLbl" destination="PC7-Eb-933" id="2Pg-8e-QbT"/>
+                        <outlet property="likesTxtLbl" destination="gla-C6-4y8" id="fG3-0I-2uR"/>
+                        <outlet property="postImg" destination="MHx-nW-sKL" id="v5q-ay-w4W"/>
+                        <outlet property="userImgView" destination="T6N-d2-VYO" id="XMz-5S-PGJ"/>
+                        <outlet property="usernameLbl" destination="zjy-PR-v7A" id="PDE-45-AYD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="It2-EL-ffX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1626" y="-370"/>
+        </scene>
         <!--FeedVC-->
         <scene sceneID="sZo-IK-2a1">
             <objects>
@@ -606,8 +830,8 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="372"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wGb-Mn-QBX" userLabel="Container" customClass="MaterialView" customModule="Showcase" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="8" width="560" height="355"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wGb-Mn-QBX" userLabel="Container" customClass="MaterialView" customModule="Showcase" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="8" width="560" height="356"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="NNl-5f-Fna">
                                                             <rect key="frame" x="8" y="8" width="544" height="340"/>
@@ -625,7 +849,7 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="randomUser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="u83-DY-hrH">
                                                                             <rect key="frame" x="253" y="0.0" width="93" height="50"/>
                                                                             <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="13"/>
-                                                                            <color key="textColor" red="0.95686274510000002" green="0.33333333329999998" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <color key="textColor" red="0.50588235290000005" green="0.72156862749999995" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-empty" translatesAutoresizingMaskIntoConstraints="NO" id="rvA-GW-gaE">
@@ -638,7 +862,7 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ghy-6z-aFB">
                                                                             <rect key="frame" x="416" y="0.0" width="128" height="50"/>
                                                                             <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1444" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jat-fy-5if">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="26"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans-Bold" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -656,7 +880,7 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                                                                         <rect key="frame" x="0.0" y="0.0" width="188" height="26"/>
                                                                                     </variation>
                                                                                 </label>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Likes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ica-HB-64Q">
                                                                                     <rect key="frame" x="0.0" y="26" width="128" height="24"/>
                                                                                     <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="17"/>
                                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -682,15 +906,45 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                                                         <constraint firstItem="rvA-GW-gaE" firstAttribute="centerX" secondItem="wgV-DZ-Ptp" secondAttribute="centerX" multiplier="1.4" id="XXB-sJ-Iyw"/>
                                                                     </constraints>
                                                                 </stackView>
-                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uxy-EW-KRP">
+                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="GGg-0f-KDf">
                                                                     <rect key="frame" x="0.0" y="55" width="544" height="51"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="14"/>
-                                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                                                </textView>
+                                                                    <subviews>
+                                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="QF6-2e-awC">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="524" height="51"/>
+                                                                            <fontDescription key="fontDescription" name="NotoSans" family="Noto Sans" pointSize="15"/>
+                                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doublearrow" translatesAutoresizingMaskIntoConstraints="NO" id="6lh-OD-1gB">
+                                                                            <rect key="frame" x="524" y="0.0" width="20" height="51"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="20" id="DDg-tv-SfQ"/>
+                                                                                <constraint firstAttribute="width" secondItem="6lh-OD-1gB" secondAttribute="height" multiplier="25:51" id="W2J-Ia-CUc"/>
+                                                                            </constraints>
+                                                                            <variation key="default">
+                                                                                <mask key="constraints">
+                                                                                    <exclude reference="W2J-Ia-CUc"/>
+                                                                                </mask>
+                                                                            </variation>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="QF6-2e-awC" firstAttribute="top" secondItem="GGg-0f-KDf" secondAttribute="top" id="1v3-ft-o2f"/>
+                                                                        <constraint firstItem="QF6-2e-awC" firstAttribute="leading" secondItem="GGg-0f-KDf" secondAttribute="leading" id="6eR-Xi-7vJ"/>
+                                                                        <constraint firstItem="6lh-OD-1gB" firstAttribute="centerY" secondItem="GGg-0f-KDf" secondAttribute="centerY" id="ATf-5c-e3q"/>
+                                                                        <constraint firstItem="6lh-OD-1gB" firstAttribute="leading" secondItem="QF6-2e-awC" secondAttribute="trailing" id="JiN-6G-zek"/>
+                                                                        <constraint firstItem="6lh-OD-1gB" firstAttribute="height" secondItem="GGg-0f-KDf" secondAttribute="height" id="LUk-TP-Cd0"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="QF6-2e-awC" secondAttribute="bottom" id="NKV-z4-YAn"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="6lh-OD-1gB" secondAttribute="trailing" id="P5b-kO-q5m"/>
+                                                                        <constraint firstItem="6lh-OD-1gB" firstAttribute="height" secondItem="GGg-0f-KDf" secondAttribute="height" id="TIs-DU-MXV"/>
+                                                                    </constraints>
+                                                                    <variation key="default">
+                                                                        <mask key="constraints">
+                                                                            <exclude reference="LUk-TP-Cd0"/>
+                                                                            <exclude reference="TIs-DU-MXV"/>
+                                                                        </mask>
+                                                                    </variation>
+                                                                </stackView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="screen" translatesAutoresizingMaskIntoConstraints="NO" id="YVL-eL-Nbx">
                                                                     <rect key="frame" x="0.0" y="111" width="544" height="229"/>
                                                                     <constraints>
@@ -699,7 +953,6 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="uxy-EW-KRP" firstAttribute="top" secondItem="wgV-DZ-Ptp" secondAttribute="bottom" constant="5" id="0m5-lt-S74"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="gwP-cq-2CU"/>
                                                             </constraints>
                                                         </stackView>
@@ -731,7 +984,7 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                             <constraint firstItem="wGb-Mn-QBX" firstAttribute="top" secondItem="Agb-CF-3S0" secondAttribute="top" constant="8" id="Gc3-Pw-y5h"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="descriptionTxt" destination="uxy-EW-KRP" id="cus-xe-6MD"/>
+                                            <outlet property="descriptionLbl" destination="QF6-2e-awC" id="gd0-Vm-iLv"/>
                                             <outlet property="heartImg" destination="rvA-GW-gaE" id="CJm-UP-71y"/>
                                             <outlet property="likesLbl" destination="jat-fy-5if" id="U1L-XZ-NRn"/>
                                             <outlet property="likesTxtLbl" destination="ica-HB-64Q" id="6oP-a9-im4"/>
@@ -925,9 +1178,15 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
     </scenes>
     <resources>
         <image name="camera" width="50" height="50"/>
+        <image name="doublearrow" width="700" height="700"/>
+        <image name="emptyflag2" width="38" height="39"/>
         <image name="fb-icon" width="65" height="65"/>
         <image name="heart-empty" width="150" height="147"/>
+        <image name="heart-full" width="150" height="147"/>
         <image name="screen" width="300" height="534"/>
         <image name="tiynoborder3" width="254" height="236"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Ybl-3o-g54"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -52,7 +52,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         tableView.delegate  = self
         tableView.dataSource = self
         postFld.delegate = self
-       
+        
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
@@ -142,9 +142,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                     //                        request successful
                     if err == nil {
                         if cell.tag == indexPath.row {
-                            let img = UIImage(data: data!)!
+                            let img = UIImage(data: data!)
                             cell.profileImg.image = img
-                            self.imageCache.setObject(img, forKey: post.userImageUrl!)
+                            self.imageCache.setObject(img!, forKey: post.userImageUrl!)
                         }
                         
                         //add image to the cache for later use
@@ -230,14 +230,35 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 if post.username == GlobalData.username {
                     return true
                 }
-
+                
             }
         } else {
             showAlert("Error", msg: "No online connectivity detected. Please turn on Wi-Fi or cellular data.")
         }
         
         return false
-    }  //MARK: TableView Methods - end
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! PostCell
+        
+        guard let image = cell.showcaseImg.image else {return}
+        guard let userImage = cell.profileImg.image else{return}
+        
+        let post = posts[indexPath.row]
+        
+        let detailVC = storyboard?.instantiateViewControllerWithIdentifier("PostDetailVC") as! PostDetailVC
+        
+        detailVC.post = post
+        detailVC.postImage = image
+        detailVC.userImage = userImage
+        
+        navigationController?.pushViewController(detailVC, animated: true)
+        
+        
+        
+    } //MARK: TableView Methods - end
     
     //configure row height depending on if user uploaded image or not
     //    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -274,20 +295,28 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 if DataService.ds.REF_BASE.authData == nil {
                     showLoginAlert()
                 } else {
-                    startActivityIndicator()
                     
-                    //upload image to Cloudinary and post image url to Firebase
-                    DataService.ds.uploadImage(img, onCompletion: { status, url in
+                    logoutIfBanned({ banned in
                         
-                        if status == true {
+                        if banned == false {
                             
-                            //print("Img Url: \(url)")
-                            self.postToFirebase(url!)
-                            self.postFld.text = ""
-                            self.selectedAppImg.image = UIImage(named:"camera")
+                            self.startActivityIndicator()
+                            
+                            //upload image to Cloudinary and post image url to Firebase
+                            DataService.ds.uploadImage(img, onCompletion: { status, url in
+                                
+                                if status == true {
+                                    
+                                    //print("Img Url: \(url)")
+                                    self.postToFirebase(url!)
+                                    self.postFld.text = ""
+                                    self.selectedAppImg.image = UIImage(named:"camera")
+                                    
+                                }
+                                
+                            })
                             
                         }
-                        
                     })
                     
                     //                //MARK: Uploading image data to ImageShack
@@ -410,34 +439,34 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     private func handleDeletePost(alertAction: UIAlertAction!){
         if Reachability.isConnectedToNetwork() == true {
             if let indexPath = deletePostIndexPath {
-              
+                
                 tableView.beginUpdates()
                 let post = posts[indexPath.row]
                 
                 //posts/post ref key/imageUrl
-               post.postRef.childByAppendingPath("imageUrl").observeSingleEventOfType(.Value, withBlock: { snapshot in
+                post.postRef.childByAppendingPath("imageUrl").observeSingleEventOfType(.Value, withBlock: { snapshot in
                     if let imgUrl = snapshot.value as? String {
                         
-                         //url to use for Cloudinary delete method
+                        //url to use for Cloudinary delete method
                         let stringArray = imgUrl.componentsSeparatedByString("/")
                         let lastElement = stringArray[7]
                         let publicId = lastElement.stringByReplacingOccurrencesOfString(".jpg", withString: "")
                         
                         //print("PUBLIC ID: \(publicId)")
                         
-                         //delete image from Cloudinary
+                        //delete image from Cloudinary
                         DataService.ds.deleteImage(publicId)
                     }
-                
-                //Delete post from Firebase:
-                
-                //delete from posts ref
-                post.postRef.removeValue()
-                //delete from users/uid/posts ref
-                DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
-                //delete from users/uid/likes ref
-                DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
-                
+                    
+                    //Delete post from Firebase:
+                    
+                    //delete from posts ref
+                    post.postRef.removeValue()
+                    //delete from users/uid/posts ref
+                    DataService.ds.REF_USER_CURRENT.childByAppendingPath("posts").childByAppendingPath(post.postKey).removeValue()
+                    //delete from users/uid/likes ref
+                    DataService.ds.REF_USER_CURRENT.childByAppendingPath("likes").childByAppendingPath(post.postKey).removeValue()
+                    
                 })
                 
                 posts.removeAtIndex(indexPath.row)
@@ -458,7 +487,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     
     private func postToFirebase(imgUrl: String){
-            //making a new post
+        //making a new post
         
         if let userImg = GlobalData.userImg as String!, let username = GlobalData.username as String!{
             
@@ -530,10 +559,24 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             logOutBtn.hidden = true
         } else{
             //user is logged in
-            logOutBtn.hidden = false
+            logoutIfBanned(nil)
         }
     }
     
+    func logoutIfBanned(completion: ((Bool) -> Void)?) {
+        DataService.ds.checkIfBannedUser({banned in
+            
+            if banned == true {
+                self.showAlert("Error", msg: "Your account has been blocked due to violating the End User License Agreement. Unable to log in.")
+                self.logOutBtn.hidden = true
+                completion?(true)
+            }else {
+                self.logOutBtn.hidden = false
+                completion?(false)
+            }
+        })
+        
+    }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

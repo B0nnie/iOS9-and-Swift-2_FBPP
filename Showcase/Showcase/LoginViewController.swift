@@ -19,7 +19,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookBtn: MaterialButton!
     @IBOutlet weak var loginBtn: MaterialButton!
     @IBOutlet weak var constraintMaterialViewTopLayout: NSLayoutConstraint!
-
+    
     private var showKeyboard = true
     
     
@@ -42,17 +42,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //login with facebook
     @IBAction func fbBtnPressed(sender: UIButton!){
         
-       startActivityIndicator()
+        startActivityIndicator()
         
         let facebookLogin = FBSDKLoginManager()
         facebookLogin.logInWithReadPermissions(["email"], fromViewController: self) { (facebookResult, facebookError) -> Void in
             
             if facebookError != nil {
-               self.stopActivityIndicator()
+                self.stopActivityIndicator()
                 
                 print("Facebook login failed. Error \(facebookError)")
             } else if facebookResult.isCancelled {
-               self.stopActivityIndicator()
+                self.stopActivityIndicator()
                 
                 print("Facebook login was cancelled.")
             } else {
@@ -143,7 +143,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     //print("Logged in with email and password")
                     
                     self.stopActivityIndicator()
-                    self.segueToFeedVCAfterLoggingIn()
+                    
+                    DataService.ds.checkIfBannedUser( { banned in
+                        if banned == true {
+                            self.showErrorAlert("Error", msg: "Your account has been blocked due to violating the End User License Agreement. Unable to log in.")
+                            return
+                        } else{
+                            self.segueToFeedVCAfterLoggingIn()
+                        }
+                        
+                    })
+                    
                 }
                 
             })

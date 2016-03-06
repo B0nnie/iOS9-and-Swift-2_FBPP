@@ -16,6 +16,7 @@ class GlobalData {
     static var tempText: String?
     static var username: String?
     static var userImg: String?
+    static let moderatorEmail = "ebshny@gmail.com"
 
 //    //NSUSERDEFAULTS METHODS
 //    
