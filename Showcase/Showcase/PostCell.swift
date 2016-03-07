@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+import ActiveLabel
 
 protocol NotLoggedInLikesDelegate : class {
     func showAlert(title:String, msg:String)
@@ -18,7 +19,7 @@ class PostCell: UITableViewCell {
     
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var showcaseImg: UIImageView!
-    @IBOutlet weak var descriptionLbl: UILabel!
+    @IBOutlet weak var descriptionLbl: ActiveLabel!
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var heartImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
@@ -41,6 +42,10 @@ class PostCell: UITableViewCell {
         heartImg.addGestureRecognizer(tap)
         heartImg.userInteractionEnabled = true
         
+        descriptionLbl.handleURLTap { url in
+            UIApplication.sharedApplication().openURL(url)
+        }
+        
         // profileImg.frame.size.width = profileImg.frame.size.height
         
     }
@@ -50,7 +55,7 @@ class PostCell: UITableViewCell {
         profileImg.layer.cornerRadius = profileImg.frame.size.width / 2
         profileImg.clipsToBounds = true
         showcaseImg.clipsToBounds = true
-        
+    
         // profileImg.frame.size.width = profileImg.frame.size.height
     }
     

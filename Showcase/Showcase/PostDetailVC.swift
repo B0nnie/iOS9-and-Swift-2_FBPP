@@ -7,14 +7,14 @@
 //
 
 import UIKit
-import MessageUI
 import Firebase
+import ActiveLabel
 
-class PostDetailVC: UIViewController, MFMailComposeViewControllerDelegate {
+class PostDetailVC: UIViewController {
     
     @IBOutlet weak var flagImg: UIImageView!
     @IBOutlet weak var likesLbl: UILabel!
-    @IBOutlet weak var descriptionLbl: UILabel!
+    @IBOutlet weak var descriptionLbl: ActiveLabel!
     @IBOutlet weak var postImg: UIImageView!
     @IBOutlet weak var userImgView: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
@@ -69,6 +69,10 @@ class PostDetailVC: UIViewController, MFMailComposeViewControllerDelegate {
         userImgView.image = userImage
         userImgView.clipsToBounds = true
         userImgView.layer.cornerRadius = userImgView.frame.size.width / 2
+        
+        descriptionLbl.handleURLTap { url in
+            UIApplication.sharedApplication().openURL(url)
+        }
     }
     
     @IBAction func didFlagPostPressed(sender: UIButton) {
@@ -156,14 +160,5 @@ class PostDetailVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
         
     }
-    
-    func sendMail() {
-        let picker = MFMailComposeViewController()
-        picker.mailComposeDelegate = self
-        picker.setSubject("Post was flagged")
-        picker.setMessageBody("This post was flagged: \(post.postKey)", isHTML: true)
-        
-        presentViewController(picker, animated: true, completion: nil)
-    }
-    
+  
 }
