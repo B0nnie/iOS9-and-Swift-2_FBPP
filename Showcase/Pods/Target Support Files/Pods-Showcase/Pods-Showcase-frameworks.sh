@@ -84,11 +84,13 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-Showcase/ActiveLabel.framework"
   install_framework "Pods-Showcase/Alamofire.framework"
   install_framework "Pods-Showcase/Cloudinary.framework"
   install_framework "Pods-Showcase/Firebase.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-Showcase/ActiveLabel.framework"
   install_framework "Pods-Showcase/Alamofire.framework"
   install_framework "Pods-Showcase/Cloudinary.framework"
   install_framework "Pods-Showcase/Firebase.framework"

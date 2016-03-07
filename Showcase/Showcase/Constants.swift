@@ -27,5 +27,14 @@ struct Constants {
     static let STATUS_INVALID_EMAIL = -5
     static let STATUS_INVALID_PASSWORD = -6
     static let STATUS_NETWORK_ERROR = -15
+    
+    //FUNCTIONS
+    static func FUNC_SHOWALERT(title: String, msg: String, vc: UIViewController){
+        
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler : nil))
+        
+        vc.presentViewController(alert, animated: true, completion: nil)
+    }
 }
 

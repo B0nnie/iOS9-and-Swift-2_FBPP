@@ -18,11 +18,7 @@ class PostCell: UITableViewCell {
     
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var showcaseImg: UIImageView!
-
     @IBOutlet weak var descriptionLbl: UILabel!
-    
-    
-    
     @IBOutlet weak var likesLbl: UILabel!
     @IBOutlet weak var heartImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
@@ -116,7 +112,7 @@ class PostCell: UITableViewCell {
                 }
             })
         } else {
-            delegate?.showAlert("", msg: "Please login by tapping the 'Post' button before liking a post.")
+            delegate?.showAlert("", msg: "Please login before liking a post.")
         }
     }
     

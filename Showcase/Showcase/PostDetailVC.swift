@@ -80,6 +80,8 @@ class PostDetailVC: UIViewController, MFMailComposeViewControllerDelegate {
             reportPost()
         } else{
             //alert view telling user to login before flagging a post
+            Constants.FUNC_SHOWALERT("", msg: "Please login before flagging a post", vc: self)
+            
         }
         
         

@@ -98,25 +98,20 @@ class DataService: NSObject, CLUploaderDelegate {
     }
     
     func checkIfBannedUser(completion: (Bool) -> Void) {
-        
+     
         DataService.ds.REF_BANNED_USERS.observeSingleEventOfType(.Value, withBlock: {snapshot in
             
             if let snapshots = snapshot.children.allObjects as? [FDataSnapshot] {
                 
-                var isBanned = false
+                var isBanned:Bool?
+                let uid = DataService.ds.REF_BASE.authData.uid
                 for snap in snapshots {
-                    
                     if let key = snap.key {
-                    
-                        let uid = DataService.ds.REF_BASE.authData.uid
-                        
-                        if key == String(uid){
+                        if String(key) == String(uid){
                             DataService.ds.REF_BASE.unauth()
                             isBanned = true
                         }
-                        
                     }
-                    
                 }
                 
                 if isBanned == true {
@@ -127,7 +122,6 @@ class DataService: NSObject, CLUploaderDelegate {
                 
             }
         })
-        
     }
     
 }

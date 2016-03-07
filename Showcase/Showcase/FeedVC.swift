@@ -30,8 +30,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("REACHABILITY RESULT from VIEWDIDLOAD: \(Reachability.isConnectedToNetwork())")
-        
         //navigation bar logo
         loadNavBarTitleImage()
         
@@ -71,6 +69,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
+        
         //activity indicator
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
         self.view.addSubview(Constants.LINEAR_BAR)
@@ -80,11 +79,20 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             DataService.ds.getUsernameAndImgUrl()
         }
         
-        checkIfLoggedIn()
+        if checkIfLoggedIn() == true {
+            //user is logged in
+            logOutBtn.setTitle("Log Out", forState: .Normal)
+            
+            logoutIfBanned(nil)
+         
+        } else {
+            //user is logged out
+            logOutBtn.setTitle("Log In", forState: .Normal)
+        }
         tableView.reloadData()
         
     }
-    
+  
     
     //MARK: TableView Methods - start
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -110,7 +118,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         var userImg: UIImage?
         
         if let postImgUrl = post.imageUrl {
-            //get image from cache
+            //get image from cack
             postImg = imageCache.objectForKey(postImgUrl) as? UIImage
             
         }
@@ -485,7 +493,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         deletePostIndexPath = nil
     }
     
-    
     private func postToFirebase(imgUrl: String){
         //making a new post
         
@@ -547,27 +554,32 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     @IBAction func logOutBtnPressed(sender: UIButton) {
-        DataService.ds.REF_BASE.unauth()
-        showAlert("You are now logged out", msg: "")
-        checkIfLoggedIn()
-        tableView.reloadData()
-    }
-    
-    private func checkIfLoggedIn(){
-        if DataService.ds.REF_BASE.authData == nil {
-            //user is logged out
-            logOutBtn.hidden = true
+        //if the user is logged in already, then log user out
+        if checkIfLoggedIn() == true {
+            DataService.ds.REF_BASE.unauth()
+            showAlert("You are now logged out", msg: "")
+            logOutBtn.setTitle("Log In", forState: .Normal)
+            tableView.reloadData()
         } else{
-            //user is logged in
-            logoutIfBanned(nil)
+            //if user isn't logged in, then segue to LoginVC
+            performSegueWithIdentifier("toLoginVC", sender: nil)
         }
     }
     
-    func logoutIfBanned(completion: ((Bool) -> Void)?) {
+    private func checkIfLoggedIn() -> Bool {
+        if DataService.ds.REF_BASE.authData == nil {
+            //user is logged out
+            return false
+        } else{
+            //user is logged in
+            return true
+        }
+    }
+    
+    private func logoutIfBanned(completion: ((Bool) -> Void)?) {
         DataService.ds.checkIfBannedUser({banned in
-            
             if banned == true {
-                self.showAlert("Error", msg: "Your account has been blocked due to violating the End User License Agreement. Unable to log in.")
+                self.showAlert("Error", msg: "Your account has been blocked due to violating the End User License Agreement. You are now logged out.")
                 self.logOutBtn.hidden = true
                 completion?(true)
             }else {
@@ -575,8 +587,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
                 completion?(false)
             }
         })
-        
     }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

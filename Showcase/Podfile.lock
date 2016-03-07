@@ -1,14 +1,17 @@
 PODS:
+  - ActiveLabel (0.4.0)
   - Alamofire (3.1.5)
   - Cloudinary (1.0.14)
   - Firebase (2.5.0)
 
 DEPENDENCIES:
+  - ActiveLabel
   - Alamofire (~> 3.0)
   - Cloudinary
   - Firebase (>= 2.5.0)
 
 SPEC CHECKSUMS:
+  ActiveLabel: f0ee151ddcf85e31a69f8de7ac364835d7ab66ef
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
   Cloudinary: b07e14313bcc3a47418ea47e1c4020cb70518446
   Firebase: 744617c0733b45198f9486ebd5cac64ec2d10d79
