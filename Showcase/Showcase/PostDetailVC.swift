@@ -31,22 +31,13 @@ class PostDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if  DataService.ds.REF_BASE.authData != nil {
-            usersFlaggedPosts.observeSingleEventOfType(.Value, withBlock: {snapshot in
-                
-                if let notFlagged = snapshot.value as? NSNull {
-                    self.flagImg.image = UIImage(named: "emptyflag2")
-                }else{
-                    self.flagImg.image = UIImage(named: "redflag2")
-                    self.flagBtn.userInteractionEnabled = false
-                }
-            })
-        }
+        
+        flagImgFill()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        
+
         if post.likes == 1 {
             likesTxtLbl.text = "Like"
         } else {
@@ -54,22 +45,25 @@ class PostDetailVC: UIViewController {
         }
         likesLbl.text = "\(post.likes)"
         descriptionLbl.text = post.postDescription
-        postImg.image = postImage
+     
         usernameLbl.text = post.username
         
         if post.flagged == true {
             flagBtn.userInteractionEnabled = false
             flagImg.image = UIImage(named: "redflag2")
         }
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+    
+        postImg.image = postImage
+        
         userImgView.image = userImage
+        userImgView.layer.masksToBounds = true
         userImgView.clipsToBounds = true
         userImgView.layer.cornerRadius = userImgView.frame.size.width / 2
-        
+       
         descriptionLbl.handleURLTap { url in
             UIApplication.sharedApplication().openURL(url)
         }
@@ -87,8 +81,6 @@ class PostDetailVC: UIViewController {
             Constants.FUNC_SHOWALERT("", msg: "Please login before flagging a post", vc: self)
             
         }
-        
-        
     }
     
     private func reportPost() {
@@ -159,6 +151,20 @@ class PostDetailVC: UIViewController {
         alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
         
+    }
+    
+    private func flagImgFill(){
+        if  DataService.ds.REF_BASE.authData != nil {
+            usersFlaggedPosts.observeSingleEventOfType(.Value, withBlock: {snapshot in
+                
+                if let notFlagged = snapshot.value as? NSNull {
+                    self.flagImg.image = UIImage(named: "emptyflag2")
+                }else{
+                    self.flagImg.image = UIImage(named: "redflag2")
+                    self.flagBtn.userInteractionEnabled = false
+                }
+            })
+        }
     }
   
 }
