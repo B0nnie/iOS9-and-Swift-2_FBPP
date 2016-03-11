@@ -1,0 +1,5 @@
+Protocol for flagged posts and banned users in Firebase:
+
+1) review posts that have been flagged under “flaggedPosts"
+2) add user who posted the flagged post to “bannedUsers”
+3) remove the flagged post from under “posts” so it no longer shows in the feed and remove the post’s image from Cloudinary

@@ -37,21 +37,25 @@ class PostDetailVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-
-        if post.likes == 1 {
-            likesTxtLbl.text = "Like"
-        } else {
-            likesTxtLbl.text = "Likes"
-        }
-        likesLbl.text = "\(post.likes)"
-        descriptionLbl.text = post.postDescription
-     
-        usernameLbl.text = post.username
         
-        if post.flagged == true {
-            flagBtn.userInteractionEnabled = false
-            flagImg.image = UIImage(named: "redflag2")
-        }
+        dispatch_async(dispatch_get_main_queue(), {
+            if self.post.likes == 1 {
+                self.likesTxtLbl.text = "Like"
+            } else {
+                self.likesTxtLbl.text = "Likes"
+            }
+            self.likesLbl.text = "\(self.post.likes)"
+            self.descriptionLbl.text = self.post.postDescription
+            
+            self.usernameLbl.text = self.post.username
+            
+            if self.post.flagged == true {
+                self.flagBtn.userInteractionEnabled = false
+                self.flagImg.image = UIImage(named: "redflag2")
+            }
+        })
+
+        
     }
     
     override func viewWillLayoutSubviews() {

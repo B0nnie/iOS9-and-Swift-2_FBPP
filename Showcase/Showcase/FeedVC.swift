@@ -112,7 +112,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         cell.showcaseImg.image = nil
         cell.tag = indexPath.row
         
+        dispatch_async(dispatch_get_main_queue()) {
         cell.configureCell(post)
+        }
         
         var postImg: UIImage?
         var userImg: UIImage?
@@ -581,6 +583,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             if banned == true {
                 self.showAlert("Error", msg: "Your account has been blocked due to violating the End User License Agreement. You are now logged out.")
                 self.logOutBtn.hidden = true
+                self.tableView.reloadData()
                 completion?(true)
             }else {
                 self.logOutBtn.hidden = false
