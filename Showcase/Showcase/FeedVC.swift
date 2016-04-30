@@ -11,7 +11,7 @@ import Firebase
 import Alamofire
 import Cloudinary
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, NotLoggedInLikesDelegate {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, NotLoggedInLikesDelegate, DidEnterTextDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var postFld: MaterialTextField!
@@ -70,6 +70,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
+        postFld.resignFirstResponder()
+        
         //activity indicator
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
         self.view.addSubview(Constants.LINEAR_BAR)
@@ -84,7 +86,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             logOutBtn.setTitle("Log Out", forState: .Normal)
             
             logoutIfBanned(nil)
-         
+            
         } else {
             //user is logged out
             logOutBtn.setTitle("Log In", forState: .Normal)
@@ -92,7 +94,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         tableView.reloadData()
         
     }
-  
+    
     
     //MARK: TableView Methods - start
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -113,7 +115,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         cell.tag = indexPath.row
         
         dispatch_async(dispatch_get_main_queue()) {
-        cell.configureCell(post)
+            cell.configureCell(post)
         }
         
         var postImg: UIImage?
@@ -597,6 +599,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.performSegueWithIdentifier("toTextPickerVC", sender: nil)
+    }
+    
     private func loadNavBarTitleImage(){
         let customView = UIView()
         customView.frame =  CGRectMake(0, 0, (self.navigationController?.navigationBar.bounds.size.width)!,  (self.navigationController?.navigationBar.bounds.size.height)!)
@@ -632,6 +638,21 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         selectedAppImg.addGestureRecognizer(selectImgTapper)
         logOutBtn.userInteractionEnabled = true
         
+    }
+    
+    func didEnterText(enteredText: String){
+        postFld.text = enteredText
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "toTextPickerVC" {
+            let textPickerVC = segue.destinationViewController as! TextPickerVC
+            textPickerVC.delegate = self
+            
+            if postFld.text != nil && postFld.text != "" {
+                textPickerVC.oldText = postFld.text
+            }
+        }
     }
 }
    
