@@ -1103,12 +1103,22 @@ TIY Showcase shall not be obligated to indemnify or defend you with respect to a
                                             <constraint firstItem="Uzn-FO-5sC" firstAttribute="width" secondItem="CaY-jk-kpR" secondAttribute="width" multiplier="0.65" id="F1N-nb-KiV"/>
                                         </constraints>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5xX-EH-XKh">
+                                        <rect key="frame" x="8" y="8" width="354" height="37"/>
+                                        <connections>
+                                            <action selector="segueToTextPickerVC:" destination="KDV-U9-3Kw" eventType="touchUpInside" id="xCt-3H-uck"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="5xX-EH-XKh" firstAttribute="trailing" secondItem="Uzn-FO-5sC" secondAttribute="trailing" id="76c-Sj-f2V"/>
                                     <constraint firstItem="CaY-jk-kpR" firstAttribute="top" secondItem="eO1-0J-5Iq" secondAttribute="topMargin" id="G7m-qV-Vo6"/>
                                     <constraint firstAttribute="height" constant="53" id="JS0-Hh-ykE"/>
+                                    <constraint firstItem="5xX-EH-XKh" firstAttribute="top" secondItem="Uzn-FO-5sC" secondAttribute="top" id="Jjq-X4-Q9P"/>
+                                    <constraint firstItem="5xX-EH-XKh" firstAttribute="bottom" secondItem="Uzn-FO-5sC" secondAttribute="bottom" id="Oam-Tf-mza"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="CaY-jk-kpR" secondAttribute="bottom" id="RwY-0f-3a0"/>
+                                    <constraint firstItem="5xX-EH-XKh" firstAttribute="leading" secondItem="Uzn-FO-5sC" secondAttribute="leading" id="nqV-v1-tkp"/>
                                     <constraint firstItem="CaY-jk-kpR" firstAttribute="leading" secondItem="eO1-0J-5Iq" secondAttribute="leadingMargin" id="uAz-U9-9sn"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="CaY-jk-kpR" secondAttribute="trailing" id="wWg-hy-qgO"/>
                                 </constraints>

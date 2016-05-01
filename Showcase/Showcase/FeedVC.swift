@@ -30,6 +30,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //navigation bar logo
         loadNavBarTitleImage()
         
@@ -70,7 +71,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-        postFld.resignFirstResponder()
+        //postFld.resignFirstResponder()
         
         //activity indicator
         Constants.NAVIGATION_BAR_HEIGHT =  self.navigationController!.navigationBar.frame.size.height
@@ -594,14 +595,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         })
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        self.performSegueWithIdentifier("toTextPickerVC", sender: nil)
-    }
+//    func textFieldDidBeginEditing(textField: UITextField) {
+//        textField.userInteractionEnabled = false
+//        self.performSegueWithIdentifier("toTextPickerVC", sender: nil)
+//    }
     
     private func loadNavBarTitleImage(){
         let customView = UIView()
@@ -654,5 +651,10 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             }
         }
     }
+    
+    @IBAction func segueToTextPickerVC(sender: UIButton) {
+      self.performSegueWithIdentifier("toTextPickerVC", sender: nil)
+    }
+    
 }
    
